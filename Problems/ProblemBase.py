@@ -22,7 +22,11 @@ class ProblemBase(ABC):
         timeStart = time.time_ns()
         transpiled_circuit = transpile(circ, backend=backend)
 
-        job = sampler.run([transpiled_circuit], shots=shots, options={"memory": False})
+        if (hexRes):
+            job = backend.run(transpiled_circuit, shots = shots)
+            
+        else:
+            job = sampler.run([transpiled_circuit], shots=shots)
         
         result = job.result()
         
@@ -33,8 +37,16 @@ class ProblemBase(ABC):
         else:
             qTime = "N/A"
 
-        samplerResult = result[0]
-        bin = samplerResult.data.c.get_counts()
+        if (hexRes):
+            samplerResult = result
+            bin = samplerResult.get_counts()
+
+        else:
+            samplerResult = result[0]
+            bin = samplerResult.data.c.get_counts()
+
+        
+        
 
         timestr = str(timeEnd - timeStart)[:-3]
         timestr = timestr[:-3] + "." + timestr[-3:]
