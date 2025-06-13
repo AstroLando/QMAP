@@ -16,7 +16,7 @@ class ProblemRunner():
 
         }
 
-    def runProblemSet(self, backend, sampler, name):
+    def runProblemSet(self, backend, sampler, name, hexRes):
         with open('dataFiles/' + str(name) + " " + str(datetime.datetime.today()) + '.csv', mode = 'w+') as csv_file:
             fieldnames = ['Problem', 'Results', 'Relevant Data', 'Shots', 'Time (ms)', 'quantum usage estimation (0 for n/a)']
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -27,13 +27,10 @@ class ProblemRunner():
                 for rep in range(_[1]):
                     for qubit in range(_[2], _[3], _[4]):
                         for shot in range(_[5], _[6], _[7]):
-                            results, rd, uTime, qTime = _[0].run(qubit, shot, backend, sampler)
-                            writer.writerow({'Problem': 'RNG', 'Results': str(results), 'Relevant Data': rd, 
+                            results, rd, uTime, qTime = _[0].run(qubit, shot, backend, sampler, hexRes)
+                            writer.writerow({'Problem': _[0].name, 'Results': str(results), 'Relevant Data': rd, 
                                 'Shots': shot,'Time (ms)': uTime, 'quantum usage estimation (0 for n/a)': qTime})
                             time.sleep((qubit/2 + shot/100)/2)
-
-
-            
 
     def addProblem(self, problem, reps = 3, minQubits = 2, maxQubits = 8, qubitStep = 2, minShots = 100, maxShots = 1000, shotStep = 100):
         if not isinstance(problem, Problems.ProblemBase.ProblemBase):
@@ -74,8 +71,10 @@ class ProblemRunner():
         backend = IQMBackend(IQMClient(backendURL, token = token))
             
         sampler = Sampler(mode = backend)
+
+        hexType = True
         
-        return backend, sampler, backendName
+        return backend, sampler, backendName, hexType
     
     def setUpIBM(self, backendName, token):
 
@@ -98,10 +97,15 @@ class ProblemRunner():
         except KeyError:
             raise ValueError(f"Backend '{backendName}' does not exist in available backends")
         
-        return backend, self.setUpSampler(backend), backendName
+        hexType = False
+
+        return backend, self.setUpSampler(backend), backendName, hexType
 
     def setUpSampler(self, backend):
         if (isinstance(backend, Backend)):
+            print()
             return Sampler(mode = backend)
+
         else:
             raise TypeError(f"Backend is not of type {Backend}")
+        

@@ -22,7 +22,6 @@ class QPE(ProblemBase):
 
         # Generate random phase theta in [0, 2*pi)
         theta = random.uniform(0, 2 * pi)
-        print(f"Random phase theta (radians): {theta:.4f}")
 
         # Apply controlled-U operations with controlled phase rotations
         for qubit in range(qubits):

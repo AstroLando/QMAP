@@ -10,10 +10,10 @@ PR = ProblemRunner()
 
 PR.addProblem(RNG())
 PR.addProblem(QFT())
-PR.addProblem(QFT())
+PR.addProblem(BV())
 PR.addProblem(Grovers())
 PR.addProblem(QPE())
 
-b, s, n = PR.setUpIQM("mockGarnet", "INSERT TOKEN")
+b, s, n, h = PR.setUpIBM("BACKEND_NAME", "TOKEN")
 
-PR.runProblemSet(b, s, n)
+PR.runProblemSet(b, s, n, h)
