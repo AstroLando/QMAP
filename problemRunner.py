@@ -72,9 +72,9 @@ class ProblemRunner():
             
         sampler = Sampler(mode = backend)
 
-        hexType = True
+        binType = True
         
-        return backend, sampler, backendName, hexType
+        return backend, sampler, backendName, binType
     
     def setUpIBM(self, backendName, token):
 
@@ -97,9 +97,9 @@ class ProblemRunner():
         except KeyError:
             raise ValueError(f"Backend '{backendName}' does not exist in available backends")
         
-        hexType = False
+        binType = False
 
-        return backend, self.setUpSampler(backend), backendName, hexType
+        return backend, self.setUpSampler(backend), backendName, binType
 
     def setUpSampler(self, backend):
         if (isinstance(backend, Backend)):

@@ -15,14 +15,13 @@ class ProblemBase(ABC):
     def makeCirc():
         pass
 
-    def run(self, qubits, shots, backend, sampler, hexRes):
-        print("hexRes", hexRes)
+    def run(self, qubits, shots, backend, sampler, binRes):
         circ, data = self.makeCirc(qubits)
 
         timeStart = time.time_ns()
         transpiled_circuit = transpile(circ, backend=backend)
 
-        if (hexRes):
+        if (binRes):
             job = backend.run(transpiled_circuit, shots = shots)
             
         else:
@@ -37,16 +36,13 @@ class ProblemBase(ABC):
         else:
             qTime = "N/A"
 
-        if (hexRes):
+        if (binRes):
             samplerResult = result
             bin = samplerResult.get_counts()
 
         else:
             samplerResult = result[0]
-            bin = samplerResult.data.c.get_counts()
-
-        
-        
+            bin = samplerResult.data.c.get_counts()        
 
         timestr = str(timeEnd - timeStart)[:-3]
         timestr = timestr[:-3] + "." + timestr[-3:]
