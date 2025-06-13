@@ -3,6 +3,7 @@ import csv
 import Problems
 from qiskit_ibm_runtime import QiskitRuntimeService, Sampler, fake_provider
 from iqm.qiskit_iqm.iqm_provider import IQMBackend
+from iqm.qiskit_iqm.fake_backends import fake_garnet
 from iqm.iqm_client import IQMClient
 from qiskit.providers.backend import Backend
 
@@ -17,8 +18,20 @@ class ProblemRunner():
         }
 
     def runProblemSet(self, backend, sampler, name, hexRes):
+        maxQubits = backend.num_qubits
+
+        for i in self.problemArr:
+            if i[3] > maxQubits:
+                if (i[8]):
+                    pName = i[8]
+                else:
+                    pName = i[0].name
+
+                raise ValueError(f"Problem {pName} requires too many qubits ({i[3]}). This backend has {maxQubits} qubits.")
+
+
         with open('dataFiles/' + str(name) + " " + str(datetime.datetime.today()) + '.csv', mode = 'w+') as csv_file:
-            fieldnames = ['Problem', 'Results', 'Relevant Data', 'Shots', 'Time (ms)', 'quantum usage estimation (0 for n/a)']
+            fieldnames = ['Problem', "Nickname",  'Results', 'Relevant Data', 'Shots', 'Time (ms)', 'quantum usage estimation (0 for n/a)']
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -28,11 +41,11 @@ class ProblemRunner():
                     for qubit in range(_[2], _[3], _[4]):
                         for shot in range(_[5], _[6], _[7]):
                             results, rd, uTime, qTime = _[0].run(qubit, shot, backend, sampler, hexRes)
-                            writer.writerow({'Problem': _[0].name, 'Results': str(results), 'Relevant Data': rd, 
+                            writer.writerow({'Problem': _[0].name, "Nickname": _[8] if _[8] else "N/A", 'Results': str(results), 'Relevant Data': rd, 
                                 'Shots': shot,'Time (ms)': uTime, 'quantum usage estimation (0 for n/a)': qTime})
                             time.sleep((qubit/2 + shot/100)/2)
 
-    def addProblem(self, problem, reps = 3, minQubits = 2, maxQubits = 8, qubitStep = 2, minShots = 100, maxShots = 1000, shotStep = 100):
+    def addProblem(self, problem, reps = 3, minQubits = 2, maxQubits = 8, qubitStep = 2, minShots = 100, maxShots = 1000, shotStep = 100, nickname = None):
         if not isinstance(problem, Problems.ProblemBase.ProblemBase):
             raise TypeError(f"Problem must be instance of a subclass of ProblemBase, got {type(problem).__name__} instead")
         
@@ -60,13 +73,16 @@ class ProblemRunner():
         if minShots > maxShots:
             raise ValueError("maxShots must be greater than or equal to minShots")
 
-        self.problemArr.append([problem, reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep])
+        self.problemArr.append([problem, reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep, nickname])
 
     def setUpIQM(self, backendName, token):
-        try:
-            backendURL = self.IQMdict[backendName]
-        except KeyError:
-            raise ValueError(f"Backend '{backendName}' does not exist in available backends")
+        if (backendName == "fakeGarnet"):
+            backend = fake_garnet.IQMFakeGarnet()
+        else:
+            try:
+                backendURL = self.IQMdict[backendName]
+            except KeyError:
+                raise ValueError(f"Backend '{backendName}' does not exist in available backends")
         
         backend = IQMBackend(IQMClient(backendURL, token = token))
             

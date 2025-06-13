@@ -8,12 +8,17 @@ from Problems.QPE import QPE
 
 PR = ProblemRunner()
 
+# These problems will run in this order with default repititions, shots, and qubit ranges. 
+
 PR.addProblem(RNG())
 PR.addProblem(QFT())
 PR.addProblem(BV())
 PR.addProblem(Grovers())
 PR.addProblem(QPE())
 
-b, s, n, h = PR.setUpIBM("BACKEND_NAME", "TOKEN")
+# For BACKEND_NAME, insert either "garnet", "fakeGarnet", "mockGarnet", or "Sirius"
+# For TOKEN, insert your resonance API token.
 
-PR.runProblemSet(b, s, n, h)
+
+
+PR.runProblemSet(*PR.setUpIQM("BACKEND_NAME", "TOKEN"))
