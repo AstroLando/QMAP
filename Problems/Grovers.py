@@ -7,11 +7,30 @@ import random
 class Grovers(ProblemBase):
     
     def __init__(self):
+        """
+        Initializes the Grovers Algorithm problem with preset name and description.
+
+        Notes:
+            Overrides the abstract `__init__` from `ProblemBase`.
+        """
         name = "Grover's Algorithm"
         desc = "Guesses a secret number"
         super().__init__(name, desc)
     
     def makeCirc(self, qubits):
+        """
+        Create a Grover's algorithm circuit with the specified number of qubits.
+
+        Args:
+            qubits (int): The number of qubits to use in the circuit.
+
+        Returns:
+            tuple[QuantumCircuit, str]: The constructed quantum circuit and
+            a string revealing the secret number encoded in the circuit.
+
+        Notes:
+            This method overrides the abstract `makeCirc` method in `ProblemBase`.
+        """
         #optimal iterations
         iterations = int(round(math.pi / 4 * math.sqrt(2**qubits))) 
 

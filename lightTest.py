@@ -19,6 +19,4 @@ PR.addProblem(QPE())
 # For BACKEND_NAME, insert either "garnet", "fakeGarnet", "mockGarnet", or "Sirius"
 # For TOKEN, insert your resonance API token.
 
-
-
 PR.runProblemSet(*PR.setUpIQM("BACKEND_NAME", "TOKEN"))

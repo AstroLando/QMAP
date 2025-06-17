@@ -7,11 +7,31 @@ from math import pi
 class QPE(ProblemBase):
     
     def __init__(self):
-        name = "Quantum Fourier Transform"
-        desc = "Estimates the phase of a quantun state"
+        """
+        Initializes the Quantum Phase Estimation problem with preset name and description.
+
+        Notes:
+            Overrides the abstract `__init__` from `ProblemBase`.
+        """
+        
+        name = "Quantum Phase Estimation"
+        desc = "Estimates the phase of a quantum state"
         super().__init__(name, desc)
     
     def makeCirc(self, qubits):
+        """
+        Create a Quantum Phase Estimation circuit with the specified number of qubits.
+
+        Args:
+            qubits (int): The number of qubits to use in the circuit.
+
+        Returns:
+            tuple[QuantumCircuit, str]: The constructed quantum circuit and
+            a string revealing the secret number encoded in the circuit.
+
+        Notes:
+            This method overrides the abstract `makeCirc` method in `ProblemBase`.
+        """
         qc = QuantumCircuit(qubits + 1, qubits)  # n estimation + 1 aux qubit, n classical bits
 
         # Prepare auxiliary qubit in |1> state
