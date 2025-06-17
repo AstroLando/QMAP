@@ -8,14 +8,14 @@ from Problems.QPE import QPE
 
 PR = ProblemRunner()
 
-# These problems will run in this order with default repititions, shots, and qubit ranges. 
-# Your backend needs at least 8 qubits for these problems to work.
+# These problems will run in this order with a medium qubit range.
+# Your backend needs at least 20 qubits for these problems to work.
 
-PR.addProblem(RNG())
-PR.addProblem(QFT())
-PR.addProblem(BV())
-PR.addProblem(Grovers())
-PR.addProblem(QPE())
+PR.addProblem(RNG(), maxQubits=20)
+PR.addProblem(QFT(), maxQubits=20)
+PR.addProblem(BV(), maxQubits=20)
+PR.addProblem(Grovers(), maxQubits=20)
+PR.addProblem(QPE(), maxQubits=20)
 
 # For BACKEND_NAME, insert either "garnet", "fakeGarnet", "mockGarnet", or "Sirius"
 # For TOKEN, insert your resonance API token.
