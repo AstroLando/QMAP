@@ -5,6 +5,7 @@ import random
 from math import pi
 
 class QPE(ProblemBase):
+    '''A quantum phase estimator. Child of abstract class ProblemBase.'''
     
     def __init__(self):
         """

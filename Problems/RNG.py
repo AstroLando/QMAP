@@ -2,6 +2,7 @@ from .ProblemBase import ProblemBase
 from qiskit import QuantumCircuit
 
 class RNG(ProblemBase):
+    '''A quantum random number generator. Child of abstract class ProblemBase.'''
     
     def __init__(self):
         """

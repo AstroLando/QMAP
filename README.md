@@ -68,7 +68,7 @@ if not hasattr(self, 'IBMDict'):
 Add your backend using:
 
 ```python
-IBMservice.backend("ibm_<BACKENDNAME>")
+"backendNickname" : IBMservice.backend("ibm_<BACKENDNAME>")
 ```
 
 > ⚠️ **Important:** You must add backends *before* calling `setUpIBM`, as `IBMService` requires a valid user token at initialization.

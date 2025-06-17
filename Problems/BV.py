@@ -3,10 +3,11 @@ from qiskit import QuantumCircuit
 from random import randint
 
 class BV(ProblemBase):
+    '''An implementation of the Bernstein-Vazirani algorithm. Child of abstract class ProblemBase.'''
     
     def __init__(self):
         """
-        Initializes the Bernstein-Vazirani problem with preset name and description.
+        Initializes the Bernstein-Vazirani algorithm with preset name and description.
 
         Notes:
             Overrides the abstract `__init__` from `ProblemBase`.
@@ -17,7 +18,7 @@ class BV(ProblemBase):
     
     def makeCirc(self, qubits):
         """
-        Create a Bernstein-Vazirani circuit with the specified number of qubits.
+        Create a Bernstein-Vazirani algorithm circuit with the specified number of qubits.
 
         Args:
             qubits (int): The number of qubits to use in the circuit.

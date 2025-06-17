@@ -3,6 +3,7 @@ from qiskit import QuantumCircuit
 from qiskit.circuit.library import QFT
 
 class QuantFT(ProblemBase):
+    '''A quantum fourier transformation. Child of abstract class ProblemBase.'''
     
     def __init__(self):
         """

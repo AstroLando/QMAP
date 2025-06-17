@@ -5,10 +5,11 @@ import math
 import random
 
 class Grovers(ProblemBase):
+    '''An implementation of Grover's algorithm. Child of abstract class ProblemBase.'''
     
     def __init__(self):
         """
-        Initializes the Grovers Algorithm problem with preset name and description.
+        Initializes the Grover's algorithm problem with preset name and description.
 
         Notes:
             Overrides the abstract `__init__` from `ProblemBase`.
