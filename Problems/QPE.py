@@ -20,6 +20,9 @@ class QPE(ProblemBase):
         super().__init__(name, desc)
     
     def makeCirc(self, qubits):
+
+        #since we need an additional qubit below.
+        qubits = qubits - 1
         """
         Create a Quantum Phase Estimation circuit with the specified number of qubits.
 

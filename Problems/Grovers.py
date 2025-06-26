@@ -33,7 +33,9 @@ class Grovers(ProblemBase):
             This method overrides the abstract `makeCirc` method in `ProblemBase`.
         """
         #optimal iterations
-        iterations = int(round(math.pi / 4 * math.sqrt(2**qubits))) 
+        # I've maxed it at 10 since it seems to be timing out after that
+        # iterations = min(int(round(math.pi / 4 * math.sqrt(2**qubits))), 10)
+        iterations = 1
 
         targetBitstring = ''.join(random.choice('01') for _ in range(qubits))
 

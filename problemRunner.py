@@ -7,6 +7,10 @@ from iqm.qiskit_iqm.iqm_provider import IQMBackend
 from iqm.qiskit_iqm.fake_backends import fake_garnet
 from iqm.iqm_client import IQMClient
 from qiskit.providers.backend import BackendV2
+from pytket.extensions.quantinuum import QuantinuumBackend
+
+from pytket.extensions.quantinuum import QuantinuumAPI;
+from pytket.extensions.quantinuum.backends.credential_storage import MemoryCredentialStorage
 
 class ProblemRunner(): 
     """Class that runs QMAP Problems
@@ -18,52 +22,94 @@ class ProblemRunner():
         self.problemArr = []
         self.IQMdict = {
             "garnet" : 'https://cocos.resonance.meetiqm.com/garnet',
+            "sirius" : 'https://cocos.resonance.meetiqm.com/sirius',
             "mockGarnet" : 'https://cocos.resonance.meetiqm.com/garnet:mock', 
-            "sirius" : 'https://cocos.resonance.meetiqm.com/sirius:mock'
+            "mockSirius" : 'https://cocos.resonance.meetiqm.com/sirius:mock',
+            "emerald": "https://cocos.resonance.meetiqm.com/emerald",
+            "mockEmerald": "https://cocos.resonance.meetiqm.com/emerald:mock"
 
         }
 
-    def runProblemSet(self, backend, sampler, name, binRes) -> None:
+        self.QuantinuumDict = {
+            "H1-1E" : 'H1-1E', 
+            "H1-1SC" : 'H1-1SC',
+            "H1-1": "H1-1",
+            "H2-1E" : 'H2-1E',
+            "H2-2E" : 'H2-2E',
+            "H2-1SC": "H2-1SC",
+            "H2-1": "H2-1",
+            "H2-2": "H2-2",
+        }
+
+    def runProblemSet(self, backend, sampler, name, backendType) -> None:
         """
         Runs a set of problems, and inserts them into a `.csv` file. 
 
         Args:
             backend (BackendV2): The backend for the problem.
             sampler (Sampler): The sampler for the problem.
-            name (str): The name of the problem, used in the CSV file.
-            binRes (boolean): If the backend returns data in binary (True) or hexadecimal (False).
+            name (str): The name of the backend.
+            backendType (string): Which company backend you are using.
 
         Returns:
             None
 
         """
 
-        maxQubits = backend.num_qubits
+        backendTypeList = ["IQM", "IBM", "Quantinuum"]
+
+        if backendType not in backendTypeList:
+            raise ValueError("BackendType not usable.")
+
+        if backendType == "Quantinuum":
+            maxQubits = backend.backend_info.n_nodes
+        else:
+            maxQubits = backend.num_qubits
+
+        pNames = []
 
         for problem in self.problemArr:
+            pName = ""
+            if (problem[8]):
+                pName = problem[8]
+            else:
+                pName = problem[0].name
+
             if problem[3] > maxQubits:
-                if (problem[8]):
-                    pName = problem[8]
-                else:
-                    pName = problem[0].name
-
                 raise ValueError(f"Problem {pName} requires too many qubits ({problem[3]}). This backend has {maxQubits} qubits.")
+            
+            pNames.append(pName)
 
 
-        with open('dataFiles/' + str(name) + " " + str(datetime.datetime.today()) + '.csv', mode = 'w+') as csv_file:
-            fieldnames = ['Problem', "Nickname",  'Results', 'Relevant Data', 'Shots', 'Time (ms)', 'quantum usage estimation (0 for n/a)']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        with open('dataFiles/' + str(name) + " " + str(datetime.datetime.today() ) + '.csv', mode = 'w+') as csv_file:
+            writer = csv.writer(csv_file)
+            s = datetime.datetime.today()
 
-            writer.writeheader()
+            writer.writerow(["Time started: " + str(s)])
+            writer.writerow(["Backend: " + name])
+            writer.writerow(["Problems: " + str(pNames)])
+            writer.writerow([])
+
+            fieldnames = ['Problem', "Nickname",  'Results', 'Relevant Data', 'Shots', 'Time (ms)', 'quantum usage estimation']
+            dictWriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+            dictWriter.writeheader()
 
             for problem in self.problemArr:
-                for rep in range(problem[1]):
-                    for qubit in range(problem[2], problem[3], problem[4]):
-                        for shot in range(problem[5], problem[6], problem[7]):
-                            results, rd, uTime, qTime = problem[0].run(qubit, shot, backend, sampler, binRes)
-                            writer.writerow({'Problem': problem[0].name, "Nickname": problem[8] if problem[8] else "N/A", 'Results': str(results), 'Relevant Data': rd, 
-                                'Shots': shot,'Time (ms)': uTime, 'quantum usage estimation (0 for n/a)': qTime})
+                for qubit in range(problem[2], problem[3] + 1, problem[4]):
+                    for shot in range(problem[5], problem[6] + 1, problem[7]):
+                        for rep in range(problem[1]):
+                            results, rd, uTime, qTime = problem[0].run(qubit, shot, backend, sampler, backendType)
+                            dictWriter.writerow({'Problem': problem[0].name, "Nickname": problem[8] if problem[8] else "N/A", 'Results': str(results), 'Relevant Data': rd, 
+                                'Shots': shot,'Time (ms)': uTime, 'quantum usage estimation': qTime})
                             time.sleep((qubit/2 + shot/100)/2)
+
+            e = datetime.datetime.today()
+            writer.writerow([])
+            writer.writerow(["Time ended: " + str(e)])
+            td = str(e - s).split(":")
+            tStr = "Time difference: " + td[0] + " hours; " + td[1] + " minutes; " + td[2] + " seconds"
+            writer.writerow([tStr])
 
     def addProblem(self,
                problem: ProblemBase,
@@ -124,7 +170,7 @@ class ProblemRunner():
 
         self.problemArr.append([problem, reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep, nickname])
 
-    def setUpIQM(self, backendName, token) -> Tuple[BackendV2, Sampler, str, bool]:
+    def setUpIQM(self, backendName, token) -> Tuple[BackendV2, Sampler, str, str]:
         """
         Sets up an IQM backend
 
@@ -137,7 +183,7 @@ class ProblemRunner():
             - backend (BackendV2): The chosen backend.
             - sampler (Sampler): The sampler associated with the backend.
             - backendName (str): The name of the backend.
-            - binType (bool): True if data is binary, False if hexadecimal.
+            - backendType (string): Which company backend you are using.
         """
 
         if (backendName == "fakeGarnet"):
@@ -151,12 +197,10 @@ class ProblemRunner():
             backend = IQMBackend(IQMClient(backendURL, token = token))
             
         sampler = Sampler(mode = backend)
-
-        binType = True
         
-        return backend, sampler, backendName, binType
+        return backend, sampler, backendName, "IQM"
     
-    def setUpIBM(self, backendName, token) -> Tuple[BackendV2, Sampler, str, bool]:
+    def setUpIBM(self, backendName, token) -> Tuple[BackendV2, Sampler, str, str]:
         """
         Sets up an IBM backend
 
@@ -169,7 +213,7 @@ class ProblemRunner():
             - backend (BackendV2): The chosen backend.
             - sampler (Sampler): The sampler associated with the backend.
             - backendName (str): The name of the backend.
-            - binType (bool): True if data is binary, False if hexadecimal.
+            - backendType (string): Which company backend you are using.
         """
 
         if token:
@@ -192,10 +236,37 @@ class ProblemRunner():
             backend = self.IBMDict[backendName]
         except KeyError:
             raise ValueError(f"Backend '{backendName}' does not exist in available backends")
-        
-        binType = False
 
-        return backend, self.setUpSampler(backend), backendName, binType
+        return backend, self.setUpSampler(backend), backendName, "IBM"
+    
+
+    def setUpQuantinuum(self, backendName) -> Tuple[QuantinuumBackend, Sampler, str, str]:
+        """
+        Sets up an Quantinuum backend
+
+        Args:
+            backendName (str): The name for the backend (in the dictionary).
+            username (str): Your Quantinuum username.
+            username (str): Your Quantinuum password.
+
+        Returns:
+            Tuple  [BackendV2, Sampler, str, bool]: A tuple containing:
+            - backend (BackendV2): The chosen backend.
+            - sampler (Sampler): The sampler associated with the backend.
+            - backendName (str): The name of the backend.
+            - backendType (string): Which company backend you are using.
+        """
+
+        try:
+            backend = self.QuantinuumDict[backendName]
+        except KeyError:
+            raise ValueError(f"Backend '{backendName}' does not exist in available backends")
+        
+        backend = QuantinuumBackend(backend)
+            
+        sampler = self.setUpSampler(backend)
+        
+        return backend, sampler, backendName, "Quantinuum"
 
     def setUpSampler(self, backend)  -> Sampler:
         """
@@ -209,7 +280,10 @@ class ProblemRunner():
         """
         if (isinstance(backend, BackendV2)):
             return Sampler(mode = backend)
+        
+        elif(isinstance(backend, QuantinuumBackend)):
+            #unused, so dummy info used here
+            return Sampler(mode = fake_provider.FakeAlgiers())
 
         else:
             raise TypeError(f"Expected backend of type {BackendV2}, but got {type(backend).__name__}")
-        

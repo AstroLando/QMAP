@@ -17,6 +17,8 @@ class BV(ProblemBase):
         super().__init__(name, desc)
     
     def makeCirc(self, qubits):
+
+        qubits = qubits - 1
         """
         Create a Bernstein-Vazirani algorithm circuit with the specified number of qubits.
 
