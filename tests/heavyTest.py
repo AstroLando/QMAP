@@ -1,4 +1,4 @@
-from problemRunner import ProblemRunner
+from src.problemRunner import ProblemRunner
 from Problems.RNG import RNG
 from Problems.QFT import QuantFT as QFT
 from Problems.BV import BV

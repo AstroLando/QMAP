@@ -1,14 +1,12 @@
 import datetime, time
 from typing import Optional, Tuple
-import csv
 from Problems.ProblemBase import ProblemBase
 from qiskit_ibm_runtime import QiskitRuntimeService, Sampler, fake_provider
 from iqm.qiskit_iqm.iqm_provider import IQMBackend
 from iqm.iqm_client import IQMClient
 from qiskit.providers.backend import BackendV2
 from pytket.extensions.quantinuum import QuantinuumBackend
-from iqm.qiskit_iqm import IQMProvider, transpile_to_IQM
-import os 
+import os, pandas as pd
 
 from pytket.extensions.quantinuum import QuantinuumAPI;
 from pytket.extensions.quantinuum.backends.credential_storage import MemoryCredentialStorage
@@ -61,36 +59,91 @@ class ProblemRunner():
             
             pNames.append(pName)
 
+        # Prepare the file path - make sure path exists 
+        DIR = "results"
+        if not os.path.isdir(DIR):
+            os.makedirs(DIR)
+        file_path = f"{DIR}/{name}_{datetime.datetime.today()}.csv"
 
-        with open('dataFiles/' + str(name) + " " + str(datetime.datetime.today() ) + '.csv', mode = 'w+') as csv_file:
-            writer = csv.writer(csv_file)
+        # Write initial info and column headers once
+        with open(file_path, mode='w+') as csv_file:
             s = datetime.datetime.today()
 
-            writer.writerow(["Time started: " + str(s)])
-            writer.writerow(["Backend: " + name])
-            writer.writerow(["Problems: " + str(pNames)])
-            writer.writerow([])
+            # Write general experiment details
+            csv_file.write(f"Time started: {str(s)}\n")
+            csv_file.write(f"Backend: {name}\n")
+            csv_file.write(f"Problems: {str(pNames)}\n")
+            csv_file.write("\n")
+            csv_file.write("Problem, Nickname, Results, Shots, Time (ms), Quantum Usage Estimation, Metadata\n")
 
-            fieldnames = ['Problem', "Nickname",  'Results', 'Relevant Data', 'Shots', 'Time (ms)', 'quantum usage estimation']
-            dictWriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        # Prepare a list to hold all rows
+        rows = []
 
-            dictWriter.writeheader()
+        # Check if the file already exists to decide if we need to write headers
+        file_exists = os.path.exists(file_path)
 
-            for problem in self.problemArr:
-                for qubit in range(problem[2], problem[3] + 1, problem[4]):
-                    for shot in range(problem[5], problem[6] + 1, problem[7]):
-                        for rep in range(problem[1]):
+        # Run experiments and append data to DataFrame
+        for problem in self.problemArr:
+            print(f"Problem: {problem[0].name}")
+            for qubit in range(problem[2], problem[3] + 1, problem[4]):
+                print(f"{' ':2}=> Qubits: {qubit}")
+                for shot in range(problem[5], problem[6] + 1, problem[7]):
+                    for rep in range(problem[1]):
+                        print(f"{' ':8}Shots: {shot}, Rep: {rep}")
+                        try:
+                            # Run the experiment and get the results
                             results, rd, uTime, qTime = problem[0].run(qubit, shot, backend, sampler, backendType)
-                            dictWriter.writerow({'Problem': problem[0].name, "Nickname": problem[8] if problem[8] else "N/A", 'Results': str(results), 'Relevant Data': rd, 
-                                'Shots': shot,'Time (ms)': uTime, 'quantum usage estimation': qTime})
-                            time.sleep((qubit/2 + shot/100)/2)
 
-            e = datetime.datetime.today()
-            writer.writerow([])
-            writer.writerow(["Time ended: " + str(e)])
+                            # Collect the data into the rows list
+                            rows.append({
+                                'Problem': problem[0].name,
+                                'Nickname': problem[8] if problem[8] else "N/A",
+                                'Results': str(results),
+                                'Shots': shot,
+                                'Time (ms)': uTime,
+                                'Quantum Usage Estimation': qTime,
+                                'Metaata': rd,
+                            })
+
+                            # Sleep for a small time to simulate processing delay
+                            time.sleep((qubit / 2 + shot / 100) / 2)
+
+                        except Exception as e:
+                            # Log the error and continue to the next experiment
+                            print(f"Error occurred while running experiment for problem {problem[0].name}: {e}")
+
+                        # Periodically write the rows to CSV to avoid data loss
+                        if rep % 5 == 0:  
+                            if rows:
+                                temp_df = pd.DataFrame(rows)
+
+                                # If the file exists, append without headers, else write with headers
+                                temp_df.to_csv(file_path, mode='a', header=not file_exists, index=False)
+                                rows.clear()  # Clear the list after writing to avoid duplicates
+                                file_exists = True  # After the first write, ensure header is not written again
+
+
+            print("--------------")
+
+        print(f"Saving results in {file_path}")
+
+        # After all experiments are done, record the time the experiment ended
+        e = datetime.datetime.today()
+        with open(file_path, mode='a') as csv_file:
+            csv_file.write("\n")
+            csv_file.write(f"Time ended: {str(e)}\n")
+
+            # Calculate and write the total time taken
             td = str(e - s).split(":")
-            tStr = "Time difference: " + td[0] + " hours; " + td[1] + " minutes; " + td[2] + " seconds"
-            writer.writerow([tStr])
+            tStr = f"Time difference: {td[0]} hours; {td[1]} minutes; {td[2]} seconds"
+            csv_file.write(f"{tStr}\n")
+
+        # Finally, write any remaining rows to the CSV (if not done earlier)
+        if rows:
+            temp_df = pd.DataFrame(rows)
+            temp_df.to_csv(file_path, mode='a', header=False, index=False)
+        
+        return
 
     def addProblem(self,
                problem: ProblemBase,
@@ -126,13 +179,13 @@ class ProblemRunner():
             raise TypeError(f"Problem must be instance of a subclass of ProblemBase, got {type(problem).__name__} instead")
         
         int_args = {
-        "reps": reps,
-        "minQubits": minQubits,
-        "maxQubits": maxQubits,
-        "minShots": minShots,
-        "maxShots": maxShots,
-        "qubitStep": qubitStep,
-        "shotStep": shotStep,
+            "reps": reps,
+            "minQubits": minQubits,
+            "maxQubits": maxQubits,
+            "minShots": minShots,
+            "maxShots": maxShots,
+            "qubitStep": qubitStep,
+            "shotStep": shotStep,
         }
 
         for name, value in int_args.items():
@@ -150,6 +203,27 @@ class ProblemRunner():
             raise ValueError("maxShots must be greater than or equal to minShots")
 
         self.problemArr.append([problem, reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep, nickname])
+        return
+    
+    def setUpSampler(self, backend)  -> Sampler:
+        """
+        Sets up a sampler for a backend.
+
+        Args:
+            backend (BackendV2): The backend you want to create a sampler for.
+
+        Returns:
+            sampler (Sampler): The sampler for the input backend.
+        """
+        if (isinstance(backend, BackendV2)):
+            return Sampler(mode = backend)
+        
+        elif(isinstance(backend, QuantinuumBackend)):
+            #unused, so dummy info used here
+            return Sampler(mode = fake_provider.FakeAlgiers())
+
+        else:
+            raise TypeError(f"Expected backend of type {BackendV2}, but got {type(backend).__name__}")
 
     def setUpIQM(self, backendName, token) -> Tuple[BackendV2, Sampler, str, str]:
         """
@@ -228,14 +302,6 @@ class ProblemRunner():
             "ibm_kingston" : IBMservice.backend("ibm_kingston"),
             "ibm_aachen" : IBMservice.backend("ibm_aachen")
         }
-
-        # if not hasattr(self, 'IBMDict'):
-            # self.IBMDict = {
-            #     "leastBusy" : IBMservice.least_busy(operational=True),
-            #     "fakeBrisbane" : fake_provider.FakeBrisbane(),
-            #     "brisbane" : IBMservice.backend("ibm_brisbane"),
-            #     "fez" : IBMservice.backend("ibm_fez")
-            # }
             
         try:
             backend = self.IBMDict[backendName]
@@ -244,7 +310,6 @@ class ProblemRunner():
 
         return backend, self.setUpSampler(backend), backendName, "IBM"
     
-
     def setUpQuantinuum(self, backendName) -> Tuple[QuantinuumBackend, Sampler, str, str]:
         """
         Sets up an Quantinuum backend
@@ -283,23 +348,3 @@ class ProblemRunner():
         sampler = self.setUpSampler(backend)
         
         return backend, sampler, backendName, "Quantinuum"
-
-    def setUpSampler(self, backend)  -> Sampler:
-        """
-        Sets up a sampler for a backend.
-
-        Args:
-            backend (BackendV2): The backend you want to create a sampler for.
-
-        Returns:
-            sampler (Sampler): The sampler for the input backend.
-        """
-        if (isinstance(backend, BackendV2)):
-            return Sampler(mode = backend)
-        
-        elif(isinstance(backend, QuantinuumBackend)):
-            #unused, so dummy info used here
-            return Sampler(mode = fake_provider.FakeAlgiers())
-
-        else:
-            raise TypeError(f"Expected backend of type {BackendV2}, but got {type(backend).__name__}")
