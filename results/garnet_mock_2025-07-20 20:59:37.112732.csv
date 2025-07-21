@@ -1,0 +1,20 @@
+Time started: 2025-07-20 20:59:37.112961
+Backend: garnet_mock
+Problems: ['Random Number Generator', 'Quantum Fourier Transform', 'Bernstein-Vazirani', "Grover's Algorithm", 'Quantum Phase Estimation']
+
+Problem, Nickname, Results, Metadata, Shots, Time (ms), Quantum Usage Estimation
+Random Number Generator,N/A,"{'01': 27, '00': 35, '11': 20, '10': 18}",Qubit Count: 2,100,13038.424,N/A
+Random Number Generator,N/A,"{'00': 51, '11': 51, '01': 43, '10': 55}",Qubit Count: 2,200,11957.945,N/A
+Random Number Generator,N/A,"{'1001': 17, '1110': 9, '1000': 11, '0110': 10, '1111': 19, '0000': 16, '0001': 9, '0111': 9}",Qubit Count: 4,100,12217.563,N/A
+Random Number Generator,N/A,"{'0110': 19, '1111': 37, '0000': 25, '0111': 22, '0001': 29, '1110': 31, '1001': 17, '1000': 20}",Qubit Count: 4,200,13038.054,N/A
+Quantum Fourier Transform,N/A,"{'11': 24, '01': 23, '10': 29, '00': 24}",Qubit Count: 2,100,12318.083,N/A
+Quantum Fourier Transform,N/A,"{'00': 50, '10': 47, '01': 54, '11': 49}",Qubit Count: 2,200,13136.750,N/A
+Bernstein-Vazirani,N/A,"{'0': 97, '1': 103}",Secret number: 1,200,12672.477,N/A
+Bernstein-Vazirani,N/A,"{'1100': 14, '1101': 12, '0001': 14, '0000': 17, '1111': 10, '0010': 13, '0011': 13, '1110': 7}",Secret number: 1000,100,11605.430,N/A
+Grover's Algorithm,N/A,"{'10': 26, '01': 21, '11': 18, '00': 35}","Iterations: 1, Target string: 11",100,12081.192,N/A
+Grover's Algorithm,N/A,"{'11': 56, '00': 34, '01': 48, '10': 62}","Iterations: 1, Target string: 11",200,16393.974,N/A
+Quantum Phase Estimation,N/A,"{'0': 52, '1': 48}",Phase to estimate: 1.1050346166106948,100,13797.144,N/A
+Quantum Phase Estimation,N/A,"{'1': 96, '0': 104}",Phase to estimate: 6.064495661921591,200,14044.000,N/A
+
+Time ended: 2025-07-20 21:02:37.639990
+Time difference: 0 hours; 03 minutes; 00.527029 seconds

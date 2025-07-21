@@ -1,0 +1,10 @@
+host: iqm
+backend: garnet_mock
+env_path: tokens.env
+reps: 1
+minQubits: 4
+maxQubits: 4
+qubitStep: 2
+minShots: 100
+maxShots: 100
+shotStep: 100
