@@ -1,0 +1,486 @@
+Time started: 2025-07-21 21:56:34.331187
+Backend: garnet_mock
+Problems: ['Random Number Generator', 'Quantum Fourier Transform', 'Bernstein-Vazirani', "Grover's Algorithm", 'Quantum Phase Estimation']
+
+Problem, Nickname, Results, Shots, Time (ms), Quantum Usage Estimation, Metadata
+Random Number Generator,N/A,"{'11': 46, '00': 54}",100,11353.517,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 58, '11': 42}",100,10634.291,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 42, '00': 58}",100,9608.059,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 101, '11': 99}",200,9779.818,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 103, '11': 97}",200,9782.505,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 106, '11': 94}",200,11596.715,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 165, '11': 135}",300,11268.721,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 137, '11': 163}",300,9386.863,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 148, '11': 152}",300,9673.175,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 194, '11': 206}",400,9840.893,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 190, '00': 210}",400,10663.606,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 194, '11': 206}",400,11140.751,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 262, '11': 238}",500,9106.269,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 247, '11': 253}",500,9709.017,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 244, '00': 256}",500,9446.581,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 290, '11': 310}",600,10027.907,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 309, '11': 291}",600,10017.984,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 300, '00': 300}",600,10646.305,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 339, '11': 361}",700,14499.521,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 345, '00': 355}",700,10208.317,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 360, '00': 340}",700,10464.550,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 375, '11': 425}",800,10030.583,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 385, '00': 415}",800,9627.536,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'11': 407, '00': 393}",800,10207.839,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 445, '11': 455}",900,10484.100,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 458, '11': 442}",900,12094.767,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 461, '11': 439}",900,11279.567,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 492, '11': 508}",1000,10663.995,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 497, '11': 503}",1000,10268.350,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'00': 495, '11': 505}",1000,10266.063,N/A,Qubit Count: 2
+Random Number Generator,N/A,"{'1011': 26, '0000': 28, '0100': 21, '1111': 25}",100,11181.797,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0100': 33, '1111': 22, '1011': 25, '0000': 20}",100,10993.548,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 29, '0000': 17, '1111': 28, '0100': 26}",100,14254.942,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0000': 48, '1011': 50, '0100': 53, '1111': 49}",200,10208.429,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 53, '0100': 49, '1111': 52, '0000': 46}",200,11504.593,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 52, '0100': 48, '1111': 51, '0000': 49}",200,10437.472,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 81, '1111': 68, '0100': 82, '0000': 69}",300,9511.952,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 73, '0100': 83, '0000': 85, '1111': 59}",300,10501.908,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 70, '0100': 83, '0000': 76, '1011': 71}",300,10925.576,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0100': 83, '1011': 119, '1111': 109, '0000': 89}",400,11094.424,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 119, '1111': 99, '0100': 100, '0000': 82}",400,10425.574,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 108, '0000': 92, '0100': 107, '1011': 93}",400,11216.858,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 106, '0100': 132, '1011': 122, '0000': 140}",500,9916.537,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0100': 122, '1111': 125, '1011': 115, '0000': 138}",500,11286.274,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 138, '0000': 104, '1011': 116, '0100': 142}",500,10063.708,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0100': 135, '1111': 150, '1011': 155, '0000': 160}",600,9704.833,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0100': 147, '0000': 131, '1011': 163, '1111': 159}",600,11557.043,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 150, '0100': 170, '1011': 141, '0000': 139}",600,10436.075,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0000': 150, '1111': 179, '0100': 176, '1011': 195}",700,10617.181,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 169, '1111': 193, '0000': 172, '0100': 166}",700,9756.719,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 194, '1011': 159, '0100': 175, '0000': 172}",700,10186.635,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0000': 218, '0100': 201, '1111': 189, '1011': 192}",800,10500.366,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 187, '1011': 206, '0000': 207, '0100': 200}",800,10560.808,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 210, '0000': 213, '0100': 167, '1011': 210}",800,10059.132,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0100': 203, '1011': 204, '1111': 238, '0000': 255}",900,10754.699,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 227, '0000': 226, '0100': 228, '1111': 219}",900,10129.496,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 215, '0100': 238, '1111': 227, '0000': 220}",900,11293.369,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1111': 223, '0000': 246, '1011': 280, '0100': 251}",1000,11223.771,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'0000': 262, '1111': 241, '1011': 252, '0100': 245}",1000,10045.472,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'1011': 265, '1111': 224, '0100': 240, '0000': 271}",1000,11004.650,N/A,Qubit Count: 4
+Random Number Generator,N/A,"{'111011': 11, '111111': 14, '101011': 12, '000100': 13, '101111': 19, '010000': 14, '010100': 6, '000000': 11}",100,10231.485,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'111111': 18, '101011': 11, '101111': 17, '010100': 8, '111011': 11, '000100': 17, '000000': 8, '010000': 10}",100,11745.725,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101111': 9, '111111': 16, '010000': 9, '000000': 14, '111011': 11, '000100': 11, '010100': 13, '101011': 17}",100,10213.958,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010100': 28, '101111': 32, '010000': 22, '000100': 27, '000000': 30, '101011': 19, '111111': 20, '111011': 22}",200,9523.609,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010000': 28, '111011': 28, '101111': 30, '000000': 25, '010100': 24, '101011': 21, '000100': 20, '111111': 24}",200,11861.509,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101011': 25, '000000': 28, '000100': 24, '111111': 19, '010000': 27, '111011': 30, '101111': 24, '010100': 23}",200,11218.351,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'111011': 41, '010100': 34, '101011': 46, '000000': 35, '101111': 37, '000100': 37, '010000': 30, '111111': 40}",300,10120.192,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101011': 45, '000100': 41, '010100': 35, '000000': 31, '111111': 35, '101111': 38, '111011': 35, '010000': 40}",300,10582.998,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010000': 43, '000000': 39, '101111': 38, '000100': 42, '111111': 27, '101011': 34, '111011': 35, '010100': 42}",300,10004.052,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010000': 50, '101011': 52, '000000': 50, '101111': 42, '111111': 49, '000100': 60, '010100': 51, '111011': 46}",400,11743.285,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'111111': 45, '101111': 53, '000000': 52, '000100': 48, '010100': 49, '111011': 58, '010000': 47, '101011': 48}",400,10220.673,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010000': 51, '111011': 45, '010100': 53, '000100': 43, '101111': 53, '101011': 58, '000000': 50, '111111': 47}",400,10422.718,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'111011': 59, '000000': 74, '111111': 82, '101111': 52, '101011': 58, '010000': 62, '010100': 65, '000100': 48}",500,10219.844,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010000': 65, '010100': 64, '000000': 62, '101011': 50, '111111': 59, '111011': 61, '000100': 54, '101111': 85}",500,13403.238,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101011': 71, '010000': 49, '000100': 58, '000000': 79, '010100': 59, '111111': 63, '111011': 72, '101111': 49}",500,10842.651,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'111111': 82, '000000': 62, '101011': 82, '010000': 72, '000100': 87, '101111': 72, '010100': 62, '111011': 81}",600,9894.209,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101111': 73, '111011': 84, '010100': 80, '010000': 77, '101011': 72, '111111': 69, '000100': 74, '000000': 71}",600,10371.485,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'000000': 71, '101111': 69, '101011': 80, '111011': 66, '111111': 70, '010100': 91, '010000': 69, '000100': 84}",600,10750.204,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'000000': 95, '010100': 89, '111011': 82, '101111': 82, '111111': 108, '101011': 77, '000100': 85, '010000': 82}",700,11062.283,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'000000': 83, '010000': 83, '111111': 101, '101011': 89, '000100': 101, '101111': 74, '111011': 75, '010100': 94}",700,10254.850,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101111': 93, '101011': 81, '010100': 94, '000000': 87, '000100': 68, '111011': 87, '111111': 93, '010000': 97}",700,10250.811,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101011': 89, '000100': 91, '101111': 100, '010100': 115, '010000': 94, '111011': 108, '111111': 108, '000000': 95}",800,10053.226,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101111': 103, '000100': 107, '010000': 113, '000000': 92, '101011': 118, '111111': 82, '010100': 93, '111011': 92}",800,10139.862,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'000000': 97, '101011': 92, '111111': 108, '111011': 99, '000100': 114, '010100': 95, '101111': 97, '010000': 98}",800,11615.119,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'111011': 90, '101111': 121, '101011': 109, '000100': 110, '000000': 121, '010000': 118, '111111': 110, '010100': 121}",900,10265.500,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101011': 112, '010100': 116, '111111': 109, '111011': 103, '000100': 94, '000000': 123, '010000': 132, '101111': 111}",900,10070.477,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010000': 98, '101111': 100, '000000': 111, '111011': 120, '111111': 112, '101011': 144, '000100': 108, '010100': 107}",900,10681.824,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'101011': 137, '101111': 114, '111111': 135, '000000': 122, '111011': 136, '010100': 114, '010000': 123, '000100': 119}",1000,10185.875,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'000000': 112, '000100': 124, '101011': 138, '111111': 113, '101111': 131, '111011': 134, '010000': 113, '010100': 135}",1000,9572.029,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'010000': 117, '000100': 125, '101011': 135, '111011': 121, '111111': 122, '010100': 144, '000000': 123, '101111': 113}",1000,10697.179,N/A,Qubit Count: 6
+Random Number Generator,N/A,"{'01010000': 15, '11111111': 12, '11010100': 13, '00101011': 10, '10000100': 12, '00000000': 15, '10101111': 14, '01111011': 9}",100,10898.053,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10101111': 16, '11111111': 15, '00101011': 14, '00000000': 18, '01010000': 12, '01111011': 7, '11010100': 14, '10000100': 4}",100,10556.335,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11010100': 10, '00101011': 15, '01111011': 14, '10101111': 14, '11111111': 14, '00000000': 14, '01010000': 14, '10000100': 5}",100,11566.634,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10000100': 18, '10101111': 25, '11010100': 25, '11111111': 23, '01010000': 34, '00000000': 24, '01111011': 30, '00101011': 21}",200,10188.881,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'00101011': 22, '01010000': 32, '10000100': 17, '10101111': 25, '11010100': 26, '01111011': 26, '11111111': 30, '00000000': 22}",200,10107.389,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10000100': 17, '01111011': 28, '01010000': 22, '11111111': 30, '00101011': 25, '00000000': 24, '10101111': 25, '11010100': 29}",200,11131.761,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'01111011': 46, '10101111': 30, '10000100': 44, '01010000': 39, '00101011': 28, '00000000': 35, '11010100': 41, '11111111': 37}",300,11945.566,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'00000000': 34, '01111011': 42, '10000100': 40, '10101111': 41, '00101011': 40, '11111111': 40, '11010100': 28, '01010000': 35}",300,10806.242,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11111111': 39, '11010100': 45, '10000100': 34, '00000000': 46, '01111011': 36, '10101111': 42, '00101011': 28, '01010000': 30}",300,11362.457,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11111111': 57, '10101111': 58, '11010100': 40, '00000000': 53, '00101011': 57, '01111011': 41, '10000100': 57, '01010000': 37}",400,10125.276,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'00000000': 55, '00101011': 51, '11010100': 57, '11111111': 50, '01111011': 38, '10101111': 47, '10000100': 61, '01010000': 41}",400,11039.368,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10000100': 45, '01111011': 51, '00101011': 48, '00000000': 55, '11111111': 47, '01010000': 47, '10101111': 57, '11010100': 50}",400,10641.282,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11010100': 62, '10000100': 72, '01111011': 68, '10101111': 58, '11111111': 67, '00000000': 53, '01010000': 57, '00101011': 63}",500,10638.021,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11111111': 64, '10101111': 73, '01111011': 51, '11010100': 69, '00101011': 53, '10000100': 67, '01010000': 66, '00000000': 57}",500,10140.907,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10000100': 69, '11111111': 77, '00101011': 58, '10101111': 65, '00000000': 50, '11010100': 68, '01010000': 55, '01111011': 58}",500,10649.363,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10000100': 78, '01111011': 62, '11111111': 69, '10101111': 70, '00000000': 89, '11010100': 69, '00101011': 87, '01010000': 76}",600,11165.303,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'01111011': 75, '11010100': 81, '10000100': 75, '11111111': 73, '10101111': 76, '00101011': 74, '00000000': 72, '01010000': 74}",600,10198.842,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'01111011': 73, '00101011': 66, '10101111': 71, '11111111': 75, '01010000': 89, '00000000': 92, '11010100': 71, '10000100': 63}",600,10105.571,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11111111': 97, '00000000': 86, '00101011': 75, '10000100': 79, '11010100': 103, '10101111': 101, '01111011': 62, '01010000': 97}",700,10255.123,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10101111': 91, '11010100': 73, '11111111': 101, '00000000': 92, '01010000': 84, '10000100': 92, '00101011': 71, '01111011': 96}",700,10139.790,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11010100': 87, '01010000': 84, '10000100': 82, '00101011': 84, '01111011': 88, '11111111': 100, '10101111': 87, '00000000': 88}",700,11414.979,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10101111': 111, '10000100': 93, '11010100': 98, '00101011': 106, '00000000': 96, '01010000': 117, '11111111': 84, '01111011': 95}",800,10169.726,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'00101011': 101, '11111111': 101, '01111011': 93, '10000100': 83, '00000000': 107, '11010100': 115, '10101111': 90, '01010000': 110}",800,10065.819,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10101111': 86, '01010000': 100, '11010100': 96, '11111111': 118, '10000100': 98, '00000000': 102, '00101011': 99, '01111011': 101}",800,10261.757,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10101111': 96, '10000100': 94, '11111111': 121, '11010100': 122, '01111011': 118, '00000000': 121, '01010000': 117, '00101011': 111}",900,686466.928,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11010100': 118, '01010000': 117, '00000000': 106, '01111011': 112, '10000100': 111, '00101011': 126, '10101111': 118, '11111111': 92}",900,10447.450,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'10101111': 98, '11111111': 137, '01010000': 116, '10000100': 122, '01111011': 104, '11010100': 111, '00101011': 110, '00000000': 102}",900,11832.660,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11111111': 114, '01010000': 120, '10000100': 135, '10101111': 128, '01111011': 124, '11010100': 130, '00000000': 114, '00101011': 135}",1000,9677.311,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'11010100': 132, '00101011': 127, '01111011': 124, '01010000': 103, '10101111': 123, '10000100': 143, '11111111': 132, '00000000': 116}",1000,10597.641,N/A,Qubit Count: 8
+Random Number Generator,N/A,"{'00000000': 133, '00101011': 103, '01010000': 131, '01111011': 120, '11111111': 108, '10000100': 129, '11010100': 140, '10101111': 136}",1000,11739.270,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'00': 46, '11': 54}",100,11322.648,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 51, '11': 49}",100,9743.357,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 41, '11': 59}",100,9744.737,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 98, '11': 102}",200,10466.650,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 101, '11': 99}",200,10677.860,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 94, '11': 106}",200,9822.931,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 146, '00': 154}",300,11215.256,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 148, '00': 152}",300,9784.867,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 157, '11': 143}",300,9873.108,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 195, '11': 205}",400,11716.437,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 181, '11': 219}",400,9882.098,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 183, '00': 217}",400,9743.335,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 251, '11': 249}",500,11875.930,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 235, '11': 265}",500,12014.875,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 258, '11': 242}",500,11359.521,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 289, '11': 311}",600,10289.437,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 337, '11': 363}",700,12330.552,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 353, '00': 347}",700,11232.717,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 350, '11': 350}",700,121199.005,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 412, '00': 388}",800,10144.718,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 404, '11': 396}",800,10751.802,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 401, '11': 399}",800,10132.878,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 444, '00': 456}",900,11825.302,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 451, '11': 449}",900,11852.588,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 446, '00': 454}",900,10855.446,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'11': 505, '00': 495}",1000,10986.122,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'00': 492, '11': 508}",1000,10302.673,N/A,Qubit Count: 2
+Quantum Fourier Transform,N/A,"{'1010': 29, '0101': 22, '1111': 29, '0000': 20}",100,9979.436,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0011': 24, '1100': 31, '0000': 19, '1111': 26}",100,9951.697,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0000': 25, '1111': 25, '1010': 18, '0101': 32}",100,15179.664,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0001': 42, '0000': 52, '1111': 46, '1110': 60}",200,10472.439,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0101': 36, '1111': 56, '1010': 51, '0000': 57}",200,10270.849,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 104, '0000': 96}",200,10582.682,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0001': 63, '1110': 66, '0000': 82, '1111': 89}",300,10175.709,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0000': 71, '0001': 75, '1110': 74, '1111': 80}",300,9670.371,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 153, '0000': 147}",300,9568.241,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1100': 105, '1111': 84, '0011': 109, '0000': 102}",400,9472.733,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0011': 96, '0000': 100, '1100': 102, '1111': 102}",400,9894.034,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1100': 99, '1111': 115, '0011': 90, '0000': 96}",400,10299.532,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1110': 117, '0001': 135, '0000': 139, '1111': 109}",500,9576.476,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 126, '1010': 123, '0101': 136, '0000': 115}",500,10724.089,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0000': 251, '1111': 249}",500,9577.146,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0001': 150, '1111': 154, '1110': 147, '0000': 149}",600,11270.688,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0001': 154, '1111': 156, '1110': 137, '0000': 153}",600,11660.189,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0011': 156, '1111': 136, '0000': 161, '1100': 147}",600,10014.738,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 190, '1010': 177, '0000': 155, '0101': 178}",700,10546.368,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0001': 175, '0000': 172, '1111': 172, '1110': 181}",700,9897.920,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1101': 190, '1111': 169, '0000': 179, '0010': 162}",700,10726.327,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 209, '0000': 189, '0101': 206, '1010': 196}",800,10121.377,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0000': 206, '0001': 199, '1110': 187, '1111': 208}",800,11022.572,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0000': 398, '1111': 402}",800,10048.045,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0010': 227, '1111': 226, '1101': 221, '0000': 226}",900,10865.859,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0000': 238, '1110': 242, '0001': 225, '1111': 195}",900,11406.336,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 232, '1110': 201, '0000': 231, '0001': 236}",900,12385.242,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'0011': 258, '1111': 233, '1100': 251, '0000': 258}",1000,10446.857,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 278, '1100': 255, '0000': 243, '0011': 224}",1000,11419.075,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'1111': 248, '0000': 234, '0011': 288, '1100': 230}",1000,10070.824,N/A,Qubit Count: 4
+Quantum Fourier Transform,N/A,"{'111111': 32, '110010': 20, '000000': 27, '001101': 21}",100,10373.445,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 27, '101100': 19, '010011': 29, '000000': 25}",100,9107.955,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'000000': 24, '111111': 31, '101100': 27, '010011': 18}",100,10420.879,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'110010': 57, '000000': 55, '111111': 45, '001101': 43}",200,11574.709,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 40, '001011': 57, '000000': 53, '110100': 50}",200,11195.083,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 72, '001011': 77, '000000': 72, '110100': 79}",300,10906.519,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 80, '010101': 82, '000000': 71, '101010': 67}",300,10490.506,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'010011': 64, '111111': 85, '000000': 73, '101100': 78}",300,11380.957,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'101100': 94, '111111': 104, '000000': 111, '010011': 91}",400,10452.812,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 105, '000000': 109, '110001': 97, '001110': 89}",400,10410.136,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'010011': 103, '000000': 102, '111111': 105, '101100': 90}",400,10520.711,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'010011': 133, '111111': 129, '101100': 121, '000000': 117}",500,10420.470,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'110010': 139, '001101': 113, '111111': 128, '000000': 120}",500,10428.888,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'101100': 138, '111111': 116, '000000': 126, '010011': 120}",500,11072.540,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'100011': 149, '000000': 148, '011100': 148, '111111': 155}",600,9788.768,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'101100': 155, '000000': 145, '010011': 141, '111111': 159}",600,11444.841,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 152, '000000': 162, '010011': 150, '101100': 136}",600,10555.579,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'000000': 181, '001011': 163, '110100': 172, '111111': 184}",700,10545.795,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'010101': 183, '111111': 166, '101010': 175, '000000': 176}",700,10343.752,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'110010': 182, '111111': 166, '000000': 173, '001101': 179}",700,10167.410,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 215, '000000': 204, '011001': 196, '100110': 185}",800,10306.682,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'110100': 180, '001011': 206, '000000': 201, '111111': 213}",800,10595.502,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'010110': 215, '000000': 191, '111111': 200, '101001': 194}",800,10565.692,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 250, '001101': 234, '000000': 213, '110010': 203}",900,10258.106,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'011001': 214, '000000': 246, '100110': 226, '111111': 214}",900,10390.650,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'111111': 217, '110000': 254, '001111': 207, '000000': 222}",900,10467.321,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'101100': 259, '000000': 249, '111111': 241, '010011': 251}",1000,10268.419,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'000000': 245, '101100': 238, '111111': 241, '010011': 276}",1000,10184.548,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'110010': 254, '000000': 257, '111111': 260, '001101': 229}",1000,10286.030,N/A,Qubit Count: 6
+Quantum Fourier Transform,N/A,"{'11101111': 15, '00000000': 9, '00100111': 9, '11011000': 12, '00010000': 17, '11001000': 14, '00110111': 17, '11111111': 7}",100,10854.536,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10001110': 24, '00000000': 32, '01110001': 17, '11111111': 27}",100,10127.068,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'11111011': 14, '01100111': 15, '10011100': 8, '01100011': 13, '00000000': 15, '10011000': 13, '11111111': 15, '00000100': 7}",100,10227.280,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10011010': 47, '11111111': 57, '01100101': 39, '00000000': 57}",200,10158.621,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'01100011': 48, '10011100': 42, '00000000': 48, '11111111': 62}",200,9792.381,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10011010': 48, '00000000': 51, '01100101': 47, '11111111': 54}",200,10107.023,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10101100': 87, '01010011': 69, '11111111': 61, '00000000': 83}",300,11327.103,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'11111111': 79, '10011010': 66, '01100101': 70, '00000000': 85}",300,10506.123,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10011010': 61, '00000000': 87, '11111111': 77, '01100101': 75}",300,9926.833,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'01100101': 94, '10011010': 106, '11111111': 110, '00000000': 90}",400,9921.538,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'00110111': 50, '11001000': 56, '11011000': 38, '00010000': 46, '11101111': 58, '00100111': 58, '00000000': 44, '11111111': 50}",400,10828.888,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'00000000': 73, '01110001': 109, '11111111': 101, '10001110': 117}",400,10532.395,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'11111111': 125, '10011001': 119, '00000000': 111, '01100110': 145}",500,10530.945,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'00000001': 72, '11111110': 61, '01011100': 64, '10100010': 69, '00000000': 61, '11111111': 64, '01011101': 58, '10100011': 51}",500,10033.769,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'00000000': 124, '11111111': 129, '01001101': 107, '10110010': 140}",500,10540.821,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'01100110': 155, '10011001': 153, '11111111': 149, '00000000': 143}",600,10644.939,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'11001100': 67, '00001000': 66, '00000000': 66, '00110011': 100, '11111111': 67, '00111011': 71, '11000100': 78, '11110111': 85}",600,10345.778,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'01100101': 171, '10011010': 144, '00000000': 146, '11111111': 139}",600,10123.465,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'11111111': 180, '01100101': 176, '00000000': 171, '10011010': 173}",700,9659.942,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'00000000': 171, '11111111': 200, '01100101': 175, '10011010': 154}",700,10162.299,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'01000111': 156, '00000000': 164, '11111111': 189, '10111000': 191}",700,10363.712,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10100011': 197, '11111111': 205, '01011100': 211, '00000000': 187}",800,14764.990,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10100110': 210, '00000000': 197, '01011001': 209, '11111111': 184}",800,9732.555,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'00010000': 96, '00100111': 106, '11111111': 86, '11001000': 108, '11011000': 96, '00110111': 105, '00000000': 112, '11101111': 91}",800,10612.619,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'01001101': 215, '11111111': 225, '00000000': 224, '10110010': 236}",900,10577.112,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'11111111': 209, '00000000': 227, '00101101': 219, '11010010': 245}",900,12349.291,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'10011010': 248, '00000000': 270, '11111111': 239, '01100101': 243}",1000,11594.099,N/A,Qubit Count: 8
+Quantum Fourier Transform,N/A,"{'11111111': 245, '01100011': 250, '00000000': 261, '10011100': 244}",1000,11005.395,N/A,Qubit Count: 8
+Bernstein-Vazirani,N/A,"{'1': 41, '0': 59}",100,11275.468,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'1': 39, '0': 61}",100,11911.141,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'11': 20, '01': 25, '00': 30, '10': 25}",100,11389.544,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'1': 91, '0': 109}",200,9903.783,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'0': 104, '1': 96}",200,10207.717,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'10': 44, '01': 49, '00': 55, '11': 52}",200,9858.205,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'0': 147, '1': 153}",300,9724.730,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'0': 144, '1': 156}",300,11224.173,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'0': 195, '1': 205}",400,11005.441,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'1': 199, '0': 201}",400,9470.348,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'1': 208, '0': 192}",400,10095.630,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'0': 240, '1': 260}",500,11049.462,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'00': 109, '11': 125, '01': 148, '10': 118}",500,10457.673,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'10': 169, '01': 113, '11': 145, '00': 173}",600,10064.667,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'00': 129, '01': 168, '10': 149, '11': 154}",600,10358.458,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'1': 305, '0': 295}",600,9993.637,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'10': 187, '01': 165, '00': 168, '11': 180}",700,9551.572,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'0': 330, '1': 370}",700,11941.202,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'10': 182, '00': 168, '01': 166, '11': 184}",700,10218.138,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'1': 392, '0': 408}",800,10963.870,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'10': 214, '11': 188, '00': 193, '01': 205}",800,10426.934,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'00': 213, '10': 194, '01': 206, '11': 187}",800,9768.044,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'1': 448, '0': 452}",900,11122.367,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'10': 199, '00': 242, '01': 242, '11': 217}",900,10559.793,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'1': 452, '0': 448}",900,10019.908,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'1': 500, '0': 500}",1000,10063.628,N/A,Secret number: 1
+Bernstein-Vazirani,N/A,"{'0': 494, '1': 506}",1000,13343.512,N/A,Secret number: 0
+Bernstein-Vazirani,N/A,"{'00': 236, '11': 256, '10': 262, '01': 246}",1000,9744.741,N/A,Secret number: 10
+Bernstein-Vazirani,N/A,"{'000': 34, '101': 28, '111': 16, '010': 22}",100,9122.727,N/A,Secret number: 001
+Bernstein-Vazirani,N/A,"{'001': 27, '000': 20, '110': 22, '111': 31}",100,10284.299,N/A,Secret number: 100
+Bernstein-Vazirani,N/A,"{'100': 24, '111': 28, '011': 22, '000': 26}",100,9636.474,N/A,Secret number: 000
+Bernstein-Vazirani,N/A,"{'1011': 19, '1010': 29, '1110': 34, '0100': 23, '0000': 21, '0101': 27, '1111': 31, '0001': 16}",200,10369.608,N/A,Secret number: 1000
+Bernstein-Vazirani,N/A,"{'111': 50, '000': 59, '100': 44, '011': 47}",200,9872.869,N/A,Secret number: 000
+Bernstein-Vazirani,N/A,"{'011': 37, '100': 49, '000': 54, '111': 60}",200,10289.911,N/A,Secret number: 000
+Bernstein-Vazirani,N/A,"{'110': 27, '000': 37, '001': 49, '010': 36, '100': 36, '101': 39, '111': 40, '011': 36}",300,10384.697,N/A,Secret number: 101
+Bernstein-Vazirani,N/A,"{'111': 30, '001': 49, '011': 32, '000': 45, '101': 31, '110': 31, '010': 44, '100': 38}",300,10294.747,N/A,Secret number: 101
+Bernstein-Vazirani,N/A,"{'001': 37, '010': 35, '111': 43, '101': 38, '011': 45, '000': 27, '110': 41, '100': 34}",300,9349.274,N/A,Secret number: 011
+Bernstein-Vazirani,N/A,"{'000': 111, '111': 90, '011': 101, '100': 98}",400,9697.869,N/A,Secret number: 000
+Bernstein-Vazirani,N/A,"{'111': 102, '110': 98, '000': 96, '001': 104}",400,10719.420,N/A,Secret number: 100
+Bernstein-Vazirani,N/A,"{'111': 102, '101': 98, '000': 93, '010': 107}",400,10299.984,N/A,Secret number: 001
+Bernstein-Vazirani,N/A,"{'000': 125, '001': 122, '110': 126, '111': 127}",500,10306.789,N/A,Secret number: 010
+Bernstein-Vazirani,N/A,"{'111': 63, '100': 65, '110': 58, '101': 56, '000': 62, '001': 62, '011': 68, '010': 66}",500,9797.909,N/A,Secret number: 110
+Bernstein-Vazirani,N/A,"{'111': 128, '000': 122, '011': 114, '100': 136}",500,10125.665,N/A,Secret number: 111
+Bernstein-Vazirani,N/A,"{'000': 157, '111': 140, '011': 151, '100': 152}",600,9907.415,N/A,Secret number: 111
+Bernstein-Vazirani,N/A,"{'011': 71, '100': 86, '010': 82, '101': 68, '001': 68, '110': 69, '000': 92, '111': 64}",600,10015.297,N/A,Secret number: 011
+Bernstein-Vazirani,N/A,"{'1010': 67, '0001': 93, '1111': 79, '1011': 66, '0101': 70, '0000': 76, '1110': 69, '0100': 80}",600,10428.740,N/A,Secret number: 1000
+Bernstein-Vazirani,N/A,"{'110': 83, '111': 78, '101': 91, '000': 103, '011': 80, '010': 79, '001': 90, '100': 96}",700,9816.479,N/A,Secret number: 101
+Bernstein-Vazirani,N/A,"{'000': 175, '110': 174, '001': 178, '111': 173}",700,9931.405,N/A,Secret number: 010
+Bernstein-Vazirani,N/A,"{'100': 75, '001': 102, '011': 97, '010': 86, '000': 72, '110': 98, '101': 78, '111': 92}",700,10629.938,N/A,Secret number: 101
+Bernstein-Vazirani,N/A,"{'001': 189, '000': 209, '111': 211, '110': 191}",800,10769.052,N/A,Secret number: 010
+Bernstein-Vazirani,N/A,"{'000': 193, '110': 204, '111': 209, '001': 194}",800,10018.247,N/A,Secret number: 010
+Bernstein-Vazirani,N/A,"{'100': 202, '000': 227, '111': 199, '011': 172}",800,10992.178,N/A,Secret number: 000
+Bernstein-Vazirani,N/A,"{'001': 220, '111': 272, '000': 199, '110': 209}",900,11169.280,N/A,Secret number: 010
+Bernstein-Vazirani,N/A,"{'110': 107, '111': 102, '000': 105, '010': 118, '011': 114, '001': 128, '101': 116, '100': 110}",900,10169.640,N/A,Secret number: 110
+Bernstein-Vazirani,N/A,"{'000': 246, '011': 221, '111': 232, '100': 201}",900,10351.292,N/A,Secret number: 000
+Bernstein-Vazirani,N/A,"{'110': 114, '001': 118, '000': 115, '101': 136, '010': 127, '111': 136, '011': 125, '100': 129}",1000,9956.304,N/A,Secret number: 110
+Bernstein-Vazirani,N/A,"{'101': 130, '111': 144, '110': 120, '001': 122, '000': 112, '010': 118, '100': 142, '011': 112}",1000,10370.133,N/A,Secret number: 101
+Bernstein-Vazirani,N/A,"{'0000': 135, '0001': 126, '1010': 143, '1111': 134, '0100': 110, '1110': 118, '1011': 122, '0101': 112}",1000,10172.216,N/A,Secret number: 1000
+Bernstein-Vazirani,N/A,"{'11001': 11, '01001': 12, '10000': 11, '11111': 18, '00110': 13, '01111': 9, '10110': 15, '00000': 11}",100,10473.672,N/A,Secret number: 11001
+Bernstein-Vazirani,N/A,"{'10111': 15, '01000': 19, '01011': 9, '10100': 10, '11111': 12, '00011': 11, '11100': 8, '00000': 16}",100,10678.717,N/A,Secret number: 01011
+Bernstein-Vazirani,N/A,"{'01011': 26, '11111': 27, '10100': 27, '00000': 20}",100,10893.760,N/A,Secret number: 11111
+Bernstein-Vazirani,N/A,"{'00000': 17, '00001': 21, '00101': 31, '11111': 29, '00100': 22, '11110': 29, '11010': 20, '11011': 31}",200,10589.406,N/A,Secret number: 01000
+Bernstein-Vazirani,N/A,"{'10100': 52, '11111': 47, '00000': 55, '01011': 46}",200,10080.022,N/A,Secret number: 11110
+Bernstein-Vazirani,N/A,"{'11010': 24, '00100': 31, '11111': 26, '11110': 32, '00001': 30, '00000': 21, '00101': 20, '11011': 16}",200,9165.530,N/A,Secret number: 01000
+Bernstein-Vazirani,N/A,"{'11111': 39, '10000': 43, '01001': 40, '10110': 41, '01111': 33, '00000': 37, '11001': 27, '00110': 40}",300,10709.149,N/A,Secret number: 10110
+Bernstein-Vazirani,N/A,"{'01011': 37, '01111': 39, '11111': 33, '10000': 36, '00000': 31, '00100': 40, '11011': 48, '10100': 36}",300,10706.734,N/A,Secret number: 10100
+Bernstein-Vazirani,N/A,"{'11101': 35, '00010': 39, '01000': 31, '10111': 29, '01010': 35, '00000': 42, '11111': 45, '10101': 44}",300,10104.008,N/A,Secret number: 00001
+Bernstein-Vazirani,N/A,"{'10011': 52, '00000': 46, '01100': 61, '00100': 48, '11011': 45, '11111': 36, '01000': 48, '10111': 64}",400,11018.935,N/A,Secret number: 01100
+Bernstein-Vazirani,N/A,"{'10110': 43, '00000': 44, '01111': 60, '11111': 53, '10000': 53, '00110': 57, '11001': 48, '01001': 42}",400,16232.886,N/A,Secret number: 10110
+Bernstein-Vazirani,N/A,"{'11010': 42, '11111': 53, '11110': 47, '00100': 60, '00001': 43, '11011': 52, '00101': 49, '00000': 54}",400,9937.450,N/A,Secret number: 10000
+Bernstein-Vazirani,N/A,"{'01001': 52, '00000': 68, '11110': 66, '10111': 62, '11111': 82, '01000': 53, '10110': 59, '00001': 58}",500,9699.608,N/A,Secret number: 01001
+Bernstein-Vazirani,N/A,"{'10111': 68, '00011': 55, '01011': 56, '11100': 79, '11111': 73, '00000': 54, '10100': 52, '01000': 63}",500,9811.808,N/A,Secret number: 01011
+Bernstein-Vazirani,N/A,"{'00001': 73, '01111': 73, '10001': 61, '11111': 59, '10000': 56, '11110': 55, '00000': 64, '01110': 59}",500,10908.968,N/A,Secret number: 10001
+Bernstein-Vazirani,N/A,"{'10000': 69, '11010': 58, '01111': 72, '11111': 81, '00000': 81, '01010': 74, '10101': 80, '00101': 85}",600,10266.764,N/A,Secret number: 10101
+Bernstein-Vazirani,N/A,"{'00101': 74, '11110': 69, '11011': 79, '00100': 73, '11010': 73, '00000': 80, '11111': 73, '00001': 79}",600,9606.340,N/A,Secret number: 10000
+Bernstein-Vazirani,N/A,"{'11010': 78, '11111': 71, '00101': 80, '01111': 68, '01010': 60, '10101': 95, '00000': 74, '10000': 74}",600,10751.816,N/A,Secret number: 10101
+Bernstein-Vazirani,N/A,"{'11111': 168, '10100': 175, '01011': 160, '00000': 197}",700,9945.857,N/A,Secret number: 11111
+Bernstein-Vazirani,N/A,"{'01010': 91, '10000': 99, '00101': 64, '01111': 94, '10101': 82, '11111': 101, '11010': 88, '00000': 81}",700,9607.069,N/A,Secret number: 10101
+Bernstein-Vazirani,N/A,"{'00000': 175, '10101': 172, '01010': 177, '11111': 176}",700,10580.584,N/A,Secret number: 01111
+Bernstein-Vazirani,N/A,"{'01000': 94, '11111': 96, '10101': 103, '00000': 105, '11101': 104, '00010': 97, '10111': 98, '01010': 103}",800,10960.997,N/A,Secret number: 01010
+Bernstein-Vazirani,N/A,"{'00001': 110, '00100': 99, '00101': 109, '11110': 89, '11010': 93, '00000': 103, '11111': 103, '11011': 94}",800,9546.942,N/A,Secret number: 01000
+Bernstein-Vazirani,N/A,"{'10000': 100, '01111': 101, '11111': 100, '00001': 94, '01110': 100, '11110': 110, '10001': 96, '00000': 99}",800,10159.917,N/A,Secret number: 10001
+Bernstein-Vazirani,N/A,"{'000000': 126, '111110': 116, '101011': 87, '111111': 101, '010100': 135, '010101': 122, '101010': 98, '000001': 115}",900,10266.493,N/A,Secret number: 100000
+Bernstein-Vazirani,N/A,"{'00001': 115, '11111': 132, '11110': 97, '11100': 110, '11101': 111, '00000': 107, '00011': 131, '00010': 97}",900,9850.138,N/A,Secret number: 00011
+Bernstein-Vazirani,N/A,"{'11100': 117, '00011': 106, '00010': 102, '11110': 116, '00000': 129, '11101': 121, '00001': 109, '11111': 100}",900,10586.122,N/A,Secret number: 00011
+Bernstein-Vazirani,N/A,"{'00000': 141, '00010': 123, '10000': 110, '01101': 138, '11101': 113, '11111': 118, '10010': 130, '01111': 127}",1000,10603.407,N/A,Secret number: 10010
+Bernstein-Vazirani,N/A,"{'11100': 117, '01111': 124, '10000': 121, '00011': 131, '01100': 128, '00000': 141, '10011': 120, '11111': 118}",1000,10259.738,N/A,Secret number: 10011
+Bernstein-Vazirani,N/A,"{'10100': 231, '11111': 255, '00000': 262, '01011': 252}",1000,10190.889,N/A,Secret number: 11110
+Bernstein-Vazirani,N/A,"{'1000000': 9, '0000000': 9, '0001001': 13, '1001001': 18, '1110110': 13, '0111111': 16, '1111111': 11, '0110110': 11}",100,10772.629,N/A,Secret number: 1001001
+Bernstein-Vazirani,N/A,"{'1101011': 16, '0101011': 12, '0010100': 10, '1000000': 12, '1010100': 18, '1111111': 19, '0000000': 7, '0111111': 6}",100,10451.196,N/A,Secret number: 0011110
+Bernstein-Vazirani,N/A,"{'1100100': 12, '1111111': 13, '0000000': 12, '0011111': 14, '1111011': 11, '0011011': 12, '1100000': 15, '0000100': 11}",100,10031.877,N/A,Secret number: 0100100
+Bernstein-Vazirani,N/A,"{'1000110': 29, '1111011': 33, '0111101': 26, '0000100': 32, '1000010': 15, '0000000': 21, '0111001': 21, '1111111': 23}",200,10278.633,N/A,Secret number: 1011011
+Bernstein-Vazirani,N/A,"{'0000000': 27, '1111111': 24, '1000000': 35, '1110101': 30, '0111111': 17, '0110101': 18, '1001010': 27, '0001010': 22}",200,10319.138,N/A,Secret number: 0001111
+Bernstein-Vazirani,N/A,"{'0010101': 22, '0010000': 28, '1101010': 28, '1101111': 31, '1111111': 24, '0000101': 23, '1111010': 20, '0000000': 24}",200,10404.878,N/A,Secret number: 0010101
+Bernstein-Vazirani,N/A,"{'1010010': 36, '0101101': 34, '1111111': 29, '0010010': 39, '1101101': 43, '0111111': 32, '0000000': 38, '1000000': 49}",300,10513.983,N/A,Secret number: 0010111
+Bernstein-Vazirani,N/A,"{'0100001': 41, '0000000': 39, '1111111': 38, '0011110': 29, '0111111': 37, '1011110': 44, '1000000': 35, '1100001': 37}",300,10475.621,N/A,Secret number: 1100001
+Bernstein-Vazirani,N/A,"{'0111111': 31, '1000000': 48, '0000000': 31, '1111111': 36, '0101011': 39, '1101011': 42, '0010100': 37, '1010100': 36}",300,10252.867,N/A,Secret number: 0011110
+Bernstein-Vazirani,N/A,"{'0000000': 43, '0110111': 47, '1111011': 59, '1001000': 57, '1001100': 55, '0110011': 51, '0000100': 48, '1111111': 40}",400,10416.647,N/A,Secret number: 0001100
+Bernstein-Vazirani,N/A,"{'0000100': 54, '1111000': 42, '0000111': 51, '0000000': 42, '1111100': 50, '1111011': 55, '0000011': 55, '1111111': 51}",400,10323.904,N/A,Secret number: 0000111
+Bernstein-Vazirani,N/A,"{'1111111': 40, '0011111': 58, '0000010': 59, '0011101': 42, '0000000': 38, '1111101': 51, '1100000': 59, '1100010': 53}",400,10539.568,N/A,Secret number: 0100010
+Bernstein-Vazirani,N/A,"{'1110011': 60, '0001100': 80, '0001110': 57, '0000000': 64, '0000010': 52, '1111111': 64, '1111101': 66, '1110001': 57}",500,10436.511,N/A,Secret number: 1011101
+Bernstein-Vazirani,N/A,"{'1011101': 57, '0011101': 64, '0111111': 62, '1100010': 73, '0100010': 58, '1111111': 62, '0000000': 66, '1000000': 58}",500,10218.891,N/A,Secret number: 0101011
+Bernstein-Vazirani,N/A,"{'1111111': 59, '0111111': 52, '0100010': 61, '1100010': 79, '0000000': 65, '1011101': 65, '1000000': 58, '0011101': 61}",500,11383.522,N/A,Secret number: 0101011
+Bernstein-Vazirani,N/A,"{'1001110': 76, '0100000': 77, '1101110': 73, '0110001': 66, '1111111': 80, '0010001': 73, '0000000': 90, '1011111': 65}",600,10574.061,N/A,Secret number: 0110001
+Bernstein-Vazirani,N/A,"{'0000101': 77, '1011010': 70, '1011111': 76, '1111010': 90, '0100101': 80, '0000000': 57, '0100000': 89, '1111111': 61}",600,10532.464,N/A,Secret number: 0100101
+Bernstein-Vazirani,N/A,"{'1111100': 75, '0111100': 83, '0000011': 75, '0111111': 57, '0000000': 79, '1000011': 73, '1111111': 83, '1000000': 75}",600,10560.978,N/A,Secret number: 1000011
+Bernstein-Vazirani,N/A,"{'0000000': 94, '0000010': 94, '1001000': 85, '0110111': 89, '1111111': 83, '0110101': 97, '1001010': 72, '1111101': 86}",700,10171.087,N/A,Secret number: 0001010
+Bernstein-Vazirani,N/A,"{'0100010': 76, '0011101': 112, '1000000': 83, '0111111': 78, '0000000': 84, '1111111': 96, '1011101': 91, '1100010': 80}",700,10554.684,N/A,Secret number: 0110011
+Bernstein-Vazirani,N/A,"{'0000000': 93, '0100000': 84, '0100011': 96, '1111111': 102, '0000011': 85, '1111100': 70, '1011111': 93, '1011100': 77}",700,10360.024,N/A,Secret number: 0100011
+Bernstein-Vazirani,N/A,"{'0000010': 94, '1111111': 99, '0000000': 100, '1100111': 99, '0011010': 88, '0011000': 106, '1100101': 111, '1111101': 103}",800,12005.466,N/A,Secret number: 0111101
+Bernstein-Vazirani,N/A,"{'1100010': 108, '1000010': 94, '1011111': 104, '0111101': 102, '0011101': 91, '0000000': 92, '0100000': 107, '1111111': 102}",800,10804.176,N/A,Secret number: 1001011
+Bernstein-Vazirani,N/A,"{'1010111': 191, '0000000': 194, '1111111': 202, '0101000': 213}",800,10658.404,N/A,Secret number: 0111111
+Bernstein-Vazirani,N/A,"{'0111111': 115, '0010100': 102, '1000000': 97, '1010100': 106, '0101011': 130, '0000000': 101, '1111111': 126, '1101011': 123}",900,11096.069,N/A,Secret number: 0011110
+Bernstein-Vazirani,N/A,"{'0000000': 217, '1010000': 222, '1111111': 240, '0101111': 221}",900,10893.709,N/A,Secret number: 1111011
+Bernstein-Vazirani,N/A,"{'1111111': 119, '1000000': 102, '0000000': 111, '1111010': 104, '0000101': 115, '0111010': 109, '1000101': 114, '0111111': 126}",900,10701.829,N/A,Secret number: 1000101
+Bernstein-Vazirani,N/A,"{'0001010': 129, '0101010': 127, '1011111': 114, '1110101': 132, '1111111': 145, '1010101': 122, '0000000': 126, '0100000': 105}",1000,10386.642,N/A,Secret number: 0101010
+Bernstein-Vazirani,N/A,"{'1001110': 124, '0100000': 128, '1011111': 132, '1111111': 120, '0010001': 120, '0110001': 143, '1101110': 113, '0000000': 120}",1000,10910.614,N/A,Secret number: 0110001
+Bernstein-Vazirani,N/A,"{'0100100': 131, '1100100': 121, '1000000': 125, '0111111': 142, '1111111': 115, '1011011': 129, '0000000': 117, '0011011': 120}",1000,10134.109,N/A,Secret number: 0101110
+Grover's Algorithm,N/A,"{'11': 55, '00': 45}",100,10316.444,N/A,"Iterations: 1, Target string: 11"
+Grover's Algorithm,N/A,"{'11': 45, '00': 55}",100,9639.712,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'00': 46, '11': 54}",100,10147.452,N/A,"Iterations: 1, Target string: 10"
+Grover's Algorithm,N/A,"{'11': 99, '00': 101}",200,10798.977,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'00': 100, '11': 100}",200,10121.054,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'11': 91, '00': 109}",200,10550.573,N/A,"Iterations: 1, Target string: 10"
+Grover's Algorithm,N/A,"{'11': 122, '00': 178}",300,9942.556,N/A,"Iterations: 1, Target string: 10"
+Grover's Algorithm,N/A,"{'00': 147, '11': 153}",300,11431.029,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'11': 155, '00': 145}",300,10359.537,N/A,"Iterations: 1, Target string: 01"
+Grover's Algorithm,N/A,"{'11': 199, '00': 201}",400,10507.779,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'11': 195, '00': 205}",400,10276.661,N/A,"Iterations: 1, Target string: 10"
+Grover's Algorithm,N/A,"{'11': 211, '00': 189}",400,10498.647,N/A,"Iterations: 1, Target string: 01"
+Grover's Algorithm,N/A,"{'11': 262, '00': 238}",500,9573.818,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'11': 265, '00': 235}",500,10193.623,N/A,"Iterations: 1, Target string: 10"
+Grover's Algorithm,N/A,"{'00': 265, '11': 235}",500,9679.551,N/A,"Iterations: 1, Target string: 01"
+Grover's Algorithm,N/A,"{'00': 317, '11': 283}",600,10306.769,N/A,"Iterations: 1, Target string: 10"
+Grover's Algorithm,N/A,"{'00': 311, '11': 289}",600,10304.192,N/A,"Iterations: 1, Target string: 11"
+Grover's Algorithm,N/A,"{'11': 293, '00': 307}",600,10820.778,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'00': 325, '11': 375}",700,9585.135,N/A,"Iterations: 1, Target string: 10"
+Grover's Algorithm,N/A,"{'11': 327, '00': 373}",700,9184.415,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'00': 333, '11': 367}",700,10432.526,N/A,"Iterations: 1, Target string: 11"
+Grover's Algorithm,N/A,"{'11': 412, '00': 388}",800,9682.223,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'11': 393, '00': 407}",800,10360.404,N/A,"Iterations: 1, Target string: 11"
+Grover's Algorithm,N/A,"{'11': 378, '00': 422}",800,10169.386,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'00': 429, '11': 471}",900,10906.934,N/A,"Iterations: 1, Target string: 11"
+Grover's Algorithm,N/A,"{'00': 449, '11': 451}",900,10036.006,N/A,"Iterations: 1, Target string: 01"
+Grover's Algorithm,N/A,"{'00': 436, '11': 464}",900,10535.392,N/A,"Iterations: 1, Target string: 01"
+Grover's Algorithm,N/A,"{'11': 504, '00': 496}",1000,10606.230,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'00': 500, '11': 500}",1000,9904.653,N/A,"Iterations: 1, Target string: 00"
+Grover's Algorithm,N/A,"{'00': 505, '11': 495}",1000,10674.143,N/A,"Iterations: 1, Target string: 01"
+Grover's Algorithm,N/A,"{'0000': 23, '1111': 25, '1100': 30, '0011': 22}",100,10868.376,N/A,"Iterations: 1, Target string: 1110"
+Grover's Algorithm,N/A,"{'1111': 27, '0000': 28, '1011': 21, '0100': 24}",100,10059.919,N/A,"Iterations: 1, Target string: 0111"
+Grover's Algorithm,N/A,"{'1010': 29, '0000': 25, '1111': 22, '0101': 24}",100,10553.817,N/A,"Iterations: 1, Target string: 1001"
+Grover's Algorithm,N/A,"{'1001': 53, '0110': 57, '1111': 49, '0000': 41}",200,10568.496,N/A,"Iterations: 1, Target string: 0111"
+Grover's Algorithm,N/A,"{'0101': 47, '0000': 51, '1010': 48, '1111': 54}",200,10007.049,N/A,"Iterations: 1, Target string: 1000"
+Grover's Algorithm,N/A,"{'1100': 47, '0011': 54, '0000': 49, '1111': 50}",200,10734.438,N/A,"Iterations: 1, Target string: 1001"
+Grover's Algorithm,N/A,"{'0000': 78, '1011': 78, '1111': 77, '0100': 67}",300,10072.730,N/A,"Iterations: 1, Target string: 1001"
+Grover's Algorithm,N/A,"{'0011': 73, '1111': 91, '0000': 67, '1100': 69}",300,10824.509,N/A,"Iterations: 1, Target string: 1100"
+Grover's Algorithm,N/A,"{'0000': 74, '1010': 83, '1111': 67, '0101': 76}",300,10057.052,N/A,"Iterations: 1, Target string: 1000"
+Grover's Algorithm,N/A,"{'0001': 119, '0000': 105, '1111': 85, '1110': 91}",400,9879.787,N/A,"Iterations: 1, Target string: 0100"
+Grover's Algorithm,N/A,"{'1111': 98, '0000': 101, '1010': 111, '0101': 90}",400,12136.381,N/A,"Iterations: 1, Target string: 0111"
+Grover's Algorithm,N/A,"{'1010': 96, '1111': 95, '0000': 108, '0101': 101}",400,10495.412,N/A,"Iterations: 1, Target string: 0101"
+Grover's Algorithm,N/A,"{'0000': 113, '1111': 136, '0100': 136, '1011': 115}",500,10706.017,N/A,"Iterations: 1, Target string: 0000"
+Grover's Algorithm,N/A,"{'1111': 110, '1010': 138, '0000': 116, '0101': 136}",500,10486.222,N/A,"Iterations: 1, Target string: 1000"
+Grover's Algorithm,N/A,"{'0000': 129, '1010': 127, '1111': 122, '0101': 122}",500,10536.254,N/A,"Iterations: 1, Target string: 0100"
+Grover's Algorithm,N/A,"{'1111': 166, '0000': 135, '0100': 147, '1011': 152}",600,10001.879,N/A,"Iterations: 1, Target string: 1110"
+Grover's Algorithm,N/A,"{'0000': 135, '1010': 178, '0101': 135, '1111': 152}",600,10824.237,N/A,"Iterations: 1, Target string: 0010"
+Grover's Algorithm,N/A,"{'1111': 164, '0000': 141, '0001': 143, '1110': 152}",600,16264.597,N/A,"Iterations: 1, Target string: 0101"
+Grover's Algorithm,N/A,"{'0110': 176, '0000': 174, '1001': 169, '1111': 181}",700,10424.678,N/A,"Iterations: 1, Target string: 1011"
+Grover's Algorithm,N/A,"{'0000': 156, '1010': 201, '0101': 178, '1111': 165}",700,10423.981,N/A,"Iterations: 1, Target string: 1110"
+Grover's Algorithm,N/A,"{'1100': 168, '0000': 180, '1111': 166, '0011': 186}",700,10236.530,N/A,"Iterations: 1, Target string: 1010"
+Grover's Algorithm,N/A,"{'1111': 193, '1011': 189, '0000': 206, '0100': 212}",800,9920.753,N/A,"Iterations: 1, Target string: 0111"
+Grover's Algorithm,N/A,"{'1111': 201, '0000': 215, '0101': 191, '1010': 193}",800,10124.943,N/A,"Iterations: 1, Target string: 1111"
+Grover's Algorithm,N/A,"{'1111': 196, '0000': 201, '1100': 204, '0011': 199}",800,10662.842,N/A,"Iterations: 1, Target string: 1100"
+Grover's Algorithm,N/A,"{'1111': 238, '1010': 225, '0000': 229, '0101': 208}",900,10554.934,N/A,"Iterations: 1, Target string: 0100"
+Grover's Algorithm,N/A,"{'0000': 204, '1111': 240, '0110': 197, '1001': 259}",900,10656.275,N/A,"Iterations: 1, Target string: 0001"
+Grover's Algorithm,N/A,"{'0110': 216, '1001': 220, '0000': 230, '1111': 234}",900,10253.956,N/A,"Iterations: 1, Target string: 0001"
+Grover's Algorithm,N/A,"{'0101': 253, '1111': 255, '1010': 243, '0000': 249}",1000,10110.712,N/A,"Iterations: 1, Target string: 1010"
+Grover's Algorithm,N/A,"{'1111': 249, '0000': 254, '0101': 248, '1010': 249}",1000,10824.487,N/A,"Iterations: 1, Target string: 0100"
+Grover's Algorithm,N/A,"{'1111': 238, '1110': 252, '0001': 256, '0000': 254}",1000,10167.341,N/A,"Iterations: 1, Target string: 1010"
+Grover's Algorithm,N/A,"{'001101': 25, '110010': 23, '000000': 27, '111111': 25}",100,11252.445,N/A,"Iterations: 1, Target string: 101001"
+Grover's Algorithm,N/A,"{'000000': 25, '000111': 27, '111111': 25, '111000': 23}",100,11899.291,N/A,"Iterations: 1, Target string: 001001"
+Grover's Algorithm,N/A,"{'111111': 30, '110010': 22, '001101': 23, '000000': 25}",100,12824.208,N/A,"Iterations: 1, Target string: 101111"
+Grover's Algorithm,N/A,"{'000000': 20, '010000': 25, '100100': 22, '111111': 35, '001011': 27, '011011': 24, '110100': 22, '101111': 25}",200,11298.249,N/A,"Iterations: 1, Target string: 101111"
+Grover's Algorithm,N/A,"{'000000': 53, '001100': 47, '110011': 53, '111111': 47}",200,10260.362,N/A,"Iterations: 1, Target string: 101010"
+Grover's Algorithm,N/A,"{'011111': 22, '001100': 29, '010011': 19, '101100': 28, '110011': 26, '100000': 27, '111111': 22, '000000': 27}",200,10986.693,N/A,"Iterations: 1, Target string: 101011"
+Grover's Algorithm,N/A,"{'010010': 77, '101101': 77, '111111': 73, '000000': 73}",300,11447.712,N/A,"Iterations: 1, Target string: 101101"
+Grover's Algorithm,N/A,"{'111110': 34, '111111': 40, '010101': 38, '000000': 33, '101010': 40, '010100': 36, '101011': 36, '000001': 43}",300,10802.121,N/A,"Iterations: 1, Target string: 010100"
+Grover's Algorithm,N/A,"{'000000': 67, '010100': 82, '101011': 78, '111111': 73}",300,11214.617,N/A,"Iterations: 1, Target string: 110101"
+Grover's Algorithm,N/A,"{'110100': 112, '111111': 96, '000000': 94, '001011': 98}",400,11812.021,N/A,"Iterations: 1, Target string: 011100"
+Grover's Algorithm,N/A,"{'011010': 89, '100101': 94, '000000': 104, '111111': 113}",400,11655.038,N/A,"Iterations: 1, Target string: 101110"
+Grover's Algorithm,N/A,"{'000000': 88, '001011': 113, '110100': 96, '111111': 103}",400,11545.718,N/A,"Iterations: 1, Target string: 011010"
+Grover's Algorithm,N/A,"{'110100': 60, '110111': 61, '111100': 52, '000011': 68, '001011': 69, '000000': 69, '001000': 50, '111111': 71}",500,11326.338,N/A,"Iterations: 1, Target string: 001110"
+Grover's Algorithm,N/A,"{'001000': 99, '111111': 129, '000000': 137, '110111': 135}",500,11643.056,N/A,"Iterations: 1, Target string: 000011"
+Grover's Algorithm,N/A,"{'100000': 66, '101110': 54, '010001': 69, '000000': 61, '111111': 60, '110001': 61, '011111': 59, '001110': 70}",500,11154.477,N/A,"Iterations: 1, Target string: 101100"
+Grover's Algorithm,N/A,"{'111111': 81, '000111': 77, '101111': 61, '101000': 96, '111000': 74, '000000': 70, '010111': 69, '010000': 72}",600,11662.858,N/A,"Iterations: 1, Target string: 101010"
+Grover's Algorithm,N/A,"{'111111': 162, '010011': 147, '000000': 140, '101100': 151}",600,11261.567,N/A,"Iterations: 1, Target string: 100011"
+Grover's Algorithm,N/A,"{'111111': 142, '010110': 152, '101001': 166, '000000': 140}",600,11822.349,N/A,"Iterations: 1, Target string: 110010"
+Grover's Algorithm,N/A,"{'111111': 101, '000000': 88, '000001': 74, '111011': 103, '000101': 72, '111110': 86, '000100': 92, '111010': 84}",700,11161.197,N/A,"Iterations: 1, Target string: 100100"
+Grover's Algorithm,N/A,"{'000000': 167, '011000': 175, '100111': 190, '111111': 168}",700,11986.463,N/A,"Iterations: 1, Target string: 111101"
+Grover's Algorithm,N/A,"{'011101': 186, '100010': 162, '000000': 174, '111111': 178}",700,11159.787,N/A,"Iterations: 1, Target string: 111010"
+Grover's Algorithm,N/A,"{'100110': 189, '000000': 203, '011001': 204, '111111': 204}",800,11462.398,N/A,"Iterations: 1, Target string: 101100"
+Grover's Algorithm,N/A,"{'100101': 188, '011010': 233, '111111': 197, '000000': 182}",800,12968.287,N/A,"Iterations: 1, Target string: 100111"
+Grover's Algorithm,N/A,"{'000000': 193, '001110': 235, '111111': 227, '110001': 245}",900,11810.515,N/A,"Iterations: 1, Target string: 110110"
+Grover's Algorithm,N/A,"{'000000': 122, '110000': 102, '001101': 130, '001111': 125, '000010': 94, '111111': 121, '111101': 93, '110010': 113}",900,11969.126,N/A,"Iterations: 1, Target string: 110011"
+Grover's Algorithm,N/A,"{'100110': 242, '011001': 216, '111111': 214, '000000': 228}",900,13178.372,N/A,"Iterations: 1, Target string: 111111"
+Grover's Algorithm,N/A,"{'111111': 259, '000000': 249, '101010': 247, '010101': 245}",1000,11165.537,N/A,"Iterations: 1, Target string: 101001"
+Grover's Algorithm,N/A,"{'100011': 262, '011100': 280, '000000': 216, '111111': 242}",1000,12405.498,N/A,"Iterations: 1, Target string: 000000"
+Grover's Algorithm,N/A,"{'001111': 125, '000000': 121, '111101': 129, '111111': 129, '110010': 126, '110000': 128, '000010': 121, '001101': 121}",1000,12422.310,N/A,"Iterations: 1, Target string: 000101"
+Grover's Algorithm,N/A,"{'01010001': 12, '10101110': 13, '11111111': 15, '10001110': 18, '00000000': 14, '00100000': 12, '01110001': 11, '11011111': 5}",100,242768.189,N/A,"Iterations: 1, Target string: 10111001"
+Grover's Algorithm,N/A,"{'10001000': 7, '10101001': 15, '00100001': 11, '00000000': 11, '01010110': 14, '11011110': 11, '01110111': 16, '11111111': 15}",100,12515.804,N/A,"Iterations: 1, Target string: 11010011"
+Grover's Algorithm,N/A,"{'00010000': 16, '11111111': 13, '00100011': 14, '11101111': 10, '00110011': 19, '00000000': 11, '11001100': 7, '11011100': 10}",100,13449.144,N/A,"Iterations: 1, Target string: 11001100"
+Grover's Algorithm,N/A,"{'11111111': 22, '11011111': 28, '11011100': 15, '00000000': 29, '00100000': 29, '00000011': 22, '00100011': 27, '11111100': 28}",200,15464.411,N/A,"Iterations: 1, Target string: 01110111"
+Grover's Algorithm,N/A,"{'00100111': 24, '01001000': 35, '11111111': 25, '00000000': 26, '01101111': 25, '10010000': 20, '11011000': 21, '10110111': 24}",200,14131.046,N/A,"Iterations: 1, Target string: 01000111"
+Grover's Algorithm,N/A,"{'00000000': 87, '00100011': 67, '11011100': 74, '11111111': 72}",300,13659.987,N/A,"Iterations: 1, Target string: 11011001"
+Grover's Algorithm,N/A,"{'01110010': 43, '10001101': 30, '00000000': 49, '11111111': 42, '10000000': 36, '01111111': 36, '11110010': 37, '00001101': 27}",300,15034.572,N/A,"Iterations: 1, Target string: 10110100"
+Grover's Algorithm,N/A,"{'00000000': 93, '01111100': 112, '11111111': 95, '10000011': 100}",400,366882.558,N/A,"Iterations: 1, Target string: 11111011"
+Grover's Algorithm,N/A,"{'11111111': 53, '00000000': 50, '11001110': 51, '00110001': 51, '00001110': 43, '11110001': 47, '00111111': 53, '11000000': 52}",400,12809.851,N/A,"Iterations: 1, Target string: 00100100"
+Grover's Algorithm,N/A,"{'11011101': 57, '01110111': 41, '01010101': 47, '00100010': 40, '11111111': 55, '10101010': 51, '10001000': 59, '00000000': 50}",400,14186.226,N/A,"Iterations: 1, Target string: 00100100"
+Grover's Algorithm,N/A,"{'11011101': 65, '00100010': 65, '01111011': 64, '01011001': 68, '10000100': 54, '00000000': 68, '10100110': 62, '11111111': 54}",500,15811.277,N/A,"Iterations: 1, Target string: 11000011"
+Grover's Algorithm,N/A,"{'01101010': 58, '01111011': 48, '00010001': 69, '10010101': 64, '00000000': 58, '10000100': 80, '11101110': 59, '11111111': 64}",500,913107.279,N/A,"Iterations: 1, Target string: 10001110"
+Grover's Algorithm,N/A,"{'00000000': 78, '11101001': 89, '11111110': 87, '11111111': 65, '00010110': 65, '11101000': 64, '00000001': 69, '00010111': 83}",600,13743.034,N/A,"Iterations: 1, Target string: 00000100"
+Grover's Algorithm,N/A,"{'01110110': 75, '10001001': 78, '00010100': 79, '11111111': 82, '11101011': 72, '10011101': 76, '00000000': 59, '01100010': 79}",600,14101.537,N/A,"Iterations: 1, Target string: 01010000"
+Grover's Algorithm,N/A,"{'00100100': 85, '00000000': 83, '10100101': 94, '01011010': 84, '11011011': 103, '01111110': 96, '10000001': 81, '11111111': 74}",700,13760.225,N/A,"Iterations: 1, Target string: 00100110"
+Grover's Algorithm,N/A,"{'10111101': 93, '11001010': 78, '00110101': 98, '00000000': 109, '01110111': 94, '10001000': 71, '01000010': 89, '11111111': 68}",700,14239.384,N/A,"Iterations: 1, Target string: 10100000"
+Grover's Algorithm,N/A,"{'00001000': 96, '10011111': 115, '11111111': 74, '00000000': 97, '01101000': 100, '11110111': 98, '10010111': 108, '01100000': 112}",800,913375.943,N/A,"Iterations: 1, Target string: 10101110"
+Grover's Algorithm,N/A,"{'01100111': 185, '11111111': 193, '10011000': 217, '00000000': 205}",800,14435.754,N/A,"Iterations: 1, Target string: 00101000"
+Grover's Algorithm,N/A,"{'00010001': 104, '11111111': 108, '11101110': 102, '01111001': 106, '01101000': 86, '10010111': 104, '00000000': 79, '10000110': 111}",800,14990.703,N/A,"Iterations: 1, Target string: 10101010"
+Grover's Algorithm,N/A,"{'00000000': 107, '00010110': 115, '11111111': 114, '00110110': 116, '00100000': 102, '11011111': 115, '11101001': 107, '11001001': 124}",900,12387.233,N/A,"Iterations: 1, Target string: 11111001"
+Grover's Algorithm,N/A,"{'01010010': 124, '00000010': 103, '00000000': 104, '11111101': 107, '10101111': 107, '10101101': 103, '01010000': 122, '11111111': 130}",900,14576.991,N/A,"Iterations: 1, Target string: 00011101"
+Grover's Algorithm,N/A,"{'10010010': 202, '00000000': 253, '11111111': 213, '01101101': 232}",900,68371.380,N/A,"Iterations: 1, Target string: 01110001"
+Grover's Algorithm,N/A,"{'00000000': 125, '11111111': 113, '11001111': 117, '00111000': 127, '00001000': 146, '11000111': 115, '00110000': 137, '11110111': 120}",1000,14134.499,N/A,"Iterations: 1, Target string: 10000011"
+Grover's Algorithm,N/A,"{'00000000': 237, '00110110': 234, '11111111': 275, '11001001': 254}",1000,13970.656,N/A,"Iterations: 1, Target string: 11000111"
+Quantum Phase Estimation,N/A,"{'0': 49, '1': 51}",100,11072.350,N/A,Phase to estimate: 0.4720180843034661
+Quantum Phase Estimation,N/A,"{'1': 51, '0': 49}",100,10344.116,N/A,Phase to estimate: 4.037977325461795
+Quantum Phase Estimation,N/A,"{'0': 50, '1': 50}",100,10356.476,N/A,Phase to estimate: 1.5786273350981288
+Quantum Phase Estimation,N/A,"{'0': 110, '1': 90}",200,9988.055,N/A,Phase to estimate: 1.9888857440712695
+Quantum Phase Estimation,N/A,"{'1': 97, '0': 103}",200,1129654.423,N/A,Phase to estimate: 1.0823054732016018
+Quantum Phase Estimation,N/A,"{'0': 89, '1': 111}",200,11388.873,N/A,Phase to estimate: 0.6607660150984939
+Quantum Phase Estimation,N/A,"{'0': 144, '1': 156}",300,10900.206,N/A,Phase to estimate: 0.6670969254011515
+Quantum Phase Estimation,N/A,"{'1': 159, '0': 141}",300,9855.751,N/A,Phase to estimate: 3.373305717783846
+Quantum Phase Estimation,N/A,"{'1': 178, '0': 222}",400,11856.212,N/A,Phase to estimate: 4.02025179406054
+Quantum Phase Estimation,N/A,"{'0': 201, '1': 199}",400,11122.867,N/A,Phase to estimate: 0.48548572654055827
+Quantum Phase Estimation,N/A,"{'0': 255, '1': 245}",500,11579.444,N/A,Phase to estimate: 5.013822798903472
+Quantum Phase Estimation,N/A,"{'0': 256, '1': 244}",500,10705.437,N/A,Phase to estimate: 1.6626940081224777
+Quantum Phase Estimation,N/A,"{'0': 307, '1': 293}",600,9996.324,N/A,Phase to estimate: 5.365115706439052
+
+Time ended: 2025-07-22 09:07:17.255803
+Time difference: 11 hours; 10 minutes; 42.924616 seconds

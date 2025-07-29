@@ -1,14 +1,11 @@
-import datetime, time
+import datetime, time, os, pandas as pd
 from typing import Optional, Tuple
-from Problems.ProblemBase import ProblemBase
+from .problems.ProblemBase import ProblemBase
 from qiskit_ibm_runtime import QiskitRuntimeService, Sampler, fake_provider
 from iqm.qiskit_iqm.iqm_provider import IQMBackend
 from iqm.iqm_client import IQMClient
 from qiskit.providers.backend import BackendV2
-from pytket.extensions.quantinuum import QuantinuumBackend
-import os, pandas as pd
-
-from pytket.extensions.quantinuum import QuantinuumAPI;
+from pytket.extensions.quantinuum import QuantinuumAPI, QuantinuumBackend
 from pytket.extensions.quantinuum.backends.credential_storage import MemoryCredentialStorage
 
 class ProblemRunner(): 
