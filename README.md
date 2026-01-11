@@ -1,99 +1,58 @@
-# QMAP (outdated - will update soon)
+# QMAP Suite Setup Guide
 
-**QMAP** (acronym) allows users to test small-scale quantum computing tasks and evaluate their effectiveness across different backends.
 
-## Usage
+## 1. Set Up Virtual Environment
 
-After downloading the project, you can run it using the `Test.py` files. Make sure to configure the appropriate backend setup.
+Ensure that you have the [uv](https://docs.astral.sh/uv/) Python package manager installed on your device.
 
-### IQM
+In the root directory of this project, run `uv sync`. This will install all of the packages needed for the project. 
+You shouldn't need to change anything. This package manager is really good about ensuring portability to different OS.
 
-```python
-PR.runProblemSet(*PR.setUpIQM("BACKEND_NAME", "TOKEN"))
+Start virtual environment by running `source .venv/bin/activate`. Environment is called `qmap`. You should see something like the following in your terminal if it activated correctly:
+```bash
+(qmap) path/to/QMAP $ 
 ```
 
-> Use your token from the **IQM Resonance** platform.
+## 2. Set Up API tokens for Quantum Platforms
 
-### IBM
+Create the file `tokens.env` and place this in QMAP's root directory (e.g. `$PATH/TO/QMAP/tokens.env`).
 
-```python
-PR.runProblemSet(*PR.setUpIBM("BACKEND_NAME", "TOKEN"))
+Here are some fields to put inside the tokens. Adjust as needed.
+
+```bash
+IBM_TOKEN="ibm_token"
+IBM_INSTANCE="instance_name"
+
+IQM_TOKEN="iqm_token"
+
+QUANTINUUM_TOKEN="quantinuum_token"
 ```
 
-> Use your token from **IBM Quantum**, *not* the IBM Cloud platform.  
-> The code currently uses the `ibm_quantum` channel.
+## 3. Verify Tokens Work
 
-### Quantinuum
+Run the following commands in your terminal to verify that your tokens work. If you do not have certain vendors in this
+list, please skip them.
+* For IBM, the token & instance will be read from `IBM_TOKEN` & `IBM_INSTANCE` environment variables in `tokens.env`.
+* For Quantinuum, there is no token, but you will be prompted to enter your email and password to log in.
+* For IQM, the token will automatically be read from environment variable `IQM_TOKEN` in `tokens.env`, so nothing no code needs to be included. 
 
-```python
-PR.runProblemSet(*PR.setUpQuantinuum("BACKEND_NAME"))
+```zsh
+# IBM Token
+python -c "from qiskit_ibm_runtime import QiskitRuntimeService; from dotenv import load_dotenv; import os; \
+load_dotenv('tokens.env'); \
+service = QiskitRuntimeService(channel='ibm_cloud', token=os.environ['IBM_TOKEN'], instance=os.environ['IBM_INSTANCE']); \
+print(service.usage())"
+
+# Quantinuum Authentication
+python -c "import qnexus as qnx; qnx.login_with_credentials(); qnx.devices.get_all().df()"
 ```
 
-> Quantinuum requires the user to login via the terminal each time you run the code
+## 4. Run Light Benchmark
+To verify that the benchmark will work on all platforms, first make any configurations to the `config.yml` in the project's root path. Adjust so that you run a very small experiment just to verify that everything is working as it should with the login credentials. 
+> **NOTE:** Currently this will only run 1 experiment at a time on a specific vendor's machine.  
 
-## Other Backends
+Next, run `uv run python -m src.tests.lightTest` from the root path of the project to execute the lightweight benchmark that performs Random Number Generation, Quantum Fourier Transform, Bernstein-Vazirani, Grover's, & Quantum Phase Estimation as the experiments. 
 
-You can use any compatible backend. Initialize your backend and pass it in manually:
+> **TODO:** Add GHZ benchmark class to the list of programs and add to all the tests.
 
-```python
-PR.runProblemSet(backend, sampler, name, backendType)
-```
-
-Ensure the backend is of type `BackendV2` (from `qiskit.providers.backend`).
-
-You can get a sampler using:
-
-```python
-ProblemRunner.setUpSampler(backend)
-```
-
-> Currently, supported backendType should be "IQM", "IBM", or "Quantinuum".  
-
-## Adding Your Own Backends
-
-You can extend the backend support by modifying `problemRunner.py`.
-
-### Adding IQM Backends
-
-In the `__init__` function, locate the `IQMdict`:
-
-```python
-self.IQMdict = {
-    "garnet": "https://cocos.resonance.meetiqm.com/garnet",
-    ...
-}
-```
-
-Add your backend by specifying a name and its URL.
-
-### Adding IBM Backends
-
-In the `setUpIBM` function, locate the IBM backend dictionary:
-
-```python
-if not hasattr(self, 'IBMDict'):
-            self.IBMDict = {
-                "leastBusy" : IBMservice.least_busy(operational=True),...
-```
-Add your backend using:
-
-```python
-"backendNickname" : IBMservice.backend("ibm_<BACKENDNAME>")
-```
-
-> ⚠️ **Important:** You must add backends *before* calling `setUpIBM`, as `IBMService` requires a valid user token at initialization.
-
-### Adding IQM Backends
-
-In the `__init__` function, locate the `QuantinuumDict`:
-
-```python
-self.QuantinuumDict = {
-            "H1-1E" : 'H1-1E', 
-            "H1-1SC" : 'H1-1SC',
-            ...
-```
-
-Add your backend by specifying a name the name, and the name again. The items before the colon are the input names, so you can use whatever you like, but the item after *must* match the name of the quantinuum backend.
-
-> You can see a list of available backends using ```QuantinuumBackend.available_devices()```
+> To see list of backends for Quantinuum, check this out in your [Nexus](https://nexus.quantinuum.com/backends).
