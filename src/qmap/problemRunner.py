@@ -1,12 +1,17 @@
 import datetime, time, os, pandas as pd
 from typing import Optional, Tuple
 from .problems.ProblemBase import ProblemBase
-from qiskit_ibm_runtime import QiskitRuntimeService, Sampler, fake_provider
-from iqm.qiskit_iqm.iqm_provider import IQMBackend
+
+# IQM Modules
 from iqm.iqm_client import IQMClient
+from iqm.qiskit_iqm import IQMBackend
+
+# IBM Modules
 from qiskit.providers.backend import BackendV2
-from pytket.extensions.quantinuum import QuantinuumAPI, QuantinuumBackend
-from pytket.extensions.quantinuum.backends.credential_storage import MemoryCredentialStorage
+from qiskit_ibm_runtime import QiskitRuntimeService, Sampler, fake_provider
+
+# Quantinuum Modules
+import qnexus as qnx
 
 class ProblemRunner(): 
     """Class that runs QMAP Problems
@@ -31,6 +36,7 @@ class ProblemRunner():
             None
 
         """
+        print(f"RUN PROBLEM SET ===> {backend, sampler, name, backendType}")
 
         backendTypeList = ["IQM", "IBM", "Quantinuum"]
 
@@ -38,7 +44,24 @@ class ProblemRunner():
             raise ValueError("BackendType not usable.")
 
         if backendType == "Quantinuum":
-            maxQubits = backend.backend_info.n_nodes
+            qnx.login() # Authenticate with Nexus
+
+            # Get or create project to store jobs 
+            project = qnx.projects.get_or_create(name="QMAP")
+
+            # Set project as active for current session
+            qnx.context.set_active_project(project)
+            
+            # Map standard devices to qubits
+            device_name = backend.device_name
+            if "H2" in device_name:
+                maxQubits = 32
+            elif "H1" in device_name:
+                maxQubits = 20
+            else:
+                # Fallback number of qubits 
+                maxQubits = 20
+                print(f"Warning: Qubit count for {device_name} unknown. Defaulting to 20 qubits.")
         else:
             maxQubits = backend.num_qubits
 
@@ -215,14 +238,14 @@ class ProblemRunner():
         if (isinstance(backend, BackendV2)):
             return Sampler(mode = backend)
         
-        elif(isinstance(backend, QuantinuumBackend)):
+        elif(isinstance(backend, qnx.QuantinuumConfig)):
             #unused, so dummy info used here
             return Sampler(mode = fake_provider.FakeAlgiers())
 
         else:
             raise TypeError(f"Expected backend of type {BackendV2}, but got {type(backend).__name__}")
 
-    def setUpIQM(self, backendName, token) -> Tuple[BackendV2, Sampler, str, str]:
+    def setUpIQM(self, backendName) -> Tuple[BackendV2, Sampler, str, str]:
         """
         Sets up an IQM backend
 
@@ -237,28 +260,16 @@ class ProblemRunner():
             - backendName (str): The name of the backend.
             - backendType (string): Which company backend you are using.
         """
-        self.IQMdict = {
-            "garnet" : 'https://cocos.resonance.meetiqm.com/garnet',
-            "garnet_mock" : 'https://cocos.resonance.meetiqm.com/garnet:mock', 
-            "sirius" : 'https://cocos.resonance.meetiqm.com/sirius',
-            "sirius_mock" : 'https://cocos.resonance.meetiqm.com/sirius:mock',
-            "emerald": "https://cocos.resonance.meetiqm.com/emerald",
-            "emerald_mock": "https://cocos.resonance.meetiqm.com/emerald:mock"
-        }
-
+        # Set up IQM Backend
         try:
-            backendURL = self.IQMdict[backendName]
-        except KeyError:
-            raise ValueError(f"Backend '{backendName}' does not exist in available QMAP backends dictionary")
+            client = IQMClient("https://resonance.meetiqm.com/", quantum_computer=backendName)
+            backend = IQMBackend(client)
 
-        try:
-            # backend = provider.get_backend()
-            os.environ.pop('IQM_TOKEN', None)
-            backend = IQMBackend(IQMClient(backendURL, token=token))
             print(f"{' ':4}Successfully retrieved backend: {backendName}")
         except Exception as e:
             raise RuntimeError(f"Failed to retrieve backend: {str(e)}")
 
+        # Set up IQM Sampler
         try:
             sampler = Sampler(mode=backend)
             print(f"{' ':4}Successfully retrieved sampler!")
@@ -267,7 +278,7 @@ class ProblemRunner():
             
         return backend, sampler, backendName, "IQM"
     
-    def setUpIBM(self, backendName, token, instance) -> Tuple[BackendV2, Sampler, str, str]:
+    def setUpIBM(self, backendName) -> Tuple[BackendV2, Sampler, str, str]:
         """
         Sets up an IBM backend
 
@@ -283,31 +294,19 @@ class ProblemRunner():
             - backendType (string): Which company backend you are using.
         """
 
-        if token:
-            try:
-                IBMservice = QiskitRuntimeService(token = token, channel= 'ibm_quantum_platform', instance = instance)
-            except Exception as e:
-                raise RuntimeError(f"Failed to initialize IBM backends: {e}")
-        else:
-            raise ValueError("No token provided")
-        
-        self.IBMDict = {
-            "leastBusy" : IBMservice.least_busy(operational=True),
-            "ibm_brisbane" : IBMservice.backend("ibm_brisbane"),
-            "brisbane_fake" : fake_provider.FakeBrisbane(),
-            "ibm_fez" : IBMservice.backend("ibm_fez"),
-            "ibm_kingston" : IBMservice.backend("ibm_kingston"),
-            "ibm_aachen" : IBMservice.backend("ibm_aachen")
-        }
-            
         try:
-            backend = self.IBMDict[backendName]
-        except KeyError:
-            raise ValueError(f"Backend '{backendName}' does not exist in available backends")
-
+            service = QiskitRuntimeService(channel="ibm_cloud", token=os.environ["IBM_TOKEN"], instance=os.environ['IBM_INSTANCE'])
+        except Exception as e:
+            raise RuntimeError(f"Failed to initialize IBM Qiskit Runtime Service: {e}")
+        
+        try:
+            backend = service.backend(backendName)
+        except Exception as e:
+            raise RuntimeError(f"Backend does not exist. Please see IBM Quantum Cloud for list of active backends.")
+            
         return backend, self.setUpSampler(backend), backendName, "IBM"
     
-    def setUpQuantinuum(self, backendName) -> Tuple[QuantinuumBackend, Sampler, str, str]:
+    def setUpQuantinuum(self, backendName) -> Tuple[qnx.QuantinuumConfig, Sampler, str, str]:
         """
         Sets up an Quantinuum backend
 
@@ -324,24 +323,29 @@ class ProblemRunner():
             - backendType (string): Which company backend you are using.
         """
 
-        self.QuantinuumDict = {
-            "H1-1E" : 'H1-1E', 
-            "H1-1SC" : 'H1-1SC',
-            "H1-1": "H1-1",
-            "H2-1E" : 'H2-1E',
-            "H2-2E" : 'H2-2E',
-            "H2-1SC": "H2-1SC",
-            "H2-1": "H2-1",
-            "H2-2": "H2-2",
-        }
+        # self.QuantinuumDict = {
+        #     "H1-1E" : 'H1-1E', 
+        #     "H1-1SC" : 'H1-1SC',
+        #     "H1-1": "H1-1",
+        #     "H2-1E" : 'H2-1E',
+        #     "H2-2E" : 'H2-2E',
+        #     "H2-1SC": "H2-1SC",
+        #     "H2-1": "H2-1",
+        #     "H2-2": "H2-2",
+        # }
 
-        try:
-            backend = self.QuantinuumDict[backendName]
-        except KeyError:
-            raise ValueError(f"Backend '{backendName}' does not exist in available backends")
+        # try:
+        #     backend = self.QuantinuumDict[backendName]
+        # except KeyError:
+        #     raise ValueError(f"Backend '{backendName}' does not exist in available backends")
         
-        backend = QuantinuumBackend(backend)
-            
+        try:
+            # backend = QuantinuumBackend(backend)
+            backend = qnx.QuantinuumConfig(device_name=backendName)
+        except Exception as e:
+            raise ValueError(f"Backend '{backendName}' does not exist in available Quantinuum backends.")
+        
+        # Set up sampler on Quantinuum backend
         sampler = self.setUpSampler(backend)
         
         return backend, sampler, backendName, "Quantinuum"

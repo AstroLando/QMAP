@@ -1,4 +1,4 @@
-# QMAP
+# QMAP (outdated - will update soon)
 
 **QMAP** (acronym) allows users to test small-scale quantum computing tasks and evaluate their effectiveness across different backends.
 

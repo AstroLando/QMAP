@@ -1,0 +1,27 @@
+[project]
+name = "qmap"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv",
+    "ipython",
+    "iqm-client[qiskit]>=32.0.0",
+    "jinja2",
+    "jupyter",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "pytket",
+    "pytket-qiskit",
+    "qiskit==2.1",
+    "qiskit-aer>=0.17.2",
+    "qiskit-ibm-runtime>=0.43.1",
+    "qnexus",
+    "tqdm",
+]
+[tool.uv]
+override-dependencies = [
+    "jinja2>=3.1.4"
+]

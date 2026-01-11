@@ -1,10 +1,10 @@
-host: iqm
-backend: garnet_mock
+host: quantinuum  # iqm , ibm, 
+backend: H1-Emulator # Helios-1E  # garnet:mock , ibm_pittsburgh
 env_path: tokens.env
-reps: 3
-minQubits: 2
-maxQubits: 8
-qubitStep: 2
-minShots: 100
-maxShots: 1000
+reps: 1
+minQubits: 4
+maxQubits: 4
+qubitStep: 1
+minShots: 1024
+maxShots: 1024
 shotStep: 100

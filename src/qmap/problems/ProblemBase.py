@@ -1,12 +1,14 @@
-from qiskit.providers.backend import BackendV2
 from typing import Tuple
 import time
+
 from qiskit import transpile
 from qiskit import QuantumCircuit
 from qiskit.transpiler import CouplingMap
+from qiskit.providers.backend import BackendV2
 
-from pytket.extensions.qiskit.qiskit_convert import qiskit_to_tk, tk_to_qiskit
-from pytket.extensions.quantinuum import QuantinuumBackend
+import qnexus as qnx
+from pytket.extensions.qiskit import qiskit_to_tk
+
 
 from abc import ABC, abstractmethod
 
@@ -111,18 +113,52 @@ class ProblemBase(ABC):
             # Compile using pytket
             tk_circ = qiskit_to_tk(circ)
 
-            transpiled_circuit = backend.get_compiled_circuit(tk_circ)
-            job = backend.process_circuit(transpiled_circuit, n_shots=1024)
-            result = backend.get_result(job)
+            # Upload circuit to Nexus
+            circ_ref = qnx.circuits.upload(
+                tk_circ,
+                name=f"{self.name}_{qubits}q_raw"
+            )
+
+            # Compile circuit
+            compile_job = qnx.start_compile_job(
+                programs=[circ_ref],
+                backend_config=backend,
+                optimisation_level=2,
+                name=f"compile_{self.name}_{qubits}q"
+            )
+
+            # Wait for compilation to finish
+            qnx.jobs.wait_for(compile_job)
+
+            # Reference to compiled circuit 
+            compiled_ref = qnx.jobs.results(compile_job)[0].get_output()
+
+            # Submit job
+            run_job = qnx.start_execute_job(
+                programs=[compiled_ref],
+                backend_config=backend,
+                n_shots=[shots],
+                name=f"run_{self.name}_{qubits}q"
+            )
+
+            # Wait for job to finish running
+            qnx.jobs.wait_for(run_job)
+
+            # Get results
+            result_ref = qnx.jobs.results(run_job)[0]
+            result = result_ref.download_result()
+            
+
         else:
             
-            basis_gates, coupling_map = self.extract_backend_info(backend)
+            # basis_gates, coupling_map = self.extract_backend_info(backend)
 
             transpiled_circuit = transpile(
                 circ,
-                basis_gates=basis_gates,
-                coupling_map=coupling_map,
-                optimization_level=3
+                backend=backend,
+                optimization_level=3,
+                # basis_gates=basis_gates,
+                # coupling_map=coupling_map,
             )
             
             _ = transpiled_circuit.count_ops()
