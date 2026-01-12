@@ -8,6 +8,8 @@ Ensure that you have the [uv](https://docs.astral.sh/uv/) Python package manager
 In the root directory of this project, run `uv sync`. This will install all of the packages needed for the project. 
 You shouldn't need to change anything. This package manager is really good about ensuring portability to different OS.
 
+> If an error occurs with dependencies, run `uv python pin 3.12` before running `uv sync`. This should resolve the issue.
+
 Start virtual environment by running `source .venv/bin/activate`. Environment is called `qmap`. You should see something like the following in your terminal if it activated correctly:
 ```bash
 (qmap) path/to/QMAP $ 
