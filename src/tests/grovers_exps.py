@@ -17,11 +17,7 @@ qubitStep, shotStep, reps = config['qubitStep'], config['shotStep'], config['rep
 
 print("Adding problems...")
 PR = ProblemRunner()
-PR.addProblem(RNG.RNG(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
-PR.addProblem(QFT.QuantFT(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
-PR.addProblem(BV.BV(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
 PR.addProblem(Grovers.Grovers(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
-PR.addProblem(QPE.QPE(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
 
 if "iqm" in HOST:
     print(f"===> Backend chosen: {BACKEND}")

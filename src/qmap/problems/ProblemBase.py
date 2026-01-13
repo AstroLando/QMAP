@@ -1,3 +1,4 @@
+import datetime
 from typing import Tuple
 import time
 
@@ -5,10 +6,10 @@ from qiskit import transpile
 from qiskit import QuantumCircuit
 from qiskit.transpiler import CouplingMap
 from qiskit.providers.backend import BackendV2
+from qiskit_ibm_runtime import Sampler
 
 import qnexus as qnx
-from pytket.extensions.qiskit import qiskit_to_tk
-
+# from pytket.extensions.qiskit import qiskit_to_tk
 
 from abc import ABC, abstractmethod
 
@@ -148,7 +149,6 @@ class ProblemBase(ABC):
             result_ref = qnx.jobs.results(run_job)[0]
             result = result_ref.download_result()
             
-
         else:
             
             # basis_gates, coupling_map = self.extract_backend_info(backend)
@@ -160,11 +160,11 @@ class ProblemBase(ABC):
                 # basis_gates=basis_gates,
                 # coupling_map=coupling_map,
             )
-            
             _ = transpiled_circuit.count_ops()
+
             if (backendType == "IBM"):
                 job = sampler.run([transpiled_circuit], shots=shots)
-            elif (backendType == "IQM"):
+            elif (backendType == "IQM" or backendType == "IonQ"):
                 job = backend.run(transpiled_circuit, shots=shots)
             else:
                 raise ValueError("Input backend does not match listed backends.")
@@ -172,18 +172,22 @@ class ProblemBase(ABC):
         
         timeEnd = time.time_ns()
 
-        qTime = job.usage_estimation['quantum_seconds'] if backendType == "IBM" else "N/A"
-
-        if (backendType == "IBM"):
-            samplerResult = result[0]
-            bin = samplerResult.data.c.get_counts()  
-        else:
-            samplerResult = result
-            bin = samplerResult.get_counts()
+        # Data to report
+        qTime = job.usage_estimation['quantum_seconds'] if hasattr(job, 'usage_estimation') else "N/A"
+        samplerResult = result[0] if backendType == "IBM" else result
+        bin = samplerResult.data.c.get_counts() if backendType == "IBM" else samplerResult.get_counts()
   
+        # Try to get precise server time, fallback to client time
+        end_time = None
+    
+        if hasattr(job, 'metrics') and 'timestamps' in job.metrics():
+            end_time = job.metrics()['timestamps'].get('finished')
 
-        timestr = str(timeEnd - timeStart)[:-3]
-        timestr = timestr[:-3] + "." + timestr[-3:]
+        if end_time is None:
+            end_time = datetime.datetime.now()
 
-        return bin, data, timestr, qTime
+        uTime = str(timeEnd - timeStart)[:-3]
+        uTime = uTime[:-3] + "." + uTime[-3:]
+
+        return bin, data, uTime, qTime, end_time
         

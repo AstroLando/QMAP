@@ -13,6 +13,9 @@ from qiskit_ibm_runtime import QiskitRuntimeService, Sampler, fake_provider
 # Quantinuum Modules
 import qnexus as qnx
 
+# IonQ Modules
+import qiskit_ionq
+
 class ProblemRunner(): 
     """Class that runs QMAP Problems
     """
@@ -38,7 +41,7 @@ class ProblemRunner():
         """
         print(f"RUN PROBLEM SET ===> {backend, sampler, name, backendType}")
 
-        backendTypeList = ["IQM", "IBM", "Quantinuum"]
+        backendTypeList = ["IQM", "IBM", "Quantinuum", "IonQ"]
 
         if backendType not in backendTypeList:
             raise ValueError("BackendType not usable.")
@@ -94,7 +97,7 @@ class ProblemRunner():
             csv_file.write(f"Backend: {name}\n")
             csv_file.write(f"Problems: {str(pNames)}\n")
             csv_file.write("\n")
-            csv_file.write("Problem, Nickname, Results, Shots, Time (ms), Quantum Usage Estimation, Metadata\n")
+            csv_file.write("problem,num_qubits,shots,end_time,time_ms,usage_estimation,results,metadata\n")
 
         # Prepare a list to hold all rows
         rows = []
@@ -105,24 +108,29 @@ class ProblemRunner():
         # Run experiments and append data to DataFrame
         for problem in self.problemArr:
             print(f"Problem: {problem[0].name}")
-            for qubit in range(problem[2], problem[3] + 1, problem[4]):
+
+            end_qubit_range = 1 if problem[4] == 0 else problem[4]
+            for qubit in range(problem[2], problem[3] + 1, end_qubit_range):
                 print(f"{' ':2}=> Qubits: {qubit}")
-                for shot in range(problem[5], problem[6] + 1, problem[7]):
+
+                end_shots_range = 1 if problem[7] == 0 else problem[7]
+                for shot in range(problem[5], problem[6] + 1, end_shots_range):
                     for rep in range(problem[1]):
                         print(f"{' ':8}Shots: {shot}, Rep: {rep}")
                         try:
                             # Run the experiment and get the results
-                            results, rd, uTime, qTime = problem[0].run(qubit, shot, backend, sampler, backendType)
+                            results, rd, uTime, qTime, end_time = problem[0].run(qubit, shot, backend, sampler, backendType)
 
                             # Collect the data into the rows list
                             rows.append({
-                                'Problem': problem[0].name,
-                                'Nickname': problem[8] if problem[8] else "N/A",
-                                'Results': str(results),
-                                'Shots': shot,
-                                'Time (ms)': uTime,
-                                'Quantum Usage Estimation': qTime,
-                                'Metaata': rd,
+                                'problem': problem[0].name,
+                                'num_qubits': qubit,
+                                'shots': shot,
+                                'end_time': end_time,
+                                'time_ms': uTime,
+                                'usage_estimation': qTime,
+                                'results': str(results),
+                                'metadata': str(rd),
                             })
 
                             # Sleep for a small time to simulate processing delay
@@ -171,9 +179,9 @@ class ProblemRunner():
                minQubits: int = 2,
                maxQubits: int = 8,
                qubitStep: int = 2,
-               minShots: int = 100,
-               maxShots: int = 1000,
-               shotStep: int = 100,
+               minShots: int = 1024,
+               maxShots: int = 1024,
+               shotStep: int = 0,
                nickname: Optional[str] = None) -> None:
         """
         Adds a problem with its execution parameters.
@@ -213,8 +221,10 @@ class ProblemRunner():
                 raise TypeError(f"'{name}' must be an int, got {type(value).__name__} instead.")
         
         for name, value in int_args.items():
-            if value <= 0:
-                raise ValueError(f"'{name}' must be greater than or equal to 1, got {value} instead.")
+            if name != "shotStep" and name != "qubitStep":
+                if value <= 0:
+                    raise ValueError(f"'{name}' must be greater than or equal to 1, got {value} instead.")
+            
 
         if minQubits > maxQubits:
             raise ValueError("maxQubits must be greater than or equal to minQubits")
@@ -316,31 +326,14 @@ class ProblemRunner():
             username (str): Your Quantinuum password.
 
         Returns:
-            Tuple  [BackendV2, Sampler, str, bool]: A tuple containing:
-            - backend (BackendV2): The chosen backend.
+            Tuple  [qnx.QuantinuumConfig, Sampler, str, bool]: A tuple containing:
+            - backend (qnx.QuantinuumConfig): The chosen backend.
             - sampler (Sampler): The sampler associated with the backend.
             - backendName (str): The name of the backend.
-            - backendType (string): Which company backend you are using.
+            - backendType (str): Which company backend you are using.
         """
 
-        # self.QuantinuumDict = {
-        #     "H1-1E" : 'H1-1E', 
-        #     "H1-1SC" : 'H1-1SC',
-        #     "H1-1": "H1-1",
-        #     "H2-1E" : 'H2-1E',
-        #     "H2-2E" : 'H2-2E',
-        #     "H2-1SC": "H2-1SC",
-        #     "H2-1": "H2-1",
-        #     "H2-2": "H2-2",
-        # }
-
-        # try:
-        #     backend = self.QuantinuumDict[backendName]
-        # except KeyError:
-        #     raise ValueError(f"Backend '{backendName}' does not exist in available backends")
-        
         try:
-            # backend = QuantinuumBackend(backend)
             backend = qnx.QuantinuumConfig(device_name=backendName)
         except Exception as e:
             raise ValueError(f"Backend '{backendName}' does not exist in available Quantinuum backends.")
@@ -349,3 +342,41 @@ class ProblemRunner():
         sampler = self.setUpSampler(backend)
         
         return backend, sampler, backendName, "Quantinuum"
+    
+    def setUpIonQ(self, backendName) -> Tuple[BackendV2, Sampler, str, str]:
+        """
+        Sets up an Quantinuum backend
+
+        Args:
+            backendName (str): The name for the backend (in the dictionary).
+
+        Returns:
+            Tuple[BackendV2, Sampler, str, bool]: A tuple containing:
+            - backend (BackendV2): The chosen backend.
+            - sampler (Sampler): The sampler associated with the backend.
+            - backendName (str): The name of the backend.
+            - backendType (string): Which company backend you are using.
+        """
+
+        # Set up IonQ client
+        try:
+            provider = qiskit_ionq.IonQProvider(os.environ["IONQ_TOKEN"])
+            print(f"{' ':4}Successfully retrieved provider: {backendName}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to retrieve provider: {str(e)}")
+        
+        # Set up IonQ backend
+        try:
+            backend = provider.get_backend(backendName)
+            print(f"{' ':4}Successfully retrieved backend: {backendName}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to access backend: {str(e)}")
+
+        # Set up IonQ Sampler
+        try:
+            sampler = Sampler(mode=backend)
+            print(f"{' ':4}Successfully retrieved sampler!")
+        except Exception as e:
+            raise RuntimeError(f"Failed to retrieve sampler: {str(e)}")
+            
+        return backend, sampler, backendName, "IonQ"
