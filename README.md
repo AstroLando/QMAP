@@ -57,4 +57,9 @@ Next, run `uv run python -m src.tests.lightTest` from the root path of the proje
 
 > **TODO:** Add GHZ benchmark class to the list of programs and add to all the tests.
 
-> To see list of backends for Quantinuum, check this out in your [Nexus](https://nexus.quantinuum.com/backends).
+### Vendor Backends
+To see what backends are available to you, you will have to log in to the following platforms. They are available based on your project's plan.
+* IQM -> [IQM Resonance](https://resonance.meetiqm.com/)
+* IBM -> [IBM Quantum](https://quantum.cloud.ibm.com/computers)
+* Quantinuum -> [Nexus Portal](https://nexus.quantinuum.com/backends)
+* IonQ -> [Hardware & Simulators](https://cloud.ionq.com/backends)
