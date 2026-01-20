@@ -39,8 +39,6 @@ class ProblemRunner():
             None
 
         """
-        print(f"RUN PROBLEM SET ===> {backend, sampler, name, backendType}")
-
         backendTypeList = ["IQM", "IBM", "Quantinuum", "IonQ"]
 
         if backendType not in backendTypeList:
@@ -66,7 +64,7 @@ class ProblemRunner():
                 maxQubits = 20
                 print(f"Warning: Qubit count for {device_name} unknown. Defaulting to 20 qubits.")
         else:
-            maxQubits = backend.num_qubits
+            maxQubits = backend.num_qubits                
 
         pNames = []
 
@@ -94,6 +92,7 @@ class ProblemRunner():
 
             # Write general experiment details
             csv_file.write(f"Time started: {str(s)}\n")
+            csv_file.write(f"Vendor: {backendType}\n")
             csv_file.write(f"Backend: {name}\n")
             csv_file.write(f"Problems: {str(pNames)}\n")
             csv_file.write("\n")
@@ -139,6 +138,8 @@ class ProblemRunner():
                         except Exception as e:
                             # Log the error and continue to the next experiment
                             print(f"Error occurred while running experiment for problem {problem[0].name}: {e}")
+                            print(f"====> Stopping experiments...")
+                            break
 
                         # Periodically write the rows to CSV to avoid data loss
                         if rep % 5 == 0:  
@@ -275,16 +276,16 @@ class ProblemRunner():
             client = IQMClient("https://resonance.meetiqm.com/", quantum_computer=backendName)
             backend = IQMBackend(client)
 
-            print(f"{' ':4}Successfully retrieved backend: {backendName}")
+            print(f"{' ':4}Successfully retrieved backend: {backendName}\n")
         except Exception as e:
-            raise RuntimeError(f"Failed to retrieve backend: {str(e)}")
+            raise RuntimeError(f"Failed to retrieve backend: {str(e)}\n")
 
         # Set up IQM Sampler
         try:
             sampler = Sampler(mode=backend)
-            print(f"{' ':4}Successfully retrieved sampler!")
+            print(f"{' ':4}Successfully retrieved sampler!\n")
         except Exception as e:
-            raise RuntimeError(f"Failed to retrieve sampler: {str(e)}")
+            raise RuntimeError(f"Failed to retrieve sampler: {str(e)}\n")
             
         return backend, sampler, backendName, "IQM"
     
@@ -306,13 +307,15 @@ class ProblemRunner():
 
         try:
             service = QiskitRuntimeService(channel="ibm_cloud", token=os.environ["IBM_TOKEN"], instance=os.environ['IBM_INSTANCE'])
+            print(f"{' ':4}Successfully retrieved project instance\n")
         except Exception as e:
-            raise RuntimeError(f"Failed to initialize IBM Qiskit Runtime Service: {e}")
+            raise RuntimeError(f"Failed to initialize IBM Qiskit Runtime Service: {e}\n")
         
         try:
             backend = service.backend(backendName)
+            print(f"{' ':4}Successfully retrieved backend: {backendName}\n")
         except Exception as e:
-            raise RuntimeError(f"Backend does not exist. Please see IBM Quantum Cloud for list of active backends.")
+            raise RuntimeError(f"Backend does not exist. Please see IBM Quantum Cloud for list of active backends.\n")
             
         return backend, self.setUpSampler(backend), backendName, "IBM"
     
@@ -335,6 +338,7 @@ class ProblemRunner():
 
         try:
             backend = qnx.QuantinuumConfig(device_name=backendName)
+            print(f"{' ':4}Successfully retrieved backend: {backendName}\n")
         except Exception as e:
             raise ValueError(f"Backend '{backendName}' does not exist in available Quantinuum backends.")
         
@@ -361,22 +365,25 @@ class ProblemRunner():
         # Set up IonQ client
         try:
             provider = qiskit_ionq.IonQProvider(os.environ["IONQ_TOKEN"])
-            print(f"{' ':4}Successfully retrieved provider: {backendName}")
+            print(f"{' ':4}Successfully retrieved provider: {backendName}\n")
         except Exception as e:
-            raise RuntimeError(f"Failed to retrieve provider: {str(e)}")
-        
+            raise RuntimeError(f"Failed to retrieve provider: {str(e)}\n")
+            
         # Set up IonQ backend
         try:
-            backend = provider.get_backend(backendName)
-            print(f"{' ':4}Successfully retrieved backend: {backendName}")
+            backend = provider.get_backend("simulator")
+            if backendName == "aria-1" or backendName == "forte-1":
+                backend.set_options(noise_model=backendName)
+            print(f"{' ':4}Successfully retrieved backend: {backendName}\n")
         except Exception as e:
-            raise RuntimeError(f"Failed to access backend: {str(e)}")
+            raise RuntimeError(f"Failed to access backend: {str(e)}\n")
 
         # Set up IonQ Sampler
         try:
             sampler = Sampler(mode=backend)
-            print(f"{' ':4}Successfully retrieved sampler!")
+            print(f"{' ':4}Successfully retrieved sampler!\n")
         except Exception as e:
-            raise RuntimeError(f"Failed to retrieve sampler: {str(e)}")
+            raise RuntimeError(f"Failed to retrieve sampler: {str(e)}\n")
+            
             
         return backend, sampler, backendName, "IonQ"

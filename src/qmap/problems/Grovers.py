@@ -34,7 +34,7 @@ class Grovers(ProblemBase):
         """
         #optimal iterations
         # I've maxed it at 10 since it seems to be timing out after that
-        # iterations = min(int(round(math.pi / 4 * math.sqrt(2**qubits))), 10)
+        # iterations = math.floor((math.pi / 4) * math.sqrt(2**qubits / num_sol)))
         iterations = 1
 
         targetBitstring = ''.join(random.choice('01') for _ in range(qubits))

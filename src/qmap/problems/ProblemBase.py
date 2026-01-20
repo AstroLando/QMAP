@@ -151,21 +151,27 @@ class ProblemBase(ABC):
             
         else:
             
-            # basis_gates, coupling_map = self.extract_backend_info(backend)
-
             transpiled_circuit = transpile(
                 circ,
                 backend=backend,
-                optimization_level=3,
-                # basis_gates=basis_gates,
-                # coupling_map=coupling_map,
+                optimization_level=3
             )
             _ = transpiled_circuit.count_ops()
 
-            if (backendType == "IBM"):
+            if backendType == "IBM":
                 job = sampler.run([transpiled_circuit], shots=shots)
-            elif (backendType == "IQM" or backendType == "IonQ"):
+            elif backendType == "IQM":
                 job = backend.run(transpiled_circuit, shots=shots)
+            elif backendType == "IonQ":
+                transpiled_circuit = transpile(
+                    circ,
+                    backend=backend,
+                    optimization_level=1, # Recommended due to incompatibility of Qiskit transpile with IonQ's compiler
+                )
+                _ = transpiled_circuit.count_ops()
+
+                job = backend.run(transpiled_circuit, shots=shots)
+
             else:
                 raise ValueError("Input backend does not match listed backends.")
             result = job.result()

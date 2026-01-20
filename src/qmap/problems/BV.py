@@ -17,8 +17,6 @@ class BV(ProblemBase):
         super().__init__(name, desc)
     
     def makeCirc(self, qubits):
-
-        qubits = qubits - 1
         """
         Create a Bernstein-Vazirani algorithm circuit with the specified number of qubits.
 
@@ -32,31 +30,43 @@ class BV(ProblemBase):
         Notes:
             This method overrides the abstract `makeCirc` method in `ProblemBase`.
         """
+        cbits = qubits - 1
 
-
-        sNum = str(bin(randint(0,2**qubits)))
+        # Create secret string
+        sNum = str(bin(randint(0,2**cbits)))
         sNum = sNum[2:]
-        if (len(sNum) < qubits):
+        if (len(sNum) < cbits):
             zStr = ''
-            for i in range(qubits-len(sNum)):
+            for i in range(cbits - len(sNum)):
                 zStr = zStr + "0"
             sNum = zStr + sNum
         
-        qc = QuantumCircuit(len(sNum)+1, len(sNum))
+        # Construct circuit 
+        # Note: there is 1 ancilla qubit to consider in qubit count
+        qc = QuantumCircuit(qubits, cbits)
+        
+        # Flip ancilla (last qubit)
+        qc.x(cbits) 
+        qc.barrier()
 
         # Apply Hadamard gates before the oracle
-        qc.h(range(len(sNum)))
+        qc.h(range(qubits))
+        qc.barrier()
 
         # Apply the oracle
         for ii, yesno in enumerate(reversed(sNum)):
             if yesno == '1':
                 qc.cx(ii, len(sNum))
 
+        qc.barrier()
+
         # Apply Hadamard gates after the oracle
-        qc.h(range(len(sNum)))
+        qc.h(range(cbits))
+
+        qc.barrier()
 
         # Measure
-        qc.measure(range(len(sNum)), range(len(sNum)))
+        qc.measure(range(cbits), range(cbits))
 
         return qc, "Secret number: " + str(sNum)
         
