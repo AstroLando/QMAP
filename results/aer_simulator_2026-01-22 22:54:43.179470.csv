@@ -1,0 +1,11 @@
+Time started: 2026-01-22 22:54:43.179567
+Vendor: IBM
+Backend: aer_simulator
+Problems: ['Bernstein-Vazirani']
+
+problem,num_qubits,shots,end_time,time_ms,usage_estimation,results,metadata
+Bernstein-Vazirani,6,1024,2026-01-22 22:54:43.237806,62.790,N/A,{'01101': 1024},Secret number: 01101,{}
+Bernstein-Vazirani,8,1024,2026-01-22 22:54:49.935209,62.214,N/A,{'0110111': 1024},Secret number: 0110111,{}
+
+Time ended: 2026-01-22 22:54:57.067306
+Time difference: 0 hours; 00 minutes; 13.887739 seconds

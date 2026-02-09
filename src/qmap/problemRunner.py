@@ -96,7 +96,7 @@ class ProblemRunner():
             csv_file.write(f"Backend: {name}\n")
             csv_file.write(f"Problems: {str(pNames)}\n")
             csv_file.write("\n")
-            csv_file.write("problem,num_qubits,shots,end_time,time_ms,usage_estimation,results,metadata\n")
+            csv_file.write("problem,num_qubits,shots,end_time,time_ms,usage_estimation,results,metadata,error_data\n")
 
         # Prepare a list to hold all rows
         rows = []
@@ -118,7 +118,7 @@ class ProblemRunner():
                         print(f"{' ':8}Shots: {shot}, Rep: {rep}")
                         try:
                             # Run the experiment and get the results
-                            results, rd, uTime, qTime, end_time = problem[0].run(qubit, shot, backend, sampler, backendType)
+                            results, rd, uTime, qTime, end_time, calib_data = problem[0].run(qubit, shot, backend, sampler, backendType)
 
                             # Collect the data into the rows list
                             rows.append({
@@ -130,6 +130,7 @@ class ProblemRunner():
                                 'usage_estimation': qTime,
                                 'results': str(results),
                                 'metadata': str(rd),
+                                'error_data': str(calib_data),
                             })
 
                             # Sleep for a small time to simulate processing delay
@@ -274,7 +275,7 @@ class ProblemRunner():
         # Set up IQM Backend
         try:
             client = IQMClient("https://resonance.meetiqm.com/", quantum_computer=backendName)
-            backend = IQMBackend(client)
+            backend = IQMBackend(client, use_metrics=True)
 
             print(f"{' ':4}Successfully retrieved backend: {backendName}\n")
         except Exception as e:
@@ -304,6 +305,16 @@ class ProblemRunner():
             - backendName (str): The name of the backend.
             - backendType (string): Which company backend you are using.
         """
+
+        if backendName == "aer_simulator":
+            try:
+                from qiskit_aer import AerSimulator
+                backend = AerSimulator()
+                print(f"{' ':4}Successfully retrieved local backend: {backendName}\n")
+                sampler = self.setUpSampler(backend)
+                return backend, sampler, backendName, "IBM"
+            except ImportError:
+                raise RuntimeError("You requested 'aer_simulator', but 'qiskit-aer' is not installed.")
 
         try:
             service = QiskitRuntimeService(channel="ibm_cloud", token=os.environ["IBM_TOKEN"], instance=os.environ['IBM_INSTANCE'])

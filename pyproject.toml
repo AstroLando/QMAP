@@ -16,6 +16,7 @@ dependencies = [
     "qiskit-ibm-runtime>=0.43.1",
     "qiskit-ionq>=1.0.2",
     "qnexus",
+    "seaborn>=0.13.2",
     "tqdm",
 ]
 [tool.uv]

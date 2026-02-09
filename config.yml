@@ -1,10 +1,10 @@
-host: iqm  # iqm , ibm, quantinuum, ionq
-backend: sirius:mock  # qpu.aria-1, garnet:mock , ibm_boston, H1-Emulator, Helios-1E
+host: ibm  # iqm , ibm, quantinuum, ionq
+backend: aer_simulator  # qpu.aria-1, garnet:mock , ibm_boston, H1-Emulator, Helios-1E
 env_path: tokens.env
 reps: 1
-minQubits:  3 #, 4
-maxQubits:  5 #, 8
-qubitStep:  1 #, 2
-minShots: 2048  #, 1024
-maxShots: 2048  #, 1024
+minQubits:  4 #, 4
+maxQubits:  8 #, 8
+qubitStep:  2 #, 2
+minShots: 1024  #, 1024
+maxShots: 1024  #, 1024
 shotStep: 0

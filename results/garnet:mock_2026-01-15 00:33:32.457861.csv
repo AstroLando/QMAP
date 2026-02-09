@@ -1,0 +1,12 @@
+Time started: 2026-01-15 00:33:32.458289
+Vendor: IQM
+Backend: garnet:mock
+Problems: ["Grover's Algorithm"]
+
+problem,num_qubits,shots,end_time,time_ms,usage_estimation,results,metadata
+Grover's Algorithm,3,2048,2026-01-15 00:33:39.820934,7359.365,N/A,"{'011': 499, '000': 492, '100': 486, '111': 571}","Iterations: 1, Target string: 100"
+Grover's Algorithm,4,2048,2026-01-15 00:33:59.312141,8485.610,N/A,"{'1101': 486, '1111': 505, '0010': 529, '0000': 528}","Iterations: 1, Target string: 0010"
+Grover's Algorithm,5,2048,2026-01-15 00:34:20.254245,9690.006,N/A,"{'10010': 512, '01101': 527, '11111': 526, '00000': 483}","Iterations: 1, Target string: 10010"
+
+Time ended: 2026-01-15 00:34:31.747845
+Time difference: 0 hours; 00 minutes; 59.289556 seconds

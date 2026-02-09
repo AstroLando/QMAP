@@ -87,7 +87,6 @@ class ProblemBase(ABC):
 
         return basis_gates, coupling_map
 
-
     def run(self, qubits, shots, backend, sampler, backendType):
         """
         Runs a circuit with varying parameters. 
@@ -107,6 +106,8 @@ class ProblemBase(ABC):
             - qTime (str): IBM's `job.usage_estimation` (str), or `'N/A'` if unavailable
         """
         circ, data = self.makeCirc(qubits)
+
+        calib_data = "N/A"
 
         timeStart = time.time_ns()
 
@@ -148,6 +149,12 @@ class ProblemBase(ABC):
             # Get results
             result_ref = qnx.jobs.results(run_job)[0]
             result = result_ref.download_result()
+
+            try:
+                backend_info = result_ref.download_backend_info()
+                calib_data = backend_info.to_dict() if hasattr(backend_info, 'to_dict') else str(backend_info)
+            except Exception as e:
+                calib_data = f"Quantinuum fetch error: {str(e)}"
             
         else:
             
@@ -157,6 +164,8 @@ class ProblemBase(ABC):
                 optimization_level=3
             )
             _ = transpiled_circuit.count_ops()
+
+            calib_data = self.get_calibration_data(backend, transpiled_circuit, backendType)
 
             if backendType == "IBM":
                 job = sampler.run([transpiled_circuit], shots=shots)
@@ -195,5 +204,48 @@ class ProblemBase(ABC):
         uTime = str(timeEnd - timeStart)[:-3]
         uTime = uTime[:-3] + "." + uTime[-3:]
 
-        return bin, data, uTime, qTime, end_time
+        return bin, data, uTime, qTime, end_time, calib_data
         
+    def get_calibration_data(self, backend, transpiled_circuit, backendType):
+        """Extracts T1, T2, and Readout Error for the active qubits."""
+        data = {}
+        try:
+            # Get physical qubits used in the circuit
+            if hasattr(transpiled_circuit, "layout") and transpiled_circuit.layout:
+                 # Map virtual -> physical. We only care about the physical indices.
+                 active_qubits = transpiled_circuit.layout.final_index_layout()
+            else:
+                 # Fallback if no layout info (e.g. simulator or direct mapping)
+                 active_qubits = range(transpiled_circuit.num_qubits)
+
+            # IBM and IQM (Qiskit-based)
+            if backendType in ["IBM", "IQM"]:
+                if hasattr(backend, "properties"):
+                    props = backend.properties()
+                    if props:
+                        for q in active_qubits:
+                            # Extract key metrics
+                            data[f"q{q}"] = {
+                                "T1": props.t1(q),
+                                "T2": props.t2(q),
+                                "readout_error": props.readout_error(q)
+                            }
+            
+            # IonQ 
+            elif backendType == "IonQ":
+                # IonQ usually provides average fidelity via characterization
+                # If using Qiskit IonQ provider, properties() might be sparse
+                if hasattr(backend, "properties"):
+                     props = backend.properties()
+                     if props:
+                        for q in active_qubits:
+                            data[f"q{q}_T1"] = props.t1(q)
+                            data[f"q{q}_T2"] = props.t2(q)
+                # Fallback: check target if properties failed
+                if not data and hasattr(backend, "target"):
+                     data["info"] = "Check backend.target for latest calibration"
+
+        except Exception as e:
+            data["error_extracting"] = str(e)
+            
+        return data
