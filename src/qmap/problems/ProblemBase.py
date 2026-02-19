@@ -9,7 +9,7 @@ from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import Sampler
 
 import qnexus as qnx
-# from pytket.extensions.qiskit import qiskit_to_tk
+from pytket.extensions.qiskit import qiskit_to_tk
 
 from abc import ABC, abstractmethod
 
@@ -201,8 +201,12 @@ class ProblemBase(ABC):
         if end_time is None:
             end_time = datetime.datetime.now()
 
+        end_time = end_time.isoformat(timespec='milliseconds') + "Z"
+
         uTime = str(timeEnd - timeStart)[:-3]
         uTime = uTime[:-3] + "." + uTime[-3:]
+
+        # TODO: Return job ID, created time
 
         return bin, data, uTime, qTime, end_time, calib_data
         

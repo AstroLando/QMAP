@@ -1,3 +1,4 @@
+# src/qmap/problems/BV.py
 from .ProblemBase import ProblemBase
 from qiskit import QuantumCircuit
 from random import randint
@@ -33,14 +34,8 @@ class BV(ProblemBase):
         cbits = qubits - 1
 
         # Create secret string
-        sNum = str(bin(randint(0,2**cbits)))
-        sNum = sNum[2:]
-        if (len(sNum) < cbits):
-            zStr = ''
-            for i in range(cbits - len(sNum)):
-                zStr = zStr + "0"
-            sNum = zStr + sNum
-        
+        sNum = bin(randint(0, 2**cbits - 1))[2:].zfill(cbits)
+
         # Construct circuit 
         # Note: there is 1 ancilla qubit to consider in qubit count
         qc = QuantumCircuit(qubits, cbits)

@@ -1,3 +1,4 @@
+# src/qmap/problemRunner.py
 import datetime, time, os, pandas as pd
 from typing import Optional, Tuple
 from .problems.ProblemBase import ProblemBase
@@ -306,7 +307,8 @@ class ProblemRunner():
             - backendType (string): Which company backend you are using.
         """
 
-        if backendName == "aer_simulator":
+        if "aer" in backendName:
+            # Simulate machine with aer_simulator via Noise Models
             try:
                 from qiskit_aer import AerSimulator
                 backend = AerSimulator()

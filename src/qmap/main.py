@@ -1,3 +1,4 @@
+# src/qmap/main.py
 def main():
     print("Hello from qmap!")
 
