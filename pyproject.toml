@@ -1,27 +1,12 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "qmap"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "ipython",
-    "iqm-client[qiskit]>=32.0.0",
-    "jupyter",
-    "matplotlib",
-    "numpy",
-    "pandas",
-    "pytket-qiskit>=0.75.0",
-    "qiskit-aer>=0.17.2",
-    "qiskit-ibm-runtime>=0.43.1",
-    "qiskit-ionq>=1.0.2",
-    "qnexus",
-    "seaborn>=0.13.2",
-    "tqdm",
-]
-[tool.uv]
-override-dependencies = [
-    "jinja2>=3.1.4",
-    "python-dotenv>=1.0.1",
-    "qiskit>=2.2.3",
-]
+description = "Open-source QMAP benchmark suite"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]

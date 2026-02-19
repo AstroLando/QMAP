@@ -1,10 +1,28 @@
-host: ibm  # iqm , ibm, quantinuum, ionq
-backend: ibm_pittsburgh  # qpu.aria-1, garnet:mock , ibm_boston, H1-Emulator, Helios-1E
+# src/qmap/config.yml
+host: ionq
+backend: forte-1
 env_path: tokens.env
+
+# Global defaults (used if not specified in the problem)
+# Can be overriden per problem
 reps: 20
-minQubits:  4 #, 4
-maxQubits:  8 #, 8
-qubitStep:  2 #, 2
-minShots: 1024  #, 1024
-maxShots: 1024  #, 1024
+minQubits: 2
+maxQubits: 8
+qubitStep: 2
+minShots: 1024
+maxShots: 1024
 shotStep: 0
+
+problems:
+  - name: "BV"
+    minQubits: 4
+    maxQubits: 8
+    qubitStep: 2
+    nickname: "BV"
+  - name: "Grovers"
+    minQubits: 3
+    maxQubits: 5
+    qubitStep: 1
+    minShots: 2048
+    maxShots: 2048
+    nickname: "Grovers"

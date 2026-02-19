@@ -1,95 +1,32 @@
-import datetime
+# src/qmap/problems/ProblemBase.py
+import time, os, datetime
 from typing import Tuple
-import time
+from abc import ABC, abstractmethod
+
+import qnexus as qnx
+from pytket.extensions.qiskit import qiskit_to_tk
 
 from qiskit import transpile
 from qiskit import QuantumCircuit
 from qiskit.transpiler import CouplingMap
 from qiskit.providers.backend import BackendV2
-from qiskit_ibm_runtime import Sampler
-
-import qnexus as qnx
-from pytket.extensions.qiskit import qiskit_to_tk
-
-from abc import ABC, abstractmethod
+from qiskit_ibm_runtime import SamplerV2 as Sampler 
 
 class ProblemBase(ABC):
-
-    """Abstract base class for QMAP Problems.
-
-    This class defines the interface that all problem classes must implement.
-    """
+    """Abstract base class for QMAP Problems."""
 
     @abstractmethod
     def __init__(self, name, desc) -> None:
-        """Initializes the problem
-
-        Args:
-            name (str): The problem name.
-            desc (str): The problem description.
-
-        Notes:
-            This is an abstract method and must be implemented by subclasses.
-        """
         self.name = name
         self.desc = desc
 
     @abstractmethod
-    def makeCirc(self,qubits) -> Tuple[QuantumCircuit, str]:
-        """
-        Abstract method to create a circuit for the relevant problem.
-
-        Args:
-            name (str): The problem name.
-            desc (str): The problem description.
-
-        Returns:
-            QuantumCircuit: The circuit for the problem.
-            str: relevant data from the problem.
-
-        Note:
-            This is an abstract method and must be implemented by subclasses.
-        """
+    def makeCirc(self, qubits) -> Tuple[QuantumCircuit, str]:
         pass
-    
-    def extract_backend_info(self, backend):
-        """Extract basis gates and coupling map from a Qiskit backend (IQM, IBM, etc.)."""
-
-        # New-style backends (BackendV2) like IQM and latest IBM devices
-        if hasattr(backend, "target") and backend.target is not None:
-            target = backend.target
-
-            # Get native gate names
-            basis_gates = list(target.operation_names)
-
-            # Get CZ connectivity, or fallback to general coupling map
-            if 'cz' in target.operation_names:
-                cz_pairs = list(target['cz'].keys())
-            else:
-                # fallback: use all two-qubit ops
-                two_qubit_ops = [name for name in target.operation_names if target[name].num_qubits == 2]
-                cz_pairs = []
-                for op in two_qubit_ops:
-                    cz_pairs += list(target[op].operation_qubits)
-
-            # Expand to symmetric if needed (Qiskit treats coupling as directed)
-            cz_pairs += [(b, a) for (a, b) in cz_pairs if (b, a) not in cz_pairs]
-            coupling_map = CouplingMap(couplinglist=cz_pairs)
-
-        # Old-style backends (BackendV1, like some IBMQ simulators)
-        elif hasattr(backend, "configuration"):
-            config = backend.configuration()
-            basis_gates = config.basis_gates
-            coupling_map = CouplingMap(couplinglist=config.coupling_map)
-
-        else:
-            raise ValueError("Unsupported backend format: cannot extract gate or coupling info.")
-
-        return basis_gates, coupling_map
 
     def run(self, qubits, shots, backend, sampler, backendType):
         """
-        Runs a circuit with varying parameters. 
+        Runs a circuit and extracts vendor-specific server timestamps and job IDs.
 
         Args:
             qubits (int): The amount of qubits in the problem.
@@ -106,150 +43,199 @@ class ProblemBase(ABC):
             - qTime (str): IBM's `job.usage_estimation` (str), or `'N/A'` if unavailable
         """
         circ, data = self.makeCirc(qubits)
-
         calib_data = "N/A"
-
         timeStart = time.time_ns()
+        
+        # Initialize return variables
+        job_id = "N/A"
+        created_time = "N/A"
+        end_time = "N/A"
+        qTime = "N/A"
 
         if (backendType == "Quantinuum"):
-            # Compile using pytket
             tk_circ = qiskit_to_tk(circ)
+            circ_ref = qnx.circuits.upload(tk_circ, name=f"{self.name}_{qubits}q_raw")
 
-            # Upload circuit to Nexus
-            circ_ref = qnx.circuits.upload(
-                tk_circ,
-                name=f"{self.name}_{qubits}q_raw"
-            )
-
-            # Compile circuit
             compile_job = qnx.start_compile_job(
                 programs=[circ_ref],
                 backend_config=backend,
                 optimisation_level=2,
                 name=f"compile_{self.name}_{qubits}q"
             )
-
-            # Wait for compilation to finish
             qnx.jobs.wait_for(compile_job)
-
-            # Reference to compiled circuit 
             compiled_ref = qnx.jobs.results(compile_job)[0].get_output()
 
-            # Submit job
             run_job = qnx.start_execute_job(
                 programs=[compiled_ref],
                 backend_config=backend,
                 n_shots=[shots],
                 name=f"run_{self.name}_{qubits}q"
             )
-
-            # Wait for job to finish running
+            
+            # Capture ID before waiting
+            job_id = str(run_job.id)
             qnx.jobs.wait_for(run_job)
-
-            # Get results
+            
             result_ref = qnx.jobs.results(run_job)[0]
             result = result_ref.download_result()
+            
+            # Extract Quantinuum Timestamps from Nexus
+            try:
+                job_df = run_job.df()
+                if not job_df.empty:
+                    created_time = job_df['created'].iloc[0].isoformat() if 'created' in job_df.columns else "N/A"
+                    end_time = job_df['modified'].iloc[0].isoformat() if 'modified' in job_df.columns else "N/A"
+            except Exception:
+                created_time = "N/A"
+                end_time = "N/A"
+
+            result_ref = qnx.jobs.results(run_job)[0]
+            result = result_ref.download_result()
+            bin_counts = result.get_counts()
 
             try:
                 backend_info = result_ref.download_backend_info()
+                # calib_data = backend_info.all_node_gate_errors() if hasattr(backend_info, 'all_node_gate_errors') else str(backend_info)
                 calib_data = backend_info.to_dict() if hasattr(backend_info, 'to_dict') else str(backend_info)
             except Exception as e:
                 calib_data = f"Quantinuum fetch error: {str(e)}"
-            
+
         else:
-            
-            transpiled_circuit = transpile(
-                circ,
-                backend=backend,
-                optimization_level=3
-            )
-            _ = transpiled_circuit.count_ops()
-
-            calib_data = self.get_calibration_data(backend, transpiled_circuit, backendType)
-
-            if backendType == "IBM":
-                job = sampler.run([transpiled_circuit], shots=shots)
+            # Handle Qiskit-based backends (IBM, IQM, IonQ)
+            if backendType == "IonQ":
+                transpiled_circuit = transpile(circ, backend=backend, optimization_level=1)
+                job = backend.run(transpiled_circuit, shots=shots)
             elif backendType == "IQM":
+                transpiled_circuit = transpile(circ, backend=backend, optimization_level=3)
                 job = backend.run(transpiled_circuit, shots=shots)
-            elif backendType == "IonQ":
-                transpiled_circuit = transpile(
-                    circ,
-                    backend=backend,
-                    optimization_level=1, # Recommended due to incompatibility of Qiskit transpile with IonQ's compiler
-                )
-                _ = transpiled_circuit.count_ops()
-
-                job = backend.run(transpiled_circuit, shots=shots)
-
+            elif backendType == "IBM":
+                transpiled_circuit = transpile(circ, backend=backend, optimization_level=3)
+                job = sampler.run([transpiled_circuit], shots=shots)
             else:
-                raise ValueError("Input backend does not match listed backends.")
+                raise ValueError(f"Unsupported backendType: {backendType}")
+
+            job_id = job.job_id()
             result = job.result()
+            
+            # Extraction logic for Server-Side Timestamps
+            if backendType == "IBM":
+                metrics = job.metrics()
+                ts = metrics.get('timestamps', {})
+                created_time = ts.get('created', "N/A")
+                end_time = ts.get('finished', "N/A")
+                qTime = job.usage_estimation.get('quantum_seconds', "N/A") if hasattr(job, 'usage_estimation') else "N/A"
+                # V2 Primitive result parsing
+                samplerResult = result[0]
+                bin_counts = samplerResult.data.c.get_counts()
+            
+            elif backendType == "IQM":
+                # IQM stores timing in the metadata of the Result object
+                meta = result.metadata if hasattr(result, 'metadata') else {}
+                timestamps = meta.get('timestamps', {})
+                created_time = timestamps.get('queued', "N/A")
+                end_time = timestamps.get('finished', "N/A")
+                bin_counts = result.get_counts()
+            
+            else: # IonQ / Generic fallback
+                job_info = getattr(job, '_job_info', {}) or getattr(job, '_metadata', {})
+                created_time = job_info.get('submitted_at')
+                end_time = job_info.get('completed_at')
+                bin_counts = result.get_counts()
+
+            calib_data = self.get_calibration_data(backend, transpiled_circuit)
         
         timeEnd = time.time_ns()
-
-        # Data to report
-        qTime = job.usage_estimation['quantum_seconds'] if hasattr(job, 'usage_estimation') else "N/A"
-        samplerResult = result[0] if backendType == "IBM" else result
-        bin = samplerResult.data.c.get_counts() if backendType == "IBM" else samplerResult.get_counts()
-  
-        # Try to get precise server time, fallback to client time
-        end_time = None
-    
-        if hasattr(job, 'metrics') and 'timestamps' in job.metrics():
-            end_time = job.metrics()['timestamps'].get('finished')
-
-        if end_time is None:
-            end_time = datetime.datetime.now()
-
-        end_time = end_time.isoformat(timespec='milliseconds') + "Z"
-
         uTime = str(timeEnd - timeStart)[:-3]
         uTime = uTime[:-3] + "." + uTime[-3:]
 
-        # TODO: Return job ID, created time
+        return bin_counts, data, uTime, qTime, created_time, end_time, job_id, calib_data
 
-        return bin, data, uTime, qTime, end_time, calib_data
+    # def get_calibration_data(self, backend, active_qubits):
+    #     data = {}
         
-    def get_calibration_data(self, backend, transpiled_circuit, backendType):
-        """Extracts T1, T2, and Readout Error for the active qubits."""
+    #     # 1. Try the Target first (for Hardware/Modern Qiskit)
+    #     target = getattr(backend, "target", None)
+    #     if target and target.operation_names:
+    #         for q in active_qubits:
+    #             for gate in ['sx', 'x', 'rz', 'cx']:
+    #                 if gate in target.operation_names:
+    #                     props = target.get(gate).get((q,))
+    #                     if props:
+    #                         data[f"q{q}_{gate}_err"] = getattr(props, "error", "N/A")
+    #         return data
+
+    #     # 2. Simulator Fallback (This is where your noisy data is hiding)
+    #     try:
+    #         config = backend.configuration()
+    #         # IonQ Simulator stores noise model info in 'noise_model' or 'basis_gates'
+    #         if hasattr(config, 'noise_model'):
+    #             data["noise_model_applied"] = config.noise_model
+                
+    #         # Check for the actual error rates stored in the backend options
+    #         if hasattr(backend, 'options'):
+    #             # Some versions store the dict of gate errors here
+    #             data["gate_errors"] = backend.options.get("noise_model", "N/A")
+                
+    #     except Exception:
+    #         data["info"] = "Calibration data unreachable"
+
+    #     return data
+
+    def get_calibration_data(self, backend, active_qubits):
         data = {}
+        
+        # 1. Determine the source of truth
+        # If it's a simulator mimicking hardware, we need the hardware's name
+        noise_model_name = backend.options.get("noise_model")
+        
+        # If we are on hardware, name is the backend name. 
+        # If on simulator with noise, name is the noise_model_name.
+        target_backend_name = noise_model_name if noise_model_name else backend.name
+        
+        # 2. Get the properties/target
+        # For IonQ, properties() often contains the T1/T2 and gate errors
+        props = None
         try:
-            # Get physical qubits used in the circuit
-            if hasattr(transpiled_circuit, "layout") and transpiled_circuit.layout:
-                 # Map virtual -> physical. We only care about the physical indices.
-                 active_qubits = transpiled_circuit.layout.final_index_layout()
+            # If we're on a simulator, we might need to query the provider for the real properties
+            if "simulator" in backend.name.lower() and noise_model_name:
+                # This is a bit of a 'hack' but it's how you get the real rates
+                # We assume your provider is accessible or passed in
+                provider = backend.provider
+                real_hw = provider.get_backend(noise_model_name)
+                props = real_hw.properties()
             else:
-                 # Fallback if no layout info (e.g. simulator or direct mapping)
-                 active_qubits = range(transpiled_circuit.num_qubits)
+                props = backend.properties()
+        except:
+            props = None
 
-            # IBM and IQM (Qiskit-based)
-            if backendType in ["IBM", "IQM"]:
-                if hasattr(backend, "properties"):
-                    props = backend.properties()
-                    if props:
-                        for q in active_qubits:
-                            # Extract key metrics
-                            data[f"q{q}"] = {
-                                "T1": props.t1(q),
-                                "T2": props.t2(q),
-                                "readout_error": props.readout_error(q)
-                            }
-            
-            # IonQ 
-            elif backendType == "IonQ":
-                # IonQ usually provides average fidelity via characterization
-                # If using Qiskit IonQ provider, properties() might be sparse
-                if hasattr(backend, "properties"):
-                     props = backend.properties()
-                     if props:
-                        for q in active_qubits:
-                            data[f"q{q}_T1"] = props.t1(q)
-                            data[f"q{q}_T2"] = props.t2(q)
-                # Fallback: check target if properties failed
-                if not data and hasattr(backend, "target"):
-                     data["info"] = "Check backend.target for latest calibration"
+        # 3. Extract the Rates
+        if props:
+            for q in active_qubits:
+                # Qubit Error Rates (T1/T2)
+                data[f"q{q}_T1"] = props.t1(q)
+                data[f"q{q}_T2"] = props.t2(q)
+                
+                # Gate Error Rates
+                # We look for the common gates: 'sx', 'x', 'rz', 'cx', or 'ms'
+                for gate in props.gates:
+                    if gate.gate == 'ms' or gate.gate == 'cx': # 2-qubit
+                        if q in gate.qubits and set(gate.qubits).issubset(set(active_qubits)):
+                            # Format: q0q1_ms_error
+                            name = "q" + "".join(map(str, gate.qubits)) + f"_{gate.gate}_err"
+                            data[name] = gate.parameters[0].value
+                    elif gate.gate in ['sx', 'x', 'rz']: # 1-qubit
+                        if gate.qubits == [q]:
+                            data[f"q{q}_{gate.gate}_err"] = gate.parameters[0].value
+        else:
+            # Fallback to the Target if properties are empty (Qiskit 1.x/2.x style)
+            target = getattr(backend, "target", None)
+            if target:
+                for q in active_qubits:
+                    # Iterate through operations in the target
+                    for op_name, op_map in target.items():
+                        if (q,) in op_map:
+                            instr_props = op_map[(q,)]
+                            if instr_props and hasattr(instr_props, 'error'):
+                                data[f"q{q}_{op_name}_err"] = instr_props.error
 
-        except Exception as e:
-            data["error_extracting"] = str(e)
-            
         return data
