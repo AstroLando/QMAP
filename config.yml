@@ -1,6 +1,6 @@
 # src/qmap/config.yml
 host: iqm
-backend: garnet:mock
+backend: sirius:mock
 env_path: tokens.env
 
 # Global defaults (used if not specified in the problem)
@@ -17,12 +17,12 @@ problems:
   - name: "BV"
     minQubits: 4
     maxQubits: 4
-    qubitStep: 0
+    qubitStep: 1
     nickname: "BV"
   # - name: "Grovers"
-  #   minQubits: 3
-  #   maxQubits: 5
-  #   qubitStep: 1
-  #   minShots: 2048
-  #   maxShots: 2048
-  #   nickname: "Grovers"
+    # minQubits: 3
+    # maxQubits: 5
+    # qubitStep: 1
+    # minShots: 2048
+    # maxShots: 2048
+    # nickname: "Grovers"

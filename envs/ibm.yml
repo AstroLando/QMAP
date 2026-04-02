@@ -16,4 +16,5 @@ dependencies:
       - qiskit>=2.3.0
       - qiskit-aer
       - qiskit-ibm-runtime
+      - pytest
       # - -e .

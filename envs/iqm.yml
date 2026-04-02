@@ -4,14 +4,13 @@ channels:
   - defaults
 dependencies:
   - python=3.11
-  - matplotlib
   - numpy
-  - scipy
-  - seaborn
   - pip
   - pandas
   - python-dotenv
   - pip:
-      - "iqm-client[qiskit]"
-      - qiskit
+      - "iqm-client[qiskit]>=33.0.5"
+      - "qiskit>=2.0.0,<2.2.0"
+      - qiskit-ibm-runtime
+      - pytest
       # - -e .

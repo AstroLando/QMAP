@@ -80,6 +80,14 @@ for entry in "${VENDORS[@]}"; do
         if [ "$SHOULD_FORCE" = true ]; then
             echo "-> Removing existing $ENV_NAME..."
             conda env remove -n "$ENV_NAME" -y > /dev/null 2>&1
+            
+            # Scorched earth policy for ghost packages
+            CONDA_BASE=$(conda info --base)
+            ENV_PATH="$CONDA_BASE/envs/$ENV_NAME"
+            if [ -d "$ENV_PATH" ]; then
+                echo "-> Purging leftover ghost directories..."
+                rm -rf "$ENV_PATH"
+            fi
         else
             echo "-> $ENV_NAME already exists. Skipping."
             SKIPPED_BUILDS="${SKIPPED_BUILDS}${ENV_NAME} "

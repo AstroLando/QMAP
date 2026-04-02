@@ -15,4 +15,5 @@ dependencies:
   - pip:
       - qnexus
       - pytket-qiskit
+      - pytest
       # - -e .
