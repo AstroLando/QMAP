@@ -126,7 +126,7 @@ class ProblemBase(ABC):
             job_id = job.job_id()
             bin_counts = result[0].data.c.get_counts()
             
-            qTime, created_time, end_time = self._extract_qpu_telemetry("IBM", job=job)
+            qTime, created_time, end_time = self._extract_qpu_telemetry("IBM", job=job, result=result)
 
             # # IBM tracks physical execution time in quantum seconds
             # metrics = job.metrics()
@@ -252,16 +252,22 @@ class ProblemBase(ABC):
                 # Qubit Error Rates (T1/T2)
                 data[f"q{q}_T1"] = props.t1(q)
                 data[f"q{q}_T2"] = props.t2(q)
+
+                # Explicitly pull the readout error (critical for IBM/superconducting)
+                try:
+                    data[f"q{q}_readout_err"] = props.readout_error(q)
+                except Exception:
+                    pass
                 
                 # Gate Error Rates
                 # We look for the common gates: 'sx', 'x', 'rz', 'cx', or 'ms'
                 for gate in props.gates:
-                    if gate.gate == 'ms' or gate.gate == 'cx': # 2-qubit
+                    if gate.gate in ['cx', 'ms', 'ecr', 'cz']: 
                         if q in gate.qubits and set(gate.qubits).issubset(set(active_qubits)):
-                            # Format: q0q1_ms_error
                             name = "q" + "".join(map(str, gate.qubits)) + f"_{gate.gate}_err"
                             data[name] = gate.parameters[0].value
-                    elif gate.gate in ['sx', 'x', 'rz']: # 1-qubit
+                            
+                    elif gate.gate in ['sx', 'x', 'rz']: 
                         if gate.qubits == [q]:
                             data[f"q{q}_{gate.gate}_err"] = gate.parameters[0].value
         else:
@@ -269,8 +275,7 @@ class ProblemBase(ABC):
             target = getattr(backend, "target", None)
             if target:
                 for q in active_qubits:
-                    # Iterate through operations in the target
-                    for op_name, op_map in target.items():
+                    for op_name, op_map in target.items(): # Iterate through operations in the target
                         if (q,) in op_map:
                             instr_props = op_map[(q,)]
                             if instr_props and hasattr(instr_props, 'error'):
@@ -290,10 +295,35 @@ class ProblemBase(ABC):
         qTime = "N/A"
 
         try:
+            # if backendType == "IBM" and job:
+            #     q_seconds = job.metrics().get("usage", {}).get("quantum_seconds")
+            #     if q_seconds is not None:
+            #         qTime = f"{q_seconds * 1000.0:.3f}"
+
             if backendType == "IBM" and job:
-                q_seconds = job.metrics().get("usage", {}).get("quantum_seconds")
+                # 1. Fetch metrics dictionary (standard for Runtime V2)
+                metrics = job.metrics()
+                ts = metrics.get('timestamps', {})
+                
+                # Extract timestamps safely
+                created_time = ts.get('created', "N/A")
+                end_time = ts.get('finished', "N/A")
+
+                # 2. Extract QPU time (quantum_seconds)
+                # Try the newer metrics path first, then fallback to usage_estimation
+                q_seconds = metrics.get('usage', {}).get('quantum_seconds')
+                
+                if q_seconds is None and hasattr(job, 'usage_estimation'):
+                    q_seconds = job.usage_estimation.get('quantum_seconds')
+
+                # 3. Only apply formatting if we actually have a number
                 if q_seconds is not None:
-                    qTime = f"{q_seconds * 1000.0:.3f}"
+                    try:
+                        qTime = f"{float(q_seconds) * 1000.0:.3f}" # Convert to ms
+                    except (ValueError, TypeError):
+                        qTime = "N/A"
+                else:
+                    qTime = "N/A"
 
             elif backendType == "IonQ" and result:
                 if hasattr(result, 'time_taken') and result.time_taken:
