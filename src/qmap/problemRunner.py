@@ -217,9 +217,14 @@ class ProblemRunner():
                 
             elif backendName.lower() in ["aria-1", "forte-1"]:
                 backend = provider.get_backend("ionq_simulator")
-                backend.set_options(noise_model=backendName.lower())
+                backend.set_options(noise_model=backendName.lower(), optimization_level=1)
                 print(f"--- NOISY SIMULATION: Modeling {backendName.lower()} ---")
                 
+            elif backendName.lower() ==  "forte-enterprise-1":
+                backend = provider.get_backend("ionq_simulator")
+                backend.set_options(noise_model="forte-1")
+                print(f"--- NOISY SIMULATION: Modeling {backendName} ---")
+
             # 3. Default to ideal simulator
             else:
                 backend = provider.get_backend("ionq_simulator")

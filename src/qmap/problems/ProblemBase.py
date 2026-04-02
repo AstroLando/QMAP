@@ -188,19 +188,7 @@ class ProblemBase(ABC):
             result = job.result()
             bin_counts = result.get_counts()
 
-            qTime, created_time, end_time = self._extract_qpu_telemetry("IonQ", result=result)
-            
-            # job_info = getattr(job, '_job_info', {}) or getattr(job, '_metadata', {})
-            # created_time = job_info.get('submitted_at')
-            # end_time = job_info.get('completed_at')
-
-            # # # IonQ: time_taken
-            # if hasattr(result, 'time_taken') and result.time_taken:
-            #     qTime = f"{result.time_taken * 1000.0:.3f}"
-            # else:
-            #     timing = getattr(result, 'metadata', {}).get('timing', {})
-            #     if 'execution' in timing:
-            #         qTime = f"{timing['execution'] * 1000.0:.3f}"
+            qTime, created_time, end_time = self._extract_qpu_telemetry("IonQ", job=job, result=result)
 
         else:  # Fallback for simulators
             transpiled_circuit = transpile(circ, backend=backend, optimization_level=1)
@@ -295,11 +283,6 @@ class ProblemBase(ABC):
         qTime = "N/A"
 
         try:
-            # if backendType == "IBM" and job:
-            #     q_seconds = job.metrics().get("usage", {}).get("quantum_seconds")
-            #     if q_seconds is not None:
-            #         qTime = f"{q_seconds * 1000.0:.3f}"
-
             if backendType == "IBM" and job:
                 # 1. Fetch metrics dictionary (standard for Runtime V2)
                 metrics = job.metrics()
@@ -326,12 +309,28 @@ class ProblemBase(ABC):
                     qTime = "N/A"
 
             elif backendType == "IonQ" and result:
-                if hasattr(result, 'time_taken') and result.time_taken:
+                # 1. Dig into result metadata and headers
+                res_meta = getattr(result, 'metadata', {})
+                res_header = getattr(result, 'header', {})
+                timing = res_meta.get('timing', {})
+                
+                # Try every known spot for execution time
+                if 'execution' in timing:
+                    qTime = f"{timing['execution'] * 1000.0:.3f}"
+                elif hasattr(result, 'time_taken') and result.time_taken:
                     qTime = f"{result.time_taken * 1000.0:.3f}"
-                else:
-                    timing = getattr(result, 'metadata', {}).get('timing', {})
-                    if 'execution' in timing:
-                        qTime = f"{timing['execution'] * 1000.0:.3f}"
+                elif 'time_taken' in res_header:
+                    qTime = f"{res_header['time_taken'] * 1000.0:.3f}"
+                
+                # 2. Extraction of Server-Side Timestamps
+                # Simulators often hide these in the result metadata's 'job' key
+                job_info = res_meta.get('job', {})
+                if not job_info and job:
+                    job_info = getattr(job, 'metadata', {}) or getattr(job, '_job_info', {})
+                
+                if job_info:
+                    created_time = job_info.get('submitted_at', "N/A")
+                    end_time = job_info.get('completed_at', "N/A")
 
             elif backendType == "IQM" and backend and job_id:
                 raw_iqm_job = backend.client.get_job(job_id)

@@ -12,6 +12,7 @@ dependencies:
   - pyyaml
   - python-dotenv
   - pip:
-      - qiskit-ionq>=1.0.2
+      - qiskit-ionq
+      - qiskit-ibm-runtime
       - pytest
       # - -e .

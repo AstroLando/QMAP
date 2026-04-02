@@ -1,11 +1,11 @@
 # src/qmap/config.yml
-host: iqm
-backend: sirius:mock
+host: ionq
+backend: qpu.forte-enterprise-1
 env_path: tokens.env
 
 # Global defaults (used if not specified in the problem)
 # Can be overriden per problem
-reps: 1
+reps: 5
 minQubits: 2
 maxQubits: 8
 qubitStep: 2
