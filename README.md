@@ -109,10 +109,10 @@ python -c "import qnexus as qnx; qnx.login_with_credentials(); print(qnx.devices
 To verify the benchmark suite executes correctly, adjust your `config.yml` in the root path for a very small experiment.
 > NOTE: Currently this will only run 1 experiment at a time on a specific vendor's machine.
 
-Activate the environment for the vendor you configured, then execute the lightweight benchmark:
+Activate the environment for the vendor & problems you configured, then execute the benchmark:
 ```bash
 conda activate qmap_<vendor>
-python -m tests.lightTest
+python -m src.tests.run_exps
 ```
 This executes Random Number Generation, Quantum Fourier Transform, Bernstein-Vazirani, Grover's, & Quantum Phase Estimation.
 > TODO: Add GHZ benchmark class to the list of programs and add to all the tests.

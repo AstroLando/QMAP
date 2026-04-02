@@ -66,6 +66,7 @@ class ProblemBase(ABC):
                 name=f"compile_{self.name}_{qubits}q"
             )
             qnx.jobs.wait_for(compile_job)
+
             compiled_ref = qnx.jobs.results(compile_job)[0].get_output()
 
             run_job = qnx.start_execute_job(
@@ -77,46 +78,29 @@ class ProblemBase(ABC):
             
             # Capture ID before waiting
             job_id = str(run_job.id)
-            qnx.jobs.wait_for(run_job)
-            
-            result_ref = qnx.jobs.results(run_job)[0]
-            result = result_ref.download_result()
-            
-            # Extract Quantinuum Timestamps from Nexus
-            try:
-                job_df = run_job.df()
-                if not job_df.empty:
-                    created_time = job_df['created'].iloc[0].isoformat() if 'created' in job_df.columns else "N/A"
-                    end_time = job_df['modified'].iloc[0].isoformat() if 'modified' in job_df.columns else "N/A"
-            except Exception:
-                created_time = "N/A"
-                end_time = "N/A"
 
+            # Local stopwatch for emulator benchmark
+            q_exec_start = time.time_ns()
+            qnx.jobs.wait_for(run_job)
+            q_exec_end = time.time_ns()
+            
             result_ref = qnx.jobs.results(run_job)[0]
             result = result_ref.download_result()
             bin_counts = result.get_counts()
+            
+            # 1. Telemetry retrieval
+            qTime, created_time, end_time = self._extract_qpu_telemetry("Quantinuum", job_ref=run_job)
 
-            qTime, created_time, end_time = self._extract_qpu_telemetry("Quantinuum", job_ref=result_ref)
+            # Local fallback for emulator/simulator duration
+            if qTime == "N/A":
+                qTime = f"{(q_exec_end - q_exec_start) / 1_000_000.0:.3f}"
 
+            # 2. Hardware Info
             try:
                 backend_info = result_ref.download_backend_info()
-                # calib_data = backend_info.all_node_gate_errors() if hasattr(backend_info, 'all_node_gate_errors') else str(backend_info)
                 calib_data = backend_info.to_dict() if hasattr(backend_info, 'to_dict') else str(backend_info)
             except Exception as e:
                 calib_data = f"Quantinuum fetch error: {str(e)}"
-
-            # QNexus stores system metrics on the job record
-            job_record = qnx.jobs.get(result_ref)
-            try:
-                # Quantinuum exposes total hardware execution time here
-                duration_seconds = job_record.metrics.machine_execution_time
-                if duration_seconds:
-                    time_QPU_ms = duration_seconds * 1000.0
-                    qTime = f"{time_QPU_ms:.3f}"
-                else:
-                    qTime = "N/A"
-            except AttributeError:
-                qTime = "N/A"
 
         # Extraction logic for Server-Side Timestamps
         elif backendType == "IBM":
@@ -127,14 +111,8 @@ class ProblemBase(ABC):
             bin_counts = result[0].data.c.get_counts()
             
             qTime, created_time, end_time = self._extract_qpu_telemetry("IBM", job=job, result=result)
+            calib_data = self.get_calibration_data(backend, range(qubits))
 
-            # # IBM tracks physical execution time in quantum seconds
-            # metrics = job.metrics()
-            # ts = metrics.get('timestamps', {})
-            # created_time = ts.get('created', "N/A")
-            # end_time = ts.get('finished', "N/A")
-            # qTime = job.usage_estimation.get('quantum_seconds', "N/A") if hasattr(job, 'usage_estimation') else "N/A"
-            
         elif backendType == "IQM":
             # Drop optimization to 1 to bypass the IQMNaiveMovePass hashing bug in Qiskit 2.x
             transpiled_circuit = transpile(circ, backend=backend, optimization_level=1)
@@ -145,41 +123,7 @@ class ProblemBase(ABC):
             job_id = job.job_id()
 
             qTime, created_time, end_time = self._extract_qpu_telemetry("IQM", backend=backend, job_id=job_id)
-
-            # # Bypass Qiskit and ask the native IQM client for the raw job payload
-            # try:
-            #     raw_iqm_job = backend.client.get_job(job_id)
-                
-            #     timeline = []
-            #     if hasattr(raw_iqm_job, 'data') and hasattr(raw_iqm_job.data, 'timeline'):
-            #         timeline = raw_iqm_job.data.timeline
-                
-            #     raw_created = None
-            #     raw_end = None
-                
-            #     # Loop through the event array
-            #     for event in timeline:
-            #         status = getattr(event, 'status', None) or (event.get('status') if isinstance(event, dict) else None)
-            #         ts = getattr(event, 'timestamp', None) or (event.get('timestamp') if isinstance(event, dict) else None)
-                    
-            #         if status == 'execution_started':
-            #             raw_created = ts
-            #             created_time = str(ts)
-            #         elif status == 'execution_ended':
-            #             raw_end = ts
-            #             end_time = str(ts)
-
-            #     # Calculate QPU time using native datetime math
-            #     if raw_created and raw_end:
-            #         delta = raw_end - raw_created
-            #         time_QPU_ms = delta.total_seconds() * 1000
-            #         qTime = f"{time_QPU_ms:.3f}"
-            #     else:
-            #         qTime = "N/A"
-                    
-            # except Exception as e:
-            #     print(f"Failed to fetch raw IQM metadata: {e}")
-            #     qTime = "N/A"
+            calib_data = self.get_calibration_data(backend, range(qubits))
         
         elif backendType == "IonQ": # IonQ / Generic fallback
             transpiled_circuit = transpile(circ, backend=backend, optimization_level=1)
@@ -189,6 +133,7 @@ class ProblemBase(ABC):
             bin_counts = result.get_counts()
 
             qTime, created_time, end_time = self._extract_qpu_telemetry("IonQ", job=job, result=result)
+            calib_data = self.get_calibration_data(backend, range(qubits))
 
         else:  # Fallback for simulators
             transpiled_circuit = transpile(circ, backend=backend, optimization_level=1)
@@ -198,9 +143,6 @@ class ProblemBase(ABC):
             bin_counts = result.get_counts()
             qTime, created_time, end_time = "N/A", "N/A", "N/A"    
 
-
-        calib_data = self.get_calibration_data(backend, range(qubits))
-
         # Explicitly map the variables to what they actually represent
         time_RT_ms = self._calculate_rt_time_ms(timeStart)
         time_QPU_ms = qTime
@@ -209,14 +151,10 @@ class ProblemBase(ABC):
     
     def get_calibration_data(self, backend, active_qubits):
         data = {}
-        
-        # 1. Determine the source of truth
-        # If it's a simulator mimicking hardware, we need the hardware's name
-        noise_model_name = backend.options.get("noise_model")
-        
-        # If we are on hardware, name is the backend name. 
-        # If on simulator with noise, name is the noise_model_name.
-        target_backend_name = noise_model_name if noise_model_name else backend.name
+
+        # Safely check for options to avoid 'QuantinuumConfig' errors
+        options = getattr(backend, "options", None)
+        noise_model_name = options.get("noise_model") if options and hasattr(options, "get") else None
         
         # 2. Get the properties/target
         # For IonQ, properties() often contains the T1/T2 and gate errors
@@ -354,10 +292,33 @@ class ProblemBase(ABC):
 
             elif backendType == "Quantinuum" and job_ref:
                 import qnexus as qnx
-                job_record = qnx.jobs.get(job_ref)
-                duration_seconds = job_record.metrics.machine_execution_time
+                job_record = qnx.jobs.get(id=job_ref.id)
+
+                # 1. Billing Metric (0/None for local emulators)
+                metrics = getattr(job_record, 'metrics', None)
+                duration_seconds = getattr(metrics, 'machine_execution_time', None) 
                 if duration_seconds:
                     qTime = f"{duration_seconds * 1000.0:.3f}"
+
+                # 2. Extract specific timestamps from the Timeline (as seen in screenshot)
+                history = getattr(job_record, 'status_history', [])
+                for entry in history:
+                    # In QNexus, status is an object/enum; cast to string for safety                    
+                    status_name = getattr(entry.status, 'name', str(entry.status))
+                    
+                    if status_name == 'EXECUTING':
+                        created_time = entry.timestamp.isoformat()
+                    elif status_name == 'COMPLETED':
+                        end_time = entry.timestamp.isoformat()
+                
+                # 3. Robust attribute fallback for creation/end times
+                if created_time == "N/A":
+                    ts = getattr(job_record, 'created_at', getattr(job_record, 'created', None))
+                    if ts: created_time = ts.isoformat() if hasattr(ts, 'isoformat') else str(ts)
+                    
+                if end_time == "N/A":
+                    ts = getattr(job_record, 'last_modified', getattr(job_record, 'modified_at', None))
+                    if ts: end_time = ts.isoformat() if hasattr(ts, 'isoformat') else str(ts)
                     
         except Exception as e:
             print(f"Telemetry extraction failed for {backendType}: {e}")
