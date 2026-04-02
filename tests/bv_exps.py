@@ -1,6 +1,6 @@
-# src/tests/lightTest.py
-from src.qmap import ProblemRunner
-from src.qmap.problems import RNG, QFT, BV, QPE, Grovers
+# src/tests/bv_exps.py
+from qmap.problemRunner import ProblemRunner
+from qmap.problems import RNG, QFT, BV, QPE, Grovers
 from dotenv import load_dotenv
 import os, yaml
 
@@ -18,11 +18,7 @@ qubitStep, shotStep, reps = config['qubitStep'], config['shotStep'], config['rep
 
 print("Adding problems...")
 PR = ProblemRunner()
-PR.addProblem(RNG.RNG(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
-PR.addProblem(QFT.QuantFT(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
 PR.addProblem(BV.BV(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
-PR.addProblem(Grovers.Grovers(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
-PR.addProblem(QPE.QPE(), reps, minQubits, maxQubits, qubitStep, minShots, maxShots, shotStep)
 
 if "iqm" in HOST:
     print(f"===> Backend chosen: {BACKEND}")

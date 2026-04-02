@@ -1,0 +1,17 @@
+name: qmap_iqm
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - matplotlib
+  - numpy
+  - scipy
+  - seaborn
+  - pip
+  - pandas
+  - python-dotenv
+  - pip:
+      - "iqm-client[qiskit]"
+      - qiskit
+      # - -e .

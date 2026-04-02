@@ -1,6 +1,6 @@
 # src/tests/grovers_exps.py
-from src.qmap import ProblemRunner
-from src.qmap.problems import RNG, QFT, BV, QPE, Grovers
+from qmap import ProblemRunner
+from qmap.problems import RNG, QFT, BV, QPE, Grovers
 from dotenv import load_dotenv
 import os, yaml
 

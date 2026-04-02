@@ -1,19 +1,19 @@
-name: qmap_env
+name: qmap_ibm
 channels:
   - conda-forge
   - defaults
 dependencies:
   - python=3.11
   - pip
+  - numpy
   - pandas
+  - scipy
+  - matplotlib
+  - seaborn
   - pyyaml
   - python-dotenv
   - pip:
       - qiskit>=2.3.0
-      - qiskit-ibm-runtime
       - qiskit-aer
-      - qiskit-iqm
-      - qiskit-ionq
-      - iqm-client
-      - qnexus
-      - pytket-qiskit
+      - qiskit-ibm-runtime
+      # - -e .

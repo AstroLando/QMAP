@@ -1,0 +1,16 @@
+name: qmap_ionq
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - matplotlib
+  - numpy
+  - pip
+  - scipy
+  - seaborn
+  - pyyaml
+  - python-dotenv
+  - pip:
+      - qiskit-ionq>=1.0.2
+      # - -e .
