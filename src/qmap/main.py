@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 # Import the runner and individual problems
-from .ProblemRunner import ProblemRunner
+from .problemRunner import ProblemRunner
 from .problems.RNG import RNG
 from .problems.QPE import QPE
 from .problems.QFT import QuantFT
