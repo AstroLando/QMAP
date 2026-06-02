@@ -129,7 +129,7 @@ To see what backends are available to you, you will have to log in to the follow
 For full batch benchmarking, configure `config.yml` and run the main entry point:
 ```bash
 conda activate qmap_<vendor>
-python src/qmap/main.py
+python -m src.qmap.main
 ```
 
 ## Data Format
