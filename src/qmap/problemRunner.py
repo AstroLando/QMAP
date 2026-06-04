@@ -174,22 +174,36 @@ class ProblemRunner():
             raise RuntimeError(f"IQM Setup Error: {e}")
 
     def setUpIQMOnPrem(self, backendName):
-        """ Sets up ORNL on-prem IQM system."""
-        from iqm.qiskit_iqm import IQMProvider
-        from qiskit_ibm_runtime import SamplerV2 as Sampler
+    """
+    Sets up ORNL on-prem IQM system.
+    """
+    from iqm.qiskit_iqm import IQMProvider
+    from qiskit_ibm_runtime import SamplerV2 as Sampler
+
+    try:
+        token = os.environ["IQM_ONPREM_TOKEN"]
+
+        # The IQM client refuses to mix explicit token= auth with IQM_TOKEN
+        # from the environment, so temporarily remove the Resonance token.
+        old_iqm_token = os.environ.pop("IQM_TOKEN", None)
 
         try:
-            token = os.environ["IQM_ONPREM_TOKEN"]
-
             provider = IQMProvider(
-            "https://qccsw.ccs.ornl.gov/default",
-            token=token)
+                "https://qccsw.ccs.ornl.gov/default",
+                token=token
+            )
+
             backend = provider.get_backend()
             sampler = Sampler(mode=backend)
+
             return backend, sampler, backendName, "IQM_ONPREM"
 
-        except Exception as e:
-            raise RuntimeError(f"IQM On-Prem Setup Error: {e}")
+        finally:
+            if old_iqm_token is not None:
+                os.environ["IQM_TOKEN"] = old_iqm_token
+
+    except Exception as e:
+        raise RuntimeError(f"IQM On-Prem Setup Error: {e}")
 
     def setUpIBM(self, backendName) -> Tuple[BackendV2, Any, str, str]:
         """Sets up IBM (handles local Aer and Cloud backends)."""
