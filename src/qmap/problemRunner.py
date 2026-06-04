@@ -188,7 +188,7 @@ class ProblemRunner():
             sampler = Sampler(mode=backend)
             return backend, sampler, backendName, "IQM_ONPREM"
 
-         except Exception as e:
+        except Exception as e:
             raise RuntimeError(f"IQM On-Prem Setup Error: {e}")
 
     def setUpIBM(self, backendName) -> Tuple[BackendV2, Any, str, str]:
