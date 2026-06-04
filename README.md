@@ -83,6 +83,7 @@ IBM_TOKEN="ibm_token"
 IBM_INSTANCE="instance_name"
 
 IQM_TOKEN="iqm_token"
+IQM_ONPREM_TOKEN="ornl_token"
 
 QUANTINUUM_TOKEN="quantinuum_token"
 ```
