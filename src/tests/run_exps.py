@@ -50,13 +50,22 @@ for prob_cfg in requested_problems:
 # 3. Execution Routing
 print(f"\n===> Host: {HOST} | Backend: {BACKEND}")
 
-if "iqm" in HOST:
+host = HOST.lower()
+
+if host == "iqm_onprem":
+    PR.runProblemSet(*PR.setUpIQMOnPrem(BACKEND))
+
+elif host == "iqm":
     PR.runProblemSet(*PR.setUpIQM(BACKEND))
-elif "ibm" in HOST:
+
+elif "ibm" in host:
     PR.runProblemSet(*PR.setUpIBM(BACKEND))
-elif "quantinuum" in HOST:
+
+elif "quantinuum" in host:
     PR.runProblemSet(*PR.setUpQuantinuum(BACKEND))
-elif "ionq" in HOST:
+
+elif "ionq" in host:
     PR.runProblemSet(*PR.setUpIonQ(BACKEND))
+
 else:
     print(f"Unknown host configuration: {HOST}")
