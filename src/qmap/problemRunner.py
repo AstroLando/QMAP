@@ -173,6 +173,30 @@ class ProblemRunner():
         except Exception as e:
             raise RuntimeError(f"IQM Setup Error: {e}")
 
+    def setUpIQMOnPrem(self, backendName):
+    """
+    Sets up ORNL on-prem IQM system.
+    """
+    from iqm.qiskit_iqm import IQMProvider
+    from qiskit_ibm_runtime import SamplerV2 as Sampler
+
+    try:
+        token = os.environ["IQM_ONPREM_TOKEN"]
+
+        provider = IQMProvider(
+            "https://qccsw.ccs.ornl.gov/default",
+            token=token
+        )
+
+        backend = provider.get_backend()
+
+        sampler = Sampler(mode=backend)
+
+        return backend, sampler, backendName, "IQM_ONPREM"
+
+    except Exception as e:
+        raise RuntimeError(f"IQM On-Prem Setup Error: {e}")
+
     def setUpIBM(self, backendName) -> Tuple[BackendV2, Any, str, str]:
         """Sets up IBM (handles local Aer and Cloud backends)."""
         from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
