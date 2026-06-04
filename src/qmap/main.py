@@ -56,6 +56,8 @@ def main():
         backend, sampler, name, b_type = runner.setUpQuantinuum(backend_name)
     elif host == 'ionq':
         backend, sampler, name, b_type = runner.setUpIonQ(backend_name)
+    elif host == 'iqm_onprem':
+        backend, sampler, name, b_type = runner.setUpIQMOnPrem(backend_name)
     else:
         raise ValueError(f"Unknown host: {host}")
 
