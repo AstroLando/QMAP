@@ -1,0 +1,10 @@
+# QTES usage test
+
+from qtes_trotter_ising import get_problem
+
+problem = get_problem(num_qubits=6, trotter_steps=3, shots=1024)
+
+qc = problem.build_circuit()
+print(qc)
+print(qc.depth())
+print(problem.get_metadata())
