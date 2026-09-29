@@ -1,4 +1,4 @@
-# QMAP Hybrid Workflow Diagnostics
+# QHEAT Hybrid Workflow Diagnostics
 
 This directory contains four minimal hybrid quantum--classical workflow
 diagnostics intended for QMAP:
