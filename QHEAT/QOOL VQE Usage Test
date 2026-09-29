@@ -1,0 +1,28 @@
+from vqe_pauli_expectation import get_problem
+
+# Create a small diagnostic VQE kernel
+problem = get_problem(
+    num_qubits=4,
+    layers=2,
+    shots=1024,
+)
+
+# Build the parameter-bound ansatz
+qc = problem.build_circuit()
+
+# Get the Hamiltonian / Pauli observables
+hamiltonian = problem.get_observables()
+
+# Inspect the circuit
+print(qc)
+print("\nCircuit depth:", qc.depth())
+print("Gate count:", qc.count_ops())
+
+# Inspect the Hamiltonian
+print("\nHamiltonian:")
+print(hamiltonian)
+
+# Inspect QMAP metadata
+print("\nMetadata:")
+for key, value in problem.get_metadata().items():
+    print(f"  {key}: {value}")
